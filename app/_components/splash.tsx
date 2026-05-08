@@ -102,6 +102,7 @@ export function Splash({ onStart }: Props) {
         <ellipse cx="240" cy="451" rx="265" ry="10" fill="#b8ccd8" opacity="0.1" />
 
         {/* ===== WILHELM ===== */}
+        <g className="wilhelm-figure">
 
         {/* Stokk */}
         <rect x="272" y="270" width="6" height="200" rx="3" fill="#6a4a2a" />
@@ -259,15 +260,41 @@ export function Splash({ onStart }: Props) {
           strokeLinecap="round"
         />
         <ellipse cx="262" cy="275" rx="6.5" ry="5.5" fill="#3a2a1a" />
-        <ellipse cx="262" cy="273" rx="3.5" ry="2.5" fill="#e8a040" opacity="0.6" />
-        <path
-          d="M262,266 Q259,255 263,244 Q267,234 261,223"
-          fill="none"
-          stroke="#a0a8a8"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          opacity="0.17"
+        <ellipse
+          className="splash-ember"
+          cx="262"
+          cy="273"
+          rx="3.5"
+          ry="2.5"
+          fill="#e8a040"
+          opacity="0.6"
         />
+        <g className="splash-smoke">
+          <path
+            className="splash-smoke-puff splash-smoke-puff--a"
+            d="M262,266 Q259,255 263,244 Q267,234 261,223"
+            fill="none"
+            stroke="#a0a8a8"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+          <path
+            className="splash-smoke-puff splash-smoke-puff--b"
+            d="M262,266 Q266,256 260,246 Q255,236 263,225"
+            fill="none"
+            stroke="#a0a8a8"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+          />
+          <path
+            className="splash-smoke-puff splash-smoke-puff--c"
+            d="M262,266 Q258,257 264,248 Q269,238 259,228"
+            fill="none"
+            stroke="#a0a8a8"
+            strokeWidth="1.3"
+            strokeLinecap="round"
+          />
+        </g>
 
         {/* Lue */}
         <rect x="193" y="245" width="62" height="12" rx="3" fill="#3a2814" />
@@ -288,9 +315,10 @@ export function Splash({ onStart }: Props) {
         <ellipse cx="208" cy="450" rx="6" ry="2.5" fill="#8aa0b0" opacity="0.32" />
         <ellipse cx="235" cy="453" rx="6" ry="2.5" fill="#8aa0b0" opacity="0.28" />
         <ellipse cx="190" cy="457" rx="5" ry="2" fill="#8aa0b0" opacity="0.22" />
+        </g>
       </svg>
 
-      <div className="splash-card">
+      <div className="splash-card splash-card--enter">
         <p className="splash-mono">W · T</p>
         <p className="splash-anno">Anno · Friluftskompis</p>
         <h1 className="splash-title">Wilhelm Tyskeberge.</h1>
