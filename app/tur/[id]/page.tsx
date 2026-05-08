@@ -3,9 +3,11 @@ import { notFound } from "next/navigation";
 import TabBar from "../../_components/tabbar";
 import { WeatherStrip } from "../../_components/weather-strip";
 import ReviewsList from "../../_components/reviews-list";
+import { ElevationProfile } from "../../_components/elevation-profile";
 import prisma from "../../../lib/prisma";
 import { getRouteMidpoint } from "../../../lib/ut-route";
 import { getForecast } from "../../../lib/weather";
+import { RepeatTripButton } from "./_components/RepeatTripButton";
 
 type RouteSuggestion = {
   routeIds: number[];
@@ -35,7 +37,7 @@ const GRADING_LABEL: Record<string, string> = {
 export default async function TripPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
-  const trip = await prisma.trip.findUnique({ where: { id } });
+  const trip = await prisma.trip.findUnique({ where: { id }, include: { stages: true } });
   if (!trip) notFound();
 
   const selected = (trip.selectedSuggestion ?? null) as RouteSuggestion | null;
@@ -106,8 +108,7 @@ export default async function TripPage({ params }: { params: Promise<{ id: strin
           <section className="mx-frame" style={{ marginTop: 24 }}>
             <div className="eyebrow muted" style={{ marginBottom: 12 }}>
               VALGT TUR
-            </div>
-            <div
+            </div>            <div
               style={{
                 background: "rgba(233,227,211,.04)",
                 border: "1px solid rgba(244,162,89,.22)",
@@ -160,6 +161,38 @@ export default async function TripPage({ params }: { params: Promise<{ id: strin
         )}
 
         <ReviewsList tripId={id} />
+
+        {/* Elevation profile for trips with stage data */}
+        {trip.stages.length > 0 && (
+          <section className="mx-frame" style={{ marginTop: 24 }}>
+            <div className="eyebrow muted" style={{ marginBottom: 8 }}>HØYDEPROFIL</div>
+            <div
+              style={{
+                background: "rgba(233,227,211,.03)",
+                border: "1px solid rgba(233,227,211,.1)",
+                borderRadius: 8,
+                padding: "14px 12px",
+              }}
+            >
+              <ElevationProfile stages={trip.stages} />
+            </div>
+          </section>
+        )}
+
+        {/* Repeat trip / source trip info */}
+        <section className="mx-frame" style={{ marginTop: 16 }}>
+          {trip.status === "COMPLETED" && (
+            <RepeatTripButton tripId={trip.id} />
+          )}
+          {trip.sourceTripId && (
+            <div className="mono" style={{ fontSize: 10, letterSpacing: ".14em", color: "var(--slate)", marginTop: 10, textAlign: "center" }}>
+              GJENTAKELSE AV{" "}
+              <Link href={`/tur/${trip.sourceTripId}`} style={{ color: "var(--ember)", textDecoration: "none" }}>
+                OPPRINNELIG TUR →
+              </Link>
+            </div>
+          )}
+        </section>
 
         <div style={{ height: 80 }} />
       </main>

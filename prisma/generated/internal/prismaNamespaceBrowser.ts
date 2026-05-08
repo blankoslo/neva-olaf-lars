@@ -102,7 +102,9 @@ export const TripScalarFieldEnum = {
   planningFields: 'planningFields',
   suggestions: 'suggestions',
   selectedSuggestion: 'selectedSuggestion',
-  packingList: 'packingList'
+  packingList: 'packingList',
+  sourceTripId: 'sourceTripId',
+  completedAt: 'completedAt'
 } as const
 
 export type TripScalarFieldEnum = (typeof TripScalarFieldEnum)[keyof typeof TripScalarFieldEnum]
