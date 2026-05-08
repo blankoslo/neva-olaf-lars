@@ -54,6 +54,7 @@ export const ModelName = {
   User: 'User',
   Trip: 'Trip',
   UserTrip: 'UserTrip',
+  Comment: 'Comment',
   Stage: 'Stage'
 } as const
 
@@ -112,6 +113,17 @@ export const UserTripScalarFieldEnum = {
 } as const
 
 export type UserTripScalarFieldEnum = (typeof UserTripScalarFieldEnum)[keyof typeof UserTripScalarFieldEnum]
+
+
+export const CommentScalarFieldEnum = {
+  id: 'id',
+  tripId: 'tripId',
+  userId: 'userId',
+  content: 'content',
+  createdAt: 'createdAt'
+} as const
+
+export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
 export const StageScalarFieldEnum = {

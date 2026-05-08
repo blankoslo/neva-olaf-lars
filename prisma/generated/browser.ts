@@ -33,6 +33,11 @@ export type Trip = Prisma.TripModel
  */
 export type UserTrip = Prisma.UserTripModel
 /**
+ * Model Comment
+ * 
+ */
+export type Comment = Prisma.CommentModel
+/**
  * Model Stage
  * 
  */

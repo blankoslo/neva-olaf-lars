@@ -11,5 +11,6 @@
 export type * from './models/User'
 export type * from './models/Trip'
 export type * from './models/UserTrip'
+export type * from './models/Comment'
 export type * from './models/Stage'
 export type * from './commonInputTypes'

@@ -244,6 +244,7 @@ export type TripWhereInput = {
   packingList?: Prisma.JsonNullableFilter<"Trip">
   participants?: Prisma.UserTripListRelationFilter
   stages?: Prisma.StageListRelationFilter
+  comments?: Prisma.CommentListRelationFilter
 }
 
 export type TripOrderByWithRelationInput = {
@@ -264,6 +265,7 @@ export type TripOrderByWithRelationInput = {
   packingList?: Prisma.SortOrderInput | Prisma.SortOrder
   participants?: Prisma.UserTripOrderByRelationAggregateInput
   stages?: Prisma.StageOrderByRelationAggregateInput
+  comments?: Prisma.CommentOrderByRelationAggregateInput
 }
 
 export type TripWhereUniqueInput = Prisma.AtLeast<{
@@ -287,6 +289,7 @@ export type TripWhereUniqueInput = Prisma.AtLeast<{
   packingList?: Prisma.JsonNullableFilter<"Trip">
   participants?: Prisma.UserTripListRelationFilter
   stages?: Prisma.StageListRelationFilter
+  comments?: Prisma.CommentListRelationFilter
 }, "id" | "inviteCode">
 
 export type TripOrderByWithAggregationInput = {
@@ -349,6 +352,7 @@ export type TripCreateInput = {
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripCreateNestedManyWithoutTripInput
   stages?: Prisma.StageCreateNestedManyWithoutTripInput
+  comments?: Prisma.CommentCreateNestedManyWithoutTripInput
 }
 
 export type TripUncheckedCreateInput = {
@@ -369,6 +373,7 @@ export type TripUncheckedCreateInput = {
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUncheckedCreateNestedManyWithoutTripInput
   stages?: Prisma.StageUncheckedCreateNestedManyWithoutTripInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutTripInput
 }
 
 export type TripUpdateInput = {
@@ -389,6 +394,7 @@ export type TripUpdateInput = {
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUpdateManyWithoutTripNestedInput
   stages?: Prisma.StageUpdateManyWithoutTripNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutTripNestedInput
 }
 
 export type TripUncheckedUpdateInput = {
@@ -409,6 +415,7 @@ export type TripUncheckedUpdateInput = {
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUncheckedUpdateManyWithoutTripNestedInput
   stages?: Prisma.StageUncheckedUpdateManyWithoutTripNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutTripNestedInput
 }
 
 export type TripCreateManyInput = {
@@ -540,6 +547,20 @@ export type TripUpdateOneRequiredWithoutParticipantsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TripUpdateToOneWithWhereWithoutParticipantsInput, Prisma.TripUpdateWithoutParticipantsInput>, Prisma.TripUncheckedUpdateWithoutParticipantsInput>
 }
 
+export type TripCreateNestedOneWithoutCommentsInput = {
+  create?: Prisma.XOR<Prisma.TripCreateWithoutCommentsInput, Prisma.TripUncheckedCreateWithoutCommentsInput>
+  connectOrCreate?: Prisma.TripCreateOrConnectWithoutCommentsInput
+  connect?: Prisma.TripWhereUniqueInput
+}
+
+export type TripUpdateOneRequiredWithoutCommentsNestedInput = {
+  create?: Prisma.XOR<Prisma.TripCreateWithoutCommentsInput, Prisma.TripUncheckedCreateWithoutCommentsInput>
+  connectOrCreate?: Prisma.TripCreateOrConnectWithoutCommentsInput
+  upsert?: Prisma.TripUpsertWithoutCommentsInput
+  connect?: Prisma.TripWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TripUpdateToOneWithWhereWithoutCommentsInput, Prisma.TripUpdateWithoutCommentsInput>, Prisma.TripUncheckedUpdateWithoutCommentsInput>
+}
+
 export type TripCreateNestedOneWithoutStagesInput = {
   create?: Prisma.XOR<Prisma.TripCreateWithoutStagesInput, Prisma.TripUncheckedCreateWithoutStagesInput>
   connectOrCreate?: Prisma.TripCreateOrConnectWithoutStagesInput
@@ -571,6 +592,7 @@ export type TripCreateWithoutParticipantsInput = {
   selectedSuggestion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stages?: Prisma.StageCreateNestedManyWithoutTripInput
+  comments?: Prisma.CommentCreateNestedManyWithoutTripInput
 }
 
 export type TripUncheckedCreateWithoutParticipantsInput = {
@@ -590,6 +612,7 @@ export type TripUncheckedCreateWithoutParticipantsInput = {
   selectedSuggestion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stages?: Prisma.StageUncheckedCreateNestedManyWithoutTripInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutTripInput
 }
 
 export type TripCreateOrConnectWithoutParticipantsInput = {
@@ -625,6 +648,7 @@ export type TripUpdateWithoutParticipantsInput = {
   selectedSuggestion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stages?: Prisma.StageUpdateManyWithoutTripNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutTripNestedInput
 }
 
 export type TripUncheckedUpdateWithoutParticipantsInput = {
@@ -643,6 +667,103 @@ export type TripUncheckedUpdateWithoutParticipantsInput = {
   suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   selectedSuggestion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  stages?: Prisma.StageUncheckedUpdateManyWithoutTripNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutTripNestedInput
+}
+
+export type TripCreateWithoutCommentsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  area?: string | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  status?: $Enums.TripStatus
+  inviteCode?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  selectedSuggestion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  participants?: Prisma.UserTripCreateNestedManyWithoutTripInput
+  stages?: Prisma.StageCreateNestedManyWithoutTripInput
+}
+
+export type TripUncheckedCreateWithoutCommentsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  area?: string | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  status?: $Enums.TripStatus
+  inviteCode?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  selectedSuggestion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  participants?: Prisma.UserTripUncheckedCreateNestedManyWithoutTripInput
+  stages?: Prisma.StageUncheckedCreateNestedManyWithoutTripInput
+}
+
+export type TripCreateOrConnectWithoutCommentsInput = {
+  where: Prisma.TripWhereUniqueInput
+  create: Prisma.XOR<Prisma.TripCreateWithoutCommentsInput, Prisma.TripUncheckedCreateWithoutCommentsInput>
+}
+
+export type TripUpsertWithoutCommentsInput = {
+  update: Prisma.XOR<Prisma.TripUpdateWithoutCommentsInput, Prisma.TripUncheckedUpdateWithoutCommentsInput>
+  create: Prisma.XOR<Prisma.TripCreateWithoutCommentsInput, Prisma.TripUncheckedCreateWithoutCommentsInput>
+  where?: Prisma.TripWhereInput
+}
+
+export type TripUpdateToOneWithWhereWithoutCommentsInput = {
+  where?: Prisma.TripWhereInput
+  data: Prisma.XOR<Prisma.TripUpdateWithoutCommentsInput, Prisma.TripUncheckedUpdateWithoutCommentsInput>
+}
+
+export type TripUpdateWithoutCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+  inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  selectedSuggestion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  participants?: Prisma.UserTripUpdateManyWithoutTripNestedInput
+  stages?: Prisma.StageUpdateManyWithoutTripNestedInput
+}
+
+export type TripUncheckedUpdateWithoutCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+  inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  selectedSuggestion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  participants?: Prisma.UserTripUncheckedUpdateManyWithoutTripNestedInput
   stages?: Prisma.StageUncheckedUpdateManyWithoutTripNestedInput
 }
 
@@ -663,6 +784,7 @@ export type TripCreateWithoutStagesInput = {
   selectedSuggestion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripCreateNestedManyWithoutTripInput
+  comments?: Prisma.CommentCreateNestedManyWithoutTripInput
 }
 
 export type TripUncheckedCreateWithoutStagesInput = {
@@ -682,6 +804,7 @@ export type TripUncheckedCreateWithoutStagesInput = {
   selectedSuggestion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUncheckedCreateNestedManyWithoutTripInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutTripInput
 }
 
 export type TripCreateOrConnectWithoutStagesInput = {
@@ -717,6 +840,7 @@ export type TripUpdateWithoutStagesInput = {
   selectedSuggestion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUpdateManyWithoutTripNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutTripNestedInput
 }
 
 export type TripUncheckedUpdateWithoutStagesInput = {
@@ -736,6 +860,7 @@ export type TripUncheckedUpdateWithoutStagesInput = {
   selectedSuggestion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUncheckedUpdateManyWithoutTripNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutTripNestedInput
 }
 
 
@@ -746,11 +871,13 @@ export type TripUncheckedUpdateWithoutStagesInput = {
 export type TripCountOutputType = {
   participants: number
   stages: number
+  comments: number
 }
 
 export type TripCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   participants?: boolean | TripCountOutputTypeCountParticipantsArgs
   stages?: boolean | TripCountOutputTypeCountStagesArgs
+  comments?: boolean | TripCountOutputTypeCountCommentsArgs
 }
 
 /**
@@ -777,6 +904,13 @@ export type TripCountOutputTypeCountStagesArgs<ExtArgs extends runtime.Types.Ext
   where?: Prisma.StageWhereInput
 }
 
+/**
+ * TripCountOutputType without action
+ */
+export type TripCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommentWhereInput
+}
+
 
 export type TripSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -796,6 +930,7 @@ export type TripSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   packingList?: boolean
   participants?: boolean | Prisma.Trip$participantsArgs<ExtArgs>
   stages?: boolean | Prisma.Trip$stagesArgs<ExtArgs>
+  comments?: boolean | Prisma.Trip$commentsArgs<ExtArgs>
   _count?: boolean | Prisma.TripCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trip"]>
 
@@ -857,6 +992,7 @@ export type TripOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type TripInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   participants?: boolean | Prisma.Trip$participantsArgs<ExtArgs>
   stages?: boolean | Prisma.Trip$stagesArgs<ExtArgs>
+  comments?: boolean | Prisma.Trip$commentsArgs<ExtArgs>
   _count?: boolean | Prisma.TripCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TripIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -867,6 +1003,7 @@ export type $TripPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     participants: Prisma.$UserTripPayload<ExtArgs>[]
     stages: Prisma.$StagePayload<ExtArgs>[]
+    comments: Prisma.$CommentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1295,6 +1432,7 @@ export interface Prisma__TripClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   participants<T extends Prisma.Trip$participantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Trip$participantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserTripPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   stages<T extends Prisma.Trip$stagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Trip$stagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  comments<T extends Prisma.Trip$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Trip$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1772,6 +1910,30 @@ export type Trip$stagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   distinct?: Prisma.StageScalarFieldEnum | Prisma.StageScalarFieldEnum[]
+}
+
+/**
+ * Trip.comments
+ */
+export type Trip$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Comment
+   */
+  select?: Prisma.CommentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Comment
+   */
+  omit?: Prisma.CommentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommentInclude<ExtArgs> | null
+  where?: Prisma.CommentWhereInput
+  orderBy?: Prisma.CommentOrderByWithRelationInput | Prisma.CommentOrderByWithRelationInput[]
+  cursor?: Prisma.CommentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommentScalarFieldEnum | Prisma.CommentScalarFieldEnum[]
 }
 
 /**

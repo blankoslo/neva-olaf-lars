@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import prisma from "@/lib/prisma";
+import { Prisma } from "@/prisma/generated/client";
 
 export const runtime = "nodejs";
 
@@ -70,7 +71,7 @@ export async function PATCH(req: Request) {
         ...(planningFields !== undefined && { planningFields: planningFields as object, title }),
         ...(suggestions !== undefined && { suggestions: suggestions as object }),
         ...(selectedSuggestion !== undefined && { selectedSuggestion: selectedSuggestion as object }),
-        ...(packingList !== undefined && { packingList: packingList as object | null }),
+        ...(packingList !== undefined && { packingList: packingList === null ? Prisma.JsonNull : packingList as Prisma.InputJsonValue }),
       },
       select: { id: true },
     });
