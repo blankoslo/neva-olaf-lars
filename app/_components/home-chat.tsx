@@ -85,7 +85,7 @@ export default function HomeChat() {
         ...next,
         { role: "assistant", content: data.message, pills: data.pills },
       ]);
-      if (data.fields) setFields(data.fields);
+      if (res.ok && data.fields) setFields(data.fields);
       setComplete(!!data.complete);
       if (!res.ok) setError("Wilhelm svarte ikke som forventet.");
     } catch {
