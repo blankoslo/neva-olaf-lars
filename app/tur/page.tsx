@@ -31,7 +31,7 @@ export default function TripPage() {
             <Link href="/" className="pill" style={{ textDecoration: "none" }}>
               ← TILBAKE
             </Link>
-            <Stamp color="#b85a3c" rotate={-3}>· Om 3 dager ·</Stamp>
+            <Stamp color="var(--ember)" rotate={-3}>· Om 3 dager ·</Stamp>
           </div>
           <h1
             style={{
@@ -56,7 +56,7 @@ export default function TripPage() {
         <div className="map-wrap">
           <RouteMap theme="paper" />
           <div style={{ position: "absolute", top: 8, left: 10 }}>
-            <Stamp color="#5b6b5a" rotate={-4}>rute · godkjent</Stamp>
+            <Stamp color="var(--moss)" rotate={-4}>rute · godkjent</Stamp>
           </div>
         </div>
 
@@ -75,12 +75,12 @@ export default function TripPage() {
                 gridTemplateColumns: "34px 1fr auto",
                 gap: 10,
                 padding: "12px 0",
-                borderBottom: i < DAYS.length - 1 ? "1px dashed rgba(26,31,26,.25)" : "none",
+                borderBottom: i < DAYS.length - 1 ? "1px dashed rgba(233,227,211,0.10)" : "none",
                 textDecoration: "none",
                 color: "inherit",
               }}
             >
-              <div style={{ fontSize: 34, lineHeight: 1, fontStyle: "italic", color: "var(--ember-2)" }}>
+              <div style={{ fontSize: 34, lineHeight: 1, fontStyle: "italic", color: "var(--ember)" }}>
                 {d.d}
               </div>
               <div>
@@ -120,21 +120,21 @@ export default function TripPage() {
             marginTop: 18,
             marginBottom: 18,
             padding: "14px 16px",
-            background: "rgba(217,119,87,0.08)",
-            border: "1px solid rgba(184,90,60,.45)",
+            background: "rgba(244,162,89,0.06)",
+            border: "1px solid rgba(244,162,89,0.30)",
             borderRadius: 4,
             position: "relative",
           }}
         >
           <div className="flex-row gap-3 center">
             <WilhelmAvatar size={40} variant="ember" />
-            <div className="mono" style={{ fontSize: 9, letterSpacing: ".2em", color: "var(--ember-2)" }}>
+            <div className="mono" style={{ fontSize: 9, letterSpacing: ".2em", color: "var(--ember)" }}>
               WILHELM · NOTAT DAG 2
             </div>
           </div>
           <p
-            className="hand"
-            style={{ marginTop: 8, fontSize: 19, color: "#1a3a5a", lineHeight: 1.15, marginBottom: 0 }}
+            className="serif italic"
+            style={{ marginTop: 8, fontSize: 19, color: "var(--bone-2)", lineHeight: 1.15, marginBottom: 0 }}
           >
             Dag to er den lange. Gå fra Linneset før soloppgang — myra er fastere i kulda.
           </p>
@@ -152,7 +152,7 @@ export default function TripPage() {
           <div
             style={{
               height: 6,
-              background: "rgba(26,31,26,.12)",
+              background: "rgba(233,227,211,0.10)",
               borderRadius: 99,
               marginTop: 8,
               overflow: "hidden",
@@ -168,8 +168,8 @@ export default function TripPage() {
                   key={p}
                   className="pill"
                   style={{
-                    borderColor: done ? "var(--sage-2)" : "rgba(26,31,26,.5)",
-                    color: done ? "var(--sage-2)" : "#2a2520",
+                    borderColor: done ? "var(--moss)" : "rgba(233,227,211,0.30)",
+                    color: done ? "var(--moss)" : "var(--bone-2)",
                     opacity: done ? 1 : 0.65,
                   }}
                 >

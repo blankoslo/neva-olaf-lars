@@ -110,8 +110,8 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
           style={{
             marginTop: 18,
             padding: "12px 14px",
-            background: "#fff8ea",
-            border: "1px solid rgba(26,31,26,.2)",
+            background: "rgba(233,227,211,0.04)",
+            border: "1px solid rgba(233,227,211,0.10)",
             borderRadius: 4,
           }}
         >
@@ -147,7 +147,7 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
                 gap: 12,
                 padding: "10px 0",
                 borderBottom:
-                  i < d.legs.length - 1 ? "1px dashed rgba(26,31,26,.22)" : "none",
+                  i < d.legs.length - 1 ? "1px dashed rgba(233,227,211,0.10)" : "none",
               }}
             >
               <div>
@@ -160,7 +160,7 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
               </div>
               <div>
                 <div style={{ fontSize: 16, lineHeight: 1.15 }}>{s.name}</div>
-                <div className="hand" style={{ fontSize: 15, color: "#1a3a5a", marginTop: 2 }}>
+                <div className="serif italic" style={{ fontSize: 15, color: "var(--bone-2)", marginTop: 2 }}>
                   {s.note}
                 </div>
               </div>
@@ -174,14 +174,14 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
             marginTop: 14,
             marginBottom: 24,
             padding: 14,
-            background: "#fff8ea",
-            border: "1px solid rgba(26,31,26,.2)",
+            background: "rgba(233,227,211,0.04)",
+            border: "1px solid rgba(233,227,211,0.10)",
             borderRadius: 4,
             position: "relative",
           }}
         >
           <div style={{ position: "absolute", top: -10, right: 12 }}>
-            <Stamp color="#5b6b5a">DNT · selvbetjent</Stamp>
+            <Stamp color="var(--moss)">DNT · selvbetjent</Stamp>
           </div>
           <div className="flex-row gap-3 center">
             <Glyph name="cabin" size={28} />
@@ -192,7 +192,7 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
               </div>
             </div>
           </div>
-          <p className="hand" style={{ marginTop: 10, fontSize: 17, color: "#1a3a5a", marginBottom: 0 }}>
+          <p className="serif italic" style={{ marginTop: 10, fontSize: 17, color: "var(--bone-2)", marginBottom: 0 }}>
             {d.cabin.note}
           </p>
         </section>

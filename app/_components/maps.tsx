@@ -1,7 +1,77 @@
-/* RouteMap, Elevation, ContourMap — abstract field-journal cartography. */
+/* Maps & ambient cartography — night-blue field, ember route. */
 
 type RouteTheme = "paper" | "cream";
 
+/**
+ * Mountains — three-layer parallax silhouette used as ambient backdrop
+ * behind hero / chat screens. Renders fluid by default.
+ */
+export function Mountains({
+  opacity = 1,
+  withSky = true,
+}: {
+  opacity?: number;
+  withSky?: boolean;
+}) {
+  return (
+    <svg
+      viewBox="0 0 390 844"
+      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity }}
+      preserveAspectRatio="none"
+    >
+      <defs>
+        <linearGradient id="wt-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#070b17" />
+          <stop offset="45%" stopColor="#0e1426" />
+          <stop offset="75%" stopColor="#1a2138" />
+          <stop offset="92%" stopColor="#3a2c1c" />
+          <stop offset="100%" stopColor="#7a4a1f" />
+        </linearGradient>
+        <radialGradient id="wt-ember" cx="0.5" cy="0.95" r="0.6">
+          <stop offset="0%" stopColor="#f4a259" stopOpacity="0.35" />
+          <stop offset="60%" stopColor="#f4a259" stopOpacity="0.05" />
+          <stop offset="100%" stopColor="#f4a259" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      {withSky && <rect x="0" y="0" width="390" height="844" fill="url(#wt-sky)" />}
+      {withSky && <rect x="0" y="0" width="390" height="844" fill="url(#wt-ember)" />}
+      {/* fjernaste rygg */}
+      <polygon
+        points="0,560 40,500 90,540 150,470 210,520 270,460 330,510 390,475 390,844 0,844"
+        fill="#1c2540"
+        opacity="0.7"
+      />
+      {/* midt-lag */}
+      <polygon
+        points="0,640 50,580 110,620 170,560 230,610 290,555 360,605 390,580 390,844 0,844"
+        fill="#121a30"
+        opacity="0.85"
+      />
+      {/* nær framgrunn */}
+      <polygon
+        points="0,720 60,680 130,710 200,650 280,705 360,665 390,690 390,844 0,844"
+        fill="#080c18"
+      />
+      {withSky &&
+        Array.from({ length: 40 }).map((_, i) => (
+          <circle
+            key={i}
+            cx={(i * 47) % 390}
+            cy={((i * 31) % 380) + 40}
+            r={0.6 + (i % 3) * 0.3}
+            fill="#e9e3d3"
+            opacity={0.3 + (i % 5) * 0.1}
+          />
+        ))}
+    </svg>
+  );
+}
+
+/**
+ * RouteMap — topographic concentric ovals + dashed ember route. Fluid by
+ * default. The `theme` prop is preserved for source compatibility but the
+ * night-theme palette is now used for both values.
+ */
 export function RouteMap({
   width,
   height,
@@ -11,83 +81,67 @@ export function RouteMap({
   height?: number;
   theme?: RouteTheme;
 }) {
-  const T: Record<RouteTheme, { bg: string; land: string; water: string; line: string; accent: string }> = {
-    paper: { bg: "#e8dfc8", land: "#d6c9a3", water: "#a8c0b8", line: "#1a1f1a", accent: "#d97757" },
-    cream: { bg: "#fff8ea", land: "#efe4ca", water: "#cfdcd4", line: "#1a1f1a", accent: "#d97757" },
-  };
-  const t = T[theme];
   const fluid = width === undefined && height === undefined;
-
+  void theme;
   return (
     <svg
-      viewBox="0 0 320 180"
+      viewBox="0 0 350 220"
       width={fluid ? undefined : width}
       height={fluid ? undefined : height}
       style={fluid ? { display: "block", width: "100%", height: "auto" } : { display: "block" }}
     >
-      <rect width="320" height="180" fill={t.bg} />
+      <rect x="0" y="0" width="350" height="220" fill="#0e1426" />
+      {Array.from({ length: 9 }).map((_, i) => (
+        <ellipse
+          key={i}
+          cx={175}
+          cy={110}
+          rx={30 + i * 22}
+          ry={14 + i * 11}
+          fill="none"
+          stroke="#cfc6b1"
+          strokeWidth="0.3"
+          opacity={0.18}
+        />
+      ))}
       <path
-        d="M 20 30 Q 80 10 150 30 T 300 40 L 310 90 Q 220 80 180 100 Q 120 120 60 100 Q 30 90 20 60 Z"
-        fill={t.land}
-        opacity="0.7"
-      />
-      <path
-        d="M 30 130 Q 120 110 200 130 T 320 140 L 320 180 L 0 180 L 0 140 Q 15 135 30 130 Z"
-        fill={t.land}
-        opacity="0.6"
-      />
-      <path
-        d="M 120 60 Q 160 50 200 65 Q 220 80 200 95 Q 160 105 130 95 Q 105 80 120 60 Z"
-        fill={t.water}
-      />
-      <g fill="none" stroke={t.line} strokeWidth="0.5" opacity="0.25">
-        <path d="M 40 50 Q 100 35 170 55 T 290 60" />
-        <path d="M 30 90 Q 100 75 170 95 T 295 95" />
-        <path d="M 20 120 Q 90 110 170 125 T 300 130" />
-      </g>
-      <path
-        d="M 40 150 Q 70 130 95 120 Q 130 105 145 80 Q 160 55 200 50 Q 235 48 255 70 Q 270 90 280 130"
+        d="M 30,180 Q 80,150 110,130 Q 150,105 200,100 Q 260,95 310,55"
         fill="none"
-        stroke={t.accent}
+        stroke="#f4a259"
         strokeWidth="2.2"
+        strokeDasharray="4 4"
         strokeLinecap="round"
-        strokeDasharray="5 4"
       />
-      {([
-        [40, 150],
-        [145, 80],
-        [255, 70],
-        [280, 130],
-      ] as const).map(([x, y], i) => (
+      {(
+        [
+          [30, 180],
+          [110, 130],
+          [200, 100],
+          [310, 55],
+        ] as const
+      ).map(([x, y], i) => (
         <g key={i}>
-          <circle cx={x} cy={y} r="6" fill={t.bg} stroke={t.line} strokeWidth="1.5" />
-          <circle cx={x} cy={y} r="2.5" fill={t.accent} />
+          <circle cx={x} cy={y} r="6" fill="#0a0f1c" stroke="#f4a259" strokeWidth="1.6" />
+          <circle cx={x} cy={y} r="2.2" fill="#f4a259" />
         </g>
       ))}
-      <g fontFamily="JetBrains Mono, monospace" fontSize="8" fill={t.line} letterSpacing="1">
-        <text x="48" y="146">RØVOLLEN</text>
-        <text x="153" y="76">LINNESET</text>
-        <text x="220" y="64">ROENS.</text>
-        <text x="248" y="148">RØVOLLEN</text>
-      </g>
-      <g transform="translate(290,28)">
-        <circle r="11" fill="none" stroke={t.line} strokeWidth="0.8" />
-        <path d="M 0 -8 L 2.5 0 L 0 8 L -2.5 0 Z" fill={t.accent} />
-        <text
-          x="0"
-          y="-13"
-          fontFamily="JetBrains Mono,monospace"
-          fontSize="6"
-          textAnchor="middle"
-          fill={t.line}
-        >
-          N
-        </text>
-      </g>
+      <text
+        x="14"
+        y="14"
+        fontFamily="DM Mono, monospace"
+        fontSize="9"
+        fill="#8a93a8"
+        letterSpacing="2"
+      >
+        N · 350 KM²
+      </text>
     </svg>
   );
 }
 
+/**
+ * Elevation — soft ember-tinted profile against night.
+ */
 export function Elevation({ width, height }: { width?: number; height?: number }) {
   const path =
     "M 0 60 L 20 55 L 45 40 L 70 30 L 100 38 L 130 22 L 170 14 L 210 22 L 250 36 L 285 30 L 320 50";
@@ -99,9 +153,9 @@ export function Elevation({ width, height }: { width?: number; height?: number }
       height={fluid ? undefined : height}
       style={fluid ? { display: "block", width: "100%", height: "auto" } : { display: "block" }}
     >
-      <path d={path + " L 320 70 L 0 70 Z"} fill="rgba(217,119,87,0.18)" />
-      <path d={path} fill="none" stroke="#1a1f1a" strokeWidth="1.4" />
-      <g stroke="#1a1f1a" strokeWidth="0.4" opacity=".25">
+      <path d={path + " L 320 70 L 0 70 Z"} fill="rgba(244,162,89,0.18)" />
+      <path d={path} fill="none" stroke="#f4a259" strokeWidth="1.6" strokeLinecap="round" />
+      <g stroke="#cfc6b1" strokeWidth="0.4" opacity="0.18">
         <line x1="0" y1="20" x2="320" y2="20" />
         <line x1="0" y1="45" x2="320" y2="45" />
       </g>
@@ -109,11 +163,15 @@ export function Elevation({ width, height }: { width?: number; height?: number }
   );
 }
 
+/**
+ * ContourMap — concentric topo ovals. Fluid in both axes by default so it
+ * fills any container (used inside small thumbnails on the home page).
+ */
 export function ContourMap({
   width,
   height,
-  stroke = "#1a1f1a",
-  opacity = 0.5,
+  stroke = "#cfc6b1",
+  opacity = 0.22,
 }: {
   width?: number;
   height?: number;
@@ -133,16 +191,17 @@ export function ContourMap({
       }
       preserveAspectRatio="none"
     >
-      <g fill="none" stroke={stroke} strokeWidth="0.8" opacity={opacity}>
-        <path d="M -10 150 Q 60 120 130 140 T 270 130 T 340 145" />
-        <path d="M -10 165 Q 60 140 130 158 T 270 150 T 340 162" />
-        <path d="M 50 110 Q 90 75 130 110 Q 110 130 90 130 Q 70 130 50 110 Z" />
-        <path d="M 60 108 Q 90 85 120 108 Q 100 122 90 122 Q 80 122 60 108 Z" />
-        <path d="M 70 105 Q 90 92 110 105 Q 100 115 90 115 Q 80 115 70 105 Z" />
-        <path d="M 180 100 Q 230 50 280 100 Q 260 130 230 130 Q 200 130 180 100 Z" />
-        <path d="M 190 98 Q 230 60 270 98 Q 250 120 230 120 Q 210 120 190 98 Z" />
-        <path d="M 200 95 Q 230 70 260 95 Q 245 110 230 110 Q 215 110 200 95 Z" />
-        <path d="M 130 130 Q 160 145 180 100" />
+      <rect x="0" y="0" width="320" height="200" fill="#0e1426" />
+      <g fill="none" stroke={stroke} strokeWidth="0.5" opacity={opacity}>
+        {Array.from({ length: 9 }).map((_, i) => (
+          <ellipse
+            key={i}
+            cx={160}
+            cy={100}
+            rx={20 + i * 24}
+            ry={10 + i * 12}
+          />
+        ))}
       </g>
     </svg>
   );

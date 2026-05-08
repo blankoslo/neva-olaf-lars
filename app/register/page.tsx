@@ -39,7 +39,7 @@ export default function RegisterPage() {
           <Link href="/" className="pill" style={{ textDecoration: "none" }}>
             ← TILBAKE
           </Link>
-          <Stamp color="#b85a3c" rotate={3}>· Ny i skogen ·</Stamp>
+          <Stamp color="var(--ember)" rotate={3}>· Ny i skogen ·</Stamp>
         </div>
         <h1
           style={{
@@ -59,10 +59,10 @@ export default function RegisterPage() {
         style={{
           margin: "20px 18px 0",
           padding: 16,
-          background: "#fff8ea",
-          border: "1px solid rgba(26,31,26,.18)",
+          background: "rgba(233,227,211,0.04)",
+          border: "1px solid rgba(233,227,211,0.10)",
           borderRadius: 4,
-          boxShadow: "0 2px 0 rgba(26,31,26,.10)",
+          boxShadow: "none",
         }}
       >
         <div className="flex-row gap-3 center" style={{ marginBottom: 8 }}>
@@ -72,10 +72,10 @@ export default function RegisterPage() {
               WILHELM · GJESTEBOK
             </div>
             <p
-              className="hand"
+              className="serif italic"
               style={{
                 fontSize: 16,
-                color: "#1a3a5a",
+                color: "var(--bone-2)",
                 margin: "2px 0 0",
                 lineHeight: 1.2,
               }}
@@ -123,7 +123,7 @@ export default function RegisterPage() {
             <div
               className="mono"
               style={{
-                color: "var(--ember-2)",
+                color: "var(--ember)",
                 fontSize: 11,
                 letterSpacing: ".1em",
                 margin: "8px 0",
@@ -148,7 +148,7 @@ export default function RegisterPage() {
             fontSize: 11,
             letterSpacing: ".18em",
             textTransform: "uppercase",
-            color: "var(--ember-2)",
+            color: "var(--ember)",
             textDecoration: "none",
           }}
         >

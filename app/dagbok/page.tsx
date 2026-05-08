@@ -7,7 +7,7 @@ export default function JournalPage() {
       <main style={{ paddingTop: 24 }}>
         <div className="page-pad">
           <div className="flex-row between center">
-            <Stamp color="#5b6b5a" rotate={-3}>fullført · 14·09</Stamp>
+            <Stamp color="var(--moss)" rotate={-3}>fullført · 14·09</Stamp>
             <div className="mono" style={{ fontSize: 10, letterSpacing: ".18em", opacity: 0.55 }}>
               DAGBOK · 042
             </div>
@@ -67,9 +67,9 @@ export default function JournalPage() {
             flexWrap: "wrap",
           }}
         >
-          <Stamp color="#b85a3c" rotate={-4}>3 hytter · 2 netter</Stamp>
-          <Stamp color="#5b6b5a" rotate={2}>finnskogen · 38 km</Stamp>
-          <Stamp color="#1a1f1a" rotate={-1}>første regntur</Stamp>
+          <Stamp color="var(--ember)" rotate={-4}>3 hytter · 2 netter</Stamp>
+          <Stamp color="var(--moss)" rotate={2}>finnskogen · 38 km</Stamp>
+          <Stamp color="var(--bone)" rotate={-1}>første regntur</Stamp>
         </div>
 
         <section
@@ -78,8 +78,8 @@ export default function JournalPage() {
             marginTop: 18,
             marginBottom: 24,
             padding: "14px 16px",
-            background: "#fff8ea",
-            border: "1px solid rgba(26,31,26,.2)",
+            background: "rgba(233,227,211,0.04)",
+            border: "1px solid rgba(233,227,211,0.10)",
             borderRadius: 4,
             transform: "rotate(-0.6deg)",
           }}
@@ -91,11 +91,11 @@ export default function JournalPage() {
             </div>
           </div>
           <p
-            className="hand"
+            className="serif italic"
             style={{
               marginTop: 10,
               fontSize: 18,
-              color: "#1a3a5a",
+              color: "var(--bone-2)",
               lineHeight: 1.18,
               marginBottom: 0,
             }}
@@ -104,11 +104,11 @@ export default function JournalPage() {
             vinteren — stillheten er en annen da.
           </p>
           <p
-            className="hand"
+            className="serif italic"
             style={{
               marginTop: 8,
               fontSize: 22,
-              color: "#1a3a5a",
+              color: "var(--bone-2)",
               textAlign: "right",
               marginBottom: 0,
             }}

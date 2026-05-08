@@ -6,7 +6,11 @@
       "Bash(echo \"EXIT=$?\")",
       "Bash(npx next *)",
       "Bash(pnpm lint *)",
-      "Bash(pnpm add *)"
+      "Bash(pnpm add *)",
+      "Bash(awk 'NR<=200' \"/Users/larsskjelbek/Source/neva-olaf-lars/inspo/Wilhelm Tyskeberge - standalone.html\")",
+      "Bash(node /tmp/extract-bundle.mjs \"/Users/larsskjelbek/Source/neva-olaf-lars/inspo/Wilhelm Tyskeberge - standalone.html\")",
+      "Bash(node /tmp/extract2.mjs \"/Users/larsskjelbek/Source/neva-olaf-lars/inspo/Wilhelm Tyskeberge - standalone.html\")",
+      "Bash(node /tmp/repalette.mjs)"
     ],
     "additionalDirectories": [
       "/Users/larsskjelbek/Source/neva-olaf-lars/app/tur"

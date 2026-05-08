@@ -79,7 +79,7 @@ export default function PackPage() {
                       alignItems: "center",
                       gap: 12,
                       padding: "10px 0",
-                      borderBottom: "1px dashed rgba(26,31,26,.22)",
+                      borderBottom: "1px dashed rgba(233,227,211,0.10)",
                     }}
                   >
                     <span
@@ -91,7 +91,7 @@ export default function PackPage() {
                         display: "inline-flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        background: checked ? "var(--sage-2)" : "transparent",
+                        background: checked ? "var(--moss)" : "transparent",
                         color: "#fff",
                         fontSize: 12,
                       }}

@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { WilhelmAvatar, Stamp } from "./wilhelm";
-import { Glyph } from "./glyph";
+import { Monogram } from "./wilhelm";
+import { Mountains } from "./maps";
 import TabBar from "./tabbar";
 
 type Role = "user" | "assistant";
@@ -18,11 +18,7 @@ type Fields = {
   accommodation: string | null;
 };
 
-type Message = {
-  role: Role;
-  content: string;
-  pills?: string[];
-};
+type Message = { role: Role; content: string; pills?: string[] };
 
 type ApiResponse = {
   message: string;
@@ -33,23 +29,27 @@ type ApiResponse = {
 
 const FIELD_LABELS: { key: keyof Fields; label: string }[] = [
   { key: "people", label: "Følge" },
-  { key: "region", label: "Sted" },
-  { key: "days", label: "Lengde" },
+  { key: "region", label: "Stad" },
+  { key: "days", label: "Lengd" },
   { key: "when", label: "Når" },
   { key: "vibe", label: "Karakter" },
   { key: "accommodation", label: "Overnatting" },
 ];
 
+const INTRO_NO_NAME =
+  "«Goddag. So du tenkjer på fjellet, du au?» Sett deg ned. Fortel kva du har lyst på — fjelltoppar, ro, eller selskap. Skriv så mykje eller så lite du vil.";
+const introWithName = (n: string) =>
+  `«Goddag, ${n}. So du tenkjer på fjellet, du au?» Sett deg ned. Fortel kva du har lyst på — fjelltoppar, ro, eller selskap. Skriv så mykje eller så lite du vil.`;
+
 export default function HomeChat() {
   const { data: session } = useSession();
   const firstName = (session?.user?.name ?? "").split(" ")[0];
-  const greeting = firstName ? `God morgen, ${firstName}.` : "God morgen.";
-  const introduction = firstName
-    ? `God morgen, ${firstName}. Si meg — hva har du lyst på? En lang tur i fjellet, en stille hyttehelg, eller noe helt annet? Skriv så mye eller så lite du vil.`
-    : "God morgen. Si meg — hva har du lyst på? En lang tur i fjellet, en stille hyttehelg, eller noe helt annet? Skriv så mye eller så lite du vil.";
 
   const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", content: introduction },
+    {
+      role: "assistant",
+      content: firstName ? introWithName(firstName) : INTRO_NO_NAME,
+    },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -87,9 +87,9 @@ export default function HomeChat() {
       ]);
       if (res.ok && data.fields) setFields(data.fields);
       setComplete(!!data.complete);
-      if (!res.ok) setError("Wilhelm svarte ikke som forventet.");
+      if (!res.ok) setError("Wilhelm svara ikkje som venta.");
     } catch {
-      setError("Mistet kontakten. Prøv igjen.");
+      setError("Mista kontakta. Prøv igjen.");
     } finally {
       setLoading(false);
     }
@@ -105,25 +105,55 @@ export default function HomeChat() {
 
   return (
     <>
-      <main style={{ paddingTop: 24 }}>
+      {/* Ambient backdrop — sits behind all content within the shell */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: "none",
+          opacity: 0.35,
+        }}
+      >
+        <Mountains opacity={0.6} withSky />
+      </div>
+      {/* Ember glow at the bottom — campfire warmth */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: 280,
+          zIndex: 0,
+          pointerEvents: "none",
+          background:
+            "radial-gradient(ellipse at 50% 100%, rgba(244,162,89,0.22), rgba(244,162,89,0) 70%)",
+        }}
+      />
+
+      <main style={{ position: "relative", zIndex: 1, paddingTop: 8 }}>
         <header className="body-pad">
           <div className="flex-row gap-3 center">
-            <WilhelmAvatar size={56} variant="ink" />
+            <Monogram size={56} ember />
             <div>
-              <div className="mono" style={{ fontSize: 9, letterSpacing: ".22em", opacity: 0.6 }}>
-                WILHELM · SIDEN 1962
+              <div className="eyebrow muted" style={{ fontSize: 9 }}>
+                ANNO · FRILUFTSKOMPIS
               </div>
-              <h1
-                style={{
-                  fontSize: 30,
-                  lineHeight: 1,
-                  letterSpacing: "-0.02em",
-                  fontWeight: 400,
-                  marginTop: 4,
-                }}
+              <div
+                className="display"
+                style={{ fontSize: 30, marginTop: 6 }}
               >
-                {greeting}
-              </h1>
+                Wilhelm <span className="italic">Tyskeberge.</span>
+              </div>
+              <div
+                className="serif italic"
+                style={{ fontSize: 14, color: "var(--bone-2)", marginTop: 4 }}
+              >
+                Bestefar frå Vågå · sytti år i fjellet.
+              </div>
             </div>
           </div>
         </header>
@@ -141,18 +171,26 @@ export default function HomeChat() {
         </section>
 
         {pills.length > 0 && (
-          <div className="mx-frame chat-pills">
-            {pills.map((p) => (
-              <button
-                key={p}
-                type="button"
-                className="pill chat-pill"
-                onClick={() => send(p)}
-                disabled={loading}
-              >
-                {p}
-              </button>
-            ))}
+          <div className="mx-frame">
+            <div
+              className="eyebrow muted"
+              style={{ marginTop: 18, marginBottom: 8 }}
+            >
+              ─── FORSLAG TIL SVAR
+            </div>
+            <div className="chat-pills" style={{ marginTop: 0 }}>
+              {pills.map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  className="chat-pill"
+                  onClick={() => send(p)}
+                  disabled={loading}
+                >
+                  {p}
+                </button>
+              ))}
+            </div>
           </div>
         )}
 
@@ -161,7 +199,7 @@ export default function HomeChat() {
             <input
               type="text"
               className="field"
-              placeholder="Skriv her…"
+              placeholder="Skriv til Wilhelm…"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={loading}
@@ -174,7 +212,12 @@ export default function HomeChat() {
               disabled={loading || !input.trim()}
               aria-label="Send"
             >
-              <Glyph name="arrow-r" size={16} color="#fff" />
+              <span
+                aria-hidden
+                style={{ fontSize: 20, fontWeight: 700, lineHeight: 1 }}
+              >
+                ↑
+              </span>
             </button>
           </form>
         )}
@@ -185,8 +228,9 @@ export default function HomeChat() {
             style={{
               color: "var(--ember-2)",
               fontSize: 11,
-              letterSpacing: ".1em",
-              marginTop: 10,
+              letterSpacing: "0.16em",
+              textTransform: "uppercase",
+              marginTop: 12,
               textAlign: "center",
             }}
           >
@@ -204,7 +248,7 @@ export default function HomeChat() {
 function WilhelmBubble({ text, muted = false }: { text: string; muted?: boolean }) {
   return (
     <div className="bubble bubble-wilhelm" style={muted ? { opacity: 0.55 } : undefined}>
-      <WilhelmAvatar size={32} variant="ink" />
+      <Monogram size={32} ember />
       <div className="bubble-card">{text}</div>
     </div>
   );
@@ -221,25 +265,20 @@ function UserBubble({ text }: { text: string }) {
 function SummaryCard({ fields }: { fields: Partial<Fields> }) {
   return (
     <section
-      className="mx-frame summary-card"
-      style={{
-        marginTop: 18,
-        marginBottom: 24,
-        padding: 16,
-        background: "#fff8ea",
-        border: "1px solid rgba(26,31,26,.18)",
-        borderRadius: 4,
-        boxShadow: "0 2px 0 rgba(26,31,26,.12)",
-        position: "relative",
-      }}
+      className="mx-frame panel panel-ember"
+      style={{ marginTop: 22, marginBottom: 28, position: "relative" }}
     >
-      <div style={{ position: "absolute", top: -10, right: 14 }}>
-        <Stamp color="#5b6b5a" rotate={3}>· OK · klar ·</Stamp>
-      </div>
-      <div className="mono" style={{ fontSize: 9, letterSpacing: ".22em", opacity: 0.6 }}>
+      <span className="wilhelms-pick">WILHELMS UTKAST</span>
+      <div className="eyebrow muted" style={{ marginTop: 4 }}>
         TURFORSLAG · UTKAST
       </div>
-      <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 0" }}>
+      <div
+        className="display italic"
+        style={{ fontSize: 28, marginTop: 10, marginBottom: 14 }}
+      >
+        For dykk, då.
+      </div>
+      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
         {FIELD_LABELS.map(({ key, label }) => {
           const v = fields[key];
           return (
@@ -247,19 +286,29 @@ function SummaryCard({ fields }: { fields: Partial<Fields> }) {
               key={key}
               style={{
                 display: "grid",
-                gridTemplateColumns: "110px 1fr",
+                gridTemplateColumns: "112px 1fr",
                 gap: 12,
-                padding: "8px 0",
-                borderBottom: "1px dashed rgba(26,31,26,.2)",
+                padding: "10px 0",
+                borderBottom: "1px solid rgba(233,227,211,0.10)",
               }}
             >
               <span
                 className="mono"
-                style={{ fontSize: 10, letterSpacing: ".18em", opacity: 0.55 }}
+                style={{
+                  fontSize: 9,
+                  letterSpacing: "0.22em",
+                  color: "var(--slate)",
+                  textTransform: "uppercase",
+                }}
               >
-                {label.toUpperCase()}
+                {label}
               </span>
-              <span style={{ fontSize: 16 }}>{v ?? "—"}</span>
+              <span
+                className="serif"
+                style={{ fontSize: 17, color: "var(--bone)" }}
+              >
+                {v ?? "—"}
+              </span>
             </li>
           );
         })}
@@ -267,9 +316,9 @@ function SummaryCard({ fields }: { fields: Partial<Fields> }) {
       <Link
         href="/tur"
         className="btn-ember"
-        style={{ width: "100%", marginTop: 14 }}
+        style={{ width: "100%", marginTop: 18 }}
       >
-        Planlegg turen <Glyph name="arrow-r" size={16} color="#fff" />
+        Vis tre forslag <span aria-hidden>→</span>
       </Link>
     </section>
   );

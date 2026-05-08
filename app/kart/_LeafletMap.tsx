@@ -34,11 +34,11 @@ const TILE: Record<Layer, string> = {
 
 /* ── Icons ── */
 function makeCabinIcon(dnt: boolean) {
-  const stroke = dnt ? "#b85a3c" : "#5b6b5a";
+  const stroke = dnt ? "#f4a259" : "#a3c4a0";
   return L.divIcon({
     html: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none"
       stroke="${stroke}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M3 11l9-7 9 7v9H3z" fill="#fff8ea"/>
+      <path d="M3 11l9-7 9 7v9H3z" fill="rgba(10,15,28,0.85)"/>
       <path d="M9 20v-6h6v6"/>
     </svg>`,
     className: "",
@@ -97,36 +97,45 @@ function HutMarkers({
           icon={h.dnt ? dntIcon : otherIcon}
         >
           <Popup>
-            <div style={{ fontFamily: "'DM Sans', sans-serif", minWidth: 148 }}>
+            <div style={{ fontFamily: "'DM Sans', sans-serif", minWidth: 148, color: "var(--bone)" }}>
               <div
                 style={{
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: "'DM Mono', monospace",
                   fontSize: 9,
-                  letterSpacing: ".14em",
-                  color: h.dnt ? "#b85a3c" : "#5b6b5a",
+                  letterSpacing: ".22em",
+                  color: h.dnt ? "var(--ember)" : "var(--moss)",
                   textTransform: "uppercase",
                   marginBottom: 4,
                 }}
               >
                 {h.dnt ? "DNT Hytte" : "Hytte"}
               </div>
-              <div style={{ fontSize: 15, fontWeight: 600 }}>{h.name}</div>
+              <div
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontStyle: "italic",
+                  fontSize: 18,
+                  color: "var(--bone)",
+                }}
+              >
+                {h.name}
+              </div>
               {h.serviceLevel && (
                 <div
                   style={{
-                    marginTop: 3,
-                    fontFamily: "'JetBrains Mono', monospace",
+                    marginTop: 4,
+                    fontFamily: "'DM Mono', monospace",
                     fontSize: 9,
-                    letterSpacing: ".1em",
+                    letterSpacing: ".18em",
                     textTransform: "uppercase",
-                    color: "#5b6b5a",
+                    color: "var(--bone-2)",
                   }}
                 >
                   {h.serviceLevel}
                 </div>
               )}
               {h.beds != null && h.beds > 0 && (
-                <div style={{ fontSize: 12, marginTop: 4, color: "#2a2520" }}>
+                <div style={{ fontSize: 12, marginTop: 4, color: "var(--bone-2)" }}>
                   {h.beds} senger
                 </div>
               )}
@@ -135,13 +144,13 @@ function HutMarkers({
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  display: "block",
+                  display: "inline-block",
                   marginTop: 8,
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: "'DM Mono', monospace",
                   fontSize: 9,
-                  letterSpacing: ".1em",
+                  letterSpacing: ".18em",
                   textTransform: "uppercase",
-                  color: "#d97757",
+                  color: "var(--ember)",
                   textDecoration: "none",
                 }}
               >
@@ -210,18 +219,27 @@ export default function LeafletMap() {
       <div style={{ position: "absolute", top: 12, left: 12, right: 12, zIndex: 800 }}>
         <div
           style={{
-            background: "rgba(255,248,234,0.94)",
-            backdropFilter: "blur(6px)",
-            WebkitBackdropFilter: "blur(6px)",
-            border: "1px solid rgba(26,31,26,.2)",
-            borderRadius: 4,
-            boxShadow: "0 2px 8px rgba(26,31,26,.18)",
+            background: "rgba(10,15,28,0.78)",
+            backdropFilter: "blur(14px) saturate(140%)",
+            WebkitBackdropFilter: "blur(14px) saturate(140%)",
+            border: "1px solid rgba(233,227,211,0.12)",
+            borderRadius: 6,
+            boxShadow: "0 8px 24px rgba(0,0,0,0.45)",
             overflow: "hidden",
+            color: "var(--bone)",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 10px" }}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5b6b5a"
-              strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 12px" }}>
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--bone-2)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <circle cx="11" cy="11" r="7" />
               <path d="M16.5 16.5l4 4" />
             </svg>
@@ -230,17 +248,31 @@ export default function LeafletMap() {
               onChange={(e) => handleSearch(e.target.value)}
               placeholder="Søk etter sted…"
               style={{
-                flex: 1, border: "none", background: "transparent",
-                fontFamily: "'JetBrains Mono', monospace", fontSize: 12,
-                letterSpacing: ".06em", color: "#2a2520", outline: "none",
+                flex: 1,
+                border: "none",
+                background: "transparent",
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 13,
+                letterSpacing: ".02em",
+                color: "var(--bone)",
+                outline: "none",
               }}
             />
             {query && (
               <button
-                onClick={() => { setQuery(""); setResults([]); }}
+                onClick={() => {
+                  setQuery("");
+                  setResults([]);
+                }}
                 style={{
-                  background: "none", border: "none", cursor: "pointer",
-                  padding: 0, opacity: 0.45, fontSize: 14, lineHeight: 1, color: "#2a2520",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: 0,
+                  opacity: 0.55,
+                  fontSize: 14,
+                  lineHeight: 1,
+                  color: "var(--bone)",
                 }}
               >
                 ✕
@@ -248,22 +280,46 @@ export default function LeafletMap() {
             )}
           </div>
           {results.length > 0 && (
-            <div style={{ borderTop: "1px solid rgba(26,31,26,.1)" }}>
+            <div style={{ borderTop: "1px solid rgba(233,227,211,0.10)" }}>
               {results.map((r, i) => (
                 <button
                   key={i}
                   onClick={() => selectResult(r)}
                   style={{
-                    display: "flex", alignItems: "center", gap: 8, width: "100%",
-                    background: "none", border: "none", padding: "8px 10px",
-                    borderBottom: i < results.length - 1 ? "1px dashed rgba(26,31,26,.1)" : "none",
-                    cursor: "pointer", textAlign: "left",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    width: "100%",
+                    background: "none",
+                    border: "none",
+                    padding: "10px 12px",
+                    borderBottom:
+                      i < results.length - 1 ? "1px dashed rgba(233,227,211,0.10)" : "none",
+                    cursor: "pointer",
+                    textAlign: "left",
                   }}
                 >
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#2a2520", flex: 1 }}>
+                  <span
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontStyle: "italic",
+                      fontSize: 16,
+                      color: "var(--bone)",
+                      flex: 1,
+                    }}
+                  >
                     {r.name}
                   </span>
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: ".12em", color: "#5b6b5a", textTransform: "uppercase", flexShrink: 0 }}>
+                  <span
+                    style={{
+                      fontFamily: "'DM Mono', monospace",
+                      fontSize: 9,
+                      letterSpacing: ".18em",
+                      color: "var(--ember)",
+                      textTransform: "uppercase",
+                      flexShrink: 0,
+                    }}
+                  >
                     {r.type}
                   </span>
                 </button>
@@ -274,20 +330,34 @@ export default function LeafletMap() {
       </div>
 
       {/* ── Layer toggle ── */}
-      <div style={{ position: "absolute", bottom: 28, right: 12, zIndex: 800, display: "flex", gap: 5 }}>
+      <div
+        style={{
+          position: "absolute",
+          bottom: 28,
+          right: 12,
+          zIndex: 800,
+          display: "flex",
+          gap: 5,
+        }}
+      >
         {(["topo", "toporaster"] as Layer[]).map((l) => (
           <button
             key={l}
             onClick={() => setLayer(l)}
             style={{
-              fontFamily: "'JetBrains Mono', monospace", fontSize: 9,
-              letterSpacing: ".12em", textTransform: "uppercase",
-              padding: "4px 9px", borderRadius: 99, cursor: "pointer",
-              border: "1px solid rgba(26,31,26,.32)",
-              background: layer === l ? "rgba(26,31,26,.88)" : "rgba(255,248,234,0.9)",
-              color: layer === l ? "#ede4d3" : "#2a2520",
-              backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)",
-              boxShadow: "0 1px 4px rgba(26,31,26,.15)",
+              fontFamily: "'DM Mono', monospace",
+              fontSize: 9,
+              letterSpacing: ".2em",
+              textTransform: "uppercase",
+              padding: "5px 12px",
+              borderRadius: 999,
+              cursor: "pointer",
+              border: `1px solid ${layer === l ? "var(--ember)" : "rgba(233,227,211,0.25)"}`,
+              background: layer === l ? "var(--ember)" : "rgba(10,15,28,0.78)",
+              color: layer === l ? "var(--night)" : "var(--bone)",
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.35)",
               transition: "background .12s, color .12s",
             }}
           >
@@ -300,14 +370,22 @@ export default function LeafletMap() {
       {huts.length > 0 && (
         <div
           style={{
-            position: "absolute", bottom: 28, left: 12, zIndex: 800,
-            fontFamily: "'JetBrains Mono', monospace", fontSize: 9,
-            letterSpacing: ".12em", textTransform: "uppercase",
-            padding: "4px 9px", borderRadius: 99,
-            border: "1px solid rgba(91,107,90,.45)",
-            background: "rgba(255,248,234,0.9)",
-            backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)",
-            color: "#5b6b5a", boxShadow: "0 1px 4px rgba(26,31,26,.15)",
+            position: "absolute",
+            bottom: 28,
+            left: 12,
+            zIndex: 800,
+            fontFamily: "'DM Mono', monospace",
+            fontSize: 9,
+            letterSpacing: ".2em",
+            textTransform: "uppercase",
+            padding: "5px 12px",
+            borderRadius: 999,
+            border: "1px solid rgba(163,196,160,0.45)",
+            background: "rgba(10,15,28,0.78)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+            color: "var(--moss)",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.35)",
           }}
         >
           {huts.length} hytter

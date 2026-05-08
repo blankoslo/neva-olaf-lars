@@ -2,18 +2,44 @@ import SetupInstructions from "./setup-instructions";
 
 export default function SetupPage() {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-8">
-      <div className="max-w-3xl w-full bg-white rounded-lg shadow-lg p-8">
-        <h1 className="text-3xl font-bold text-center mb-6 text-gray-900">
-          Welcome to Superblog
+    <main style={{ paddingTop: 24 }}>
+      <div className="page-pad">
+        <div
+          className="eyebrow muted"
+          style={{ fontSize: 9 }}
+        >
+          ANNO · OPPSETT
+        </div>
+        <h1
+          className="display italic"
+          style={{ fontSize: 36, marginTop: 12, lineHeight: 1 }}
+        >
+          Velkomen til Wilhelm.
         </h1>
-        <p className="text-gray-600 mb-8 text-center">
-          It looks like your database isn&apos;t set up yet. Follow the
-          instructions below to get started.
+        <p
+          className="serif"
+          style={{
+            color: "var(--bone-2)",
+            marginTop: 12,
+            fontSize: 16,
+            fontStyle: "italic",
+          }}
+        >
+          «Set deg ned. Først må vi få databasen til å vakne.»
         </p>
+      </div>
 
+      <div
+        className="mx-frame panel"
+        style={{
+          marginTop: 22,
+          marginBottom: 32,
+          padding: 24,
+          color: "var(--bone)",
+        }}
+      >
         <SetupInstructions />
       </div>
-    </div>
+    </main>
   );
 }
