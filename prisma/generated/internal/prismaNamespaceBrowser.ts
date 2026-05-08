@@ -51,7 +51,10 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User'
+  User: 'User',
+  Trip: 'Trip',
+  UserTrip: 'UserTrip',
+  Stage: 'Stage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -78,6 +81,51 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const TripScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  area: 'area',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  status: 'status',
+  inviteCode: 'inviteCode',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TripScalarFieldEnum = (typeof TripScalarFieldEnum)[keyof typeof TripScalarFieldEnum]
+
+
+export const UserTripScalarFieldEnum = {
+  userId: 'userId',
+  tripId: 'tripId',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type UserTripScalarFieldEnum = (typeof UserTripScalarFieldEnum)[keyof typeof UserTripScalarFieldEnum]
+
+
+export const StageScalarFieldEnum = {
+  id: 'id',
+  tripId: 'tripId',
+  dayNumber: 'dayNumber',
+  date: 'date',
+  fromLocation: 'fromLocation',
+  toLocation: 'toLocation',
+  distanceKm: 'distanceKm',
+  durationMinutes: 'durationMinutes',
+  elevationGainM: 'elevationGainM',
+  elevationLossM: 'elevationLossM',
+  hutId: 'hutId',
+  hutName: 'hutName',
+  notes: 'notes'
+} as const
+
+export type StageScalarFieldEnum = (typeof StageScalarFieldEnum)[keyof typeof StageScalarFieldEnum]
 
 
 export const SortOrder = {

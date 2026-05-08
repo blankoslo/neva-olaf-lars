@@ -11,8 +11,65 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(cuid())
+  id       String     @id @default(cuid())
   name     String?
-  email    String  @unique
+  email    String     @unique
   password String
+  trips    UserTrip[]
+}
+
+model Trip {
+  id           String       @id @default(cuid())
+  title        String
+  description  String?
+  area         String?
+  startDate    DateTime?
+  endDate      DateTime?
+  status       TripStatus   @default(PLANNING)
+  inviteCode   String       @unique @default(cuid())
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  participants UserTrip[]
+  stages       Stage[]
+}
+
+model UserTrip {
+  userId    String
+  tripId    String
+  status    InviteStatus @default(PENDING)
+  createdAt DateTime     @default(now())
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trip      Trip         @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@id([userId, tripId])
+}
+
+model Stage {
+  id              String    @id @default(cuid())
+  tripId          String
+  dayNumber       Int
+  date            DateTime?
+  fromLocation    String
+  toLocation      String
+  distanceKm      Float?
+  durationMinutes Int?
+  elevationGainM  Int?
+  elevationLossM  Int?
+  hutId           String?
+  hutName         String?
+  notes           String?
+  trip            Trip      @relation(fields: [tripId], references: [id], onDelete: Cascade)
+}
+
+enum TripStatus {
+  PLANNING
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
 }

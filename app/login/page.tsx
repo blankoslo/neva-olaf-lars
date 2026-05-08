@@ -1,7 +1,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 import { WilhelmAvatar, Stamp } from "../_components/wilhelm";
@@ -9,6 +9,8 @@ import { Glyph } from "../_components/glyph";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") ?? "/";
   const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -25,7 +27,7 @@ export default function LoginPage() {
         return;
       }
 
-      router.push("/");
+      router.push(callbackUrl);
       router.refresh();
     } catch {
       setError("Noe gikk galt under innlogging.");

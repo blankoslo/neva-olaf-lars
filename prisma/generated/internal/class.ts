@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.0.0",
   "engineVersion": "0c19ccc313cf9911a90d99d2ac2eb0280c76c513",
   "activeProvider": "postgresql",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"./generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id       String  @id @default(cuid())\n  name     String?\n  email    String  @unique\n  password String\n}\n",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"./generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id       String     @id @default(cuid())\n  name     String?\n  email    String     @unique\n  password String\n  trips    UserTrip[]\n}\n\nmodel Trip {\n  id           String     @id @default(cuid())\n  title        String\n  description  String?\n  area         String?\n  startDate    DateTime?\n  endDate      DateTime?\n  status       TripStatus @default(PLANNING)\n  inviteCode   String     @unique @default(cuid())\n  createdAt    DateTime   @default(now())\n  updatedAt    DateTime   @updatedAt\n  participants UserTrip[]\n  stages       Stage[]\n}\n\nmodel UserTrip {\n  userId    String\n  tripId    String\n  status    InviteStatus @default(PENDING)\n  createdAt DateTime     @default(now())\n  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)\n  trip      Trip         @relation(fields: [tripId], references: [id], onDelete: Cascade)\n\n  @@id([userId, tripId])\n}\n\nmodel Stage {\n  id              String    @id @default(cuid())\n  tripId          String\n  dayNumber       Int\n  date            DateTime?\n  fromLocation    String\n  toLocation      String\n  distanceKm      Float?\n  durationMinutes Int?\n  elevationGainM  Int?\n  elevationLossM  Int?\n  hutId           String?\n  hutName         String?\n  notes           String?\n  trip            Trip      @relation(fields: [tripId], references: [id], onDelete: Cascade)\n}\n\nenum TripStatus {\n  PLANNING\n  ACTIVE\n  COMPLETED\n  CANCELLED\n}\n\nenum InviteStatus {\n  PENDING\n  ACCEPTED\n  DECLINED\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"trips\",\"kind\":\"object\",\"type\":\"UserTrip\",\"relationName\":\"UserToUserTrip\"}],\"dbName\":null},\"Trip\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"area\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"TripStatus\"},{\"name\":\"inviteCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"participants\",\"kind\":\"object\",\"type\":\"UserTrip\",\"relationName\":\"TripToUserTrip\"},{\"name\":\"stages\",\"kind\":\"object\",\"type\":\"Stage\",\"relationName\":\"StageToTrip\"}],\"dbName\":null},\"UserTrip\":{\"fields\":[{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"InviteStatus\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToUserTrip\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"TripToUserTrip\"}],\"dbName\":null},\"Stage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dayNumber\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"fromLocation\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"toLocation\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"distanceKm\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"durationMinutes\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"elevationGainM\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"elevationLossM\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"hutId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"hutName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"StageToTrip\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -183,6 +183,36 @@ export interface PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.trip`: Exposes CRUD operations for the **Trip** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Trips
+    * const trips = await prisma.trip.findMany()
+    * ```
+    */
+  get trip(): Prisma.TripDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.userTrip`: Exposes CRUD operations for the **UserTrip** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserTrips
+    * const userTrips = await prisma.userTrip.findMany()
+    * ```
+    */
+  get userTrip(): Prisma.UserTripDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.stage`: Exposes CRUD operations for the **Stage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Stages
+    * const stages = await prisma.stage.findMany()
+    * ```
+    */
+  get stage(): Prisma.StageDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {
