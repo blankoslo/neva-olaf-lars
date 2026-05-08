@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /Users/larsskjelbek/Source/neva-olaf-lars/app/tur/\\\\[id\\\\] /Users/larsskjelbek/Source/neva-olaf-lars/app/live /Users/larsskjelbek/Source/neva-olaf-lars/app/dagbok /Users/larsskjelbek/Source/neva-olaf-lars/app/pakk)",
+      "Bash(npx tsc *)",
+      "Bash(echo \"EXIT=$?\")",
+      "Bash(npx next *)",
+      "Bash(pnpm lint *)"
+    ],
+    "additionalDirectories": [
+      "/Users/larsskjelbek/Source/neva-olaf-lars/app/tur"
+    ]
+  }
+}

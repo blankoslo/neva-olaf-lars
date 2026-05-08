@@ -1,8 +1,12 @@
-export const dynamic = "force-dynamic"; // This disables SSG and ISR
+export const dynamic = "force-dynamic";
 
+import Link from "next/link";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Form from "next/form";
+import { Stamp } from "../../_components/wilhelm";
+import { Glyph } from "../../_components/glyph";
+import TabBar from "../../_components/tabbar";
 
 export default function NewUser() {
   async function createUser(formData: FormData) {
@@ -12,46 +16,79 @@ export default function NewUser() {
     const email = formData.get("email") as string;
 
     await prisma.user.create({
-      data: { name, email, password: "" }, // password will be added by NextAuth
+      data: { name, email, password: "" },
     });
 
-    redirect("/");
+    redirect("/users");
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md mt-12">
-      <h1 className="text-3xl font-bold mb-6">Create New User</h1>
-      <Form action={createUser} className="space-y-6">
-        <div>
-          <label htmlFor="name" className="block text-lg font-medium mb-2">Name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Enter user name ..."
-            className="w-full px-4 py-2 border rounded-lg"
-          />
+    <>
+      <main style={{ paddingTop: 24 }}>
+        <div style={{ padding: "16px 22px 0" }}>
+          <div className="flex-row between center">
+            <Link href="/users" className="pill" style={{ textDecoration: "none" }}>
+              ← FØLGET
+            </Link>
+            <Stamp color="#5b6b5a" rotate={2}>· Nytt navn ·</Stamp>
+          </div>
+          <h1
+            style={{
+              marginTop: 18,
+              fontSize: 34,
+              lineHeight: 1,
+              letterSpacing: "-0.02em",
+              fontWeight: 400,
+            }}
+          >
+            Legg til<br />
+            <em>en turkamerat.</em>
+          </h1>
         </div>
-        <div>
-          <label htmlFor="email" className="flex text-lg font-medium mb-2 items-center">
-            Email 
-            <span className="ml-2 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-              Required
-            </span>
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            placeholder="Enter user email ..."
-            className="w-full px-4 py-2 border rounded-lg"
-          />
-        </div>
-        <button type="submit" className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600">
-          Create User
-        </button>
-      </Form>
-    </div>
+
+        <section
+          style={{
+            margin: "20px 18px",
+            padding: 16,
+            background: "#fff8ea",
+            border: "1px solid rgba(26,31,26,.18)",
+            borderRadius: 4,
+            boxShadow: "0 2px 0 rgba(26,31,26,.10)",
+          }}
+        >
+          <Form action={createUser}>
+            <div style={{ marginBottom: 12 }}>
+              <label htmlFor="name" className="field-label">
+                Navn
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Astrid Lien"
+                className="field"
+              />
+            </div>
+            <div style={{ marginBottom: 12 }}>
+              <label htmlFor="email" className="field-label">
+                E-post · påkrevd
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                placeholder="navn@domene.no"
+                className="field"
+              />
+            </div>
+            <button type="submit" className="btn-ember" style={{ width: "100%", marginTop: 6 }}>
+              Legg til <Glyph name="arrow-r" size={16} color="#fff" />
+            </button>
+          </Form>
+        </section>
+      </main>
+      <TabBar />
+    </>
   );
 }
