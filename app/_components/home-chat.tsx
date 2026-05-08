@@ -8,6 +8,7 @@ import { Monogram } from "./wilhelm";
 import { Mountains } from "./maps";
 import { Glyph } from "./glyph";
 import { SuggestionList, type RouteSuggestion } from "./route-suggestions";
+import { Splash } from "./splash";
 
 type Role = "user" | "assistant";
 
@@ -63,6 +64,11 @@ export default function HomeChat() {
   const [suggestions, setSuggestions] = useState<RouteSuggestion[] | null>(null);
   const [suggestionsLoading, setSuggestionsLoading] = useState(false);
   const [sessionLoaded, setSessionLoaded] = useState(false);
+  // Show splash until the user clicks "Start samtale", unless we're resuming
+  // a chat via ?chat=<tripId> — in that case skip straight into the thread.
+  const [started, setStarted] = useState(
+    () => !!searchParams.get("chat"),
+  );
   const tripIdRef = useRef<string | null>(null);
 
   const endRef = useRef<HTMLDivElement | null>(null);
@@ -226,6 +232,10 @@ export default function HomeChat() {
   const lastAssistant = [...messages].reverse().find((m) => m.role === "assistant");
   const pills = !complete && !loading ? lastAssistant?.pills ?? [] : [];
   const showRefinementInput = complete && !loading;
+
+  if (!started) {
+    return <Splash onStart={() => setStarted(true)} />;
+  }
 
   return (
     <>
