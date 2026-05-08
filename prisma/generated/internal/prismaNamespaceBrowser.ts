@@ -55,8 +55,8 @@ export const ModelName = {
   Trip: 'Trip',
   UserTrip: 'UserTrip',
   Comment: 'Comment',
-  Stage: 'Stage',
-  Expense: 'Expense'
+  Photo: 'Photo',
+  Stage: 'Stage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -127,6 +127,19 @@ export const CommentScalarFieldEnum = {
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
+export const PhotoScalarFieldEnum = {
+  id: 'id',
+  tripId: 'tripId',
+  userId: 'userId',
+  data: 'data',
+  mimeType: 'mimeType',
+  fileName: 'fileName',
+  createdAt: 'createdAt'
+} as const
+
+export type PhotoScalarFieldEnum = (typeof PhotoScalarFieldEnum)[keyof typeof PhotoScalarFieldEnum]
+
+
 export const StageScalarFieldEnum = {
   id: 'id',
   tripId: 'tripId',
@@ -144,19 +157,6 @@ export const StageScalarFieldEnum = {
 } as const
 
 export type StageScalarFieldEnum = (typeof StageScalarFieldEnum)[keyof typeof StageScalarFieldEnum]
-
-
-export const ExpenseScalarFieldEnum = {
-  id: 'id',
-  tripId: 'tripId',
-  paidByUserId: 'paidByUserId',
-  amount: 'amount',
-  description: 'description',
-  splitAmong: 'splitAmong',
-  createdAt: 'createdAt'
-} as const
-
-export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
 
 
 export const SortOrder = {

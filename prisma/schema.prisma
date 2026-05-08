@@ -17,6 +17,7 @@ model User {
   password String
   trips    UserTrip[]
   comments Comment[]
+  photos   Photo[]
   expenses Expense[]
 }
 
@@ -42,6 +43,7 @@ model Trip {
   /// The single suggestion the user picked: RouteSuggestion
   selectedSuggestion Json?
   comments           Comment[]
+  photos             Photo[]
   /// Packing list: PackItem[] persisted per trip
   packingList        Json?
   expenses           Expense[]
@@ -63,6 +65,18 @@ model Comment {
   tripId    String
   userId    String
   content   String
+  createdAt DateTime @default(now())
+  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Photo {
+  id        String   @id @default(cuid())
+  tripId    String
+  userId    String
+  data      Bytes
+  mimeType  String
+  fileName  String?
   createdAt DateTime @default(now())
   trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
