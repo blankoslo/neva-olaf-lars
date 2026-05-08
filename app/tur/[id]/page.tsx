@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import TabBar from "../../_components/tabbar";
 import { WeatherStrip } from "../../_components/weather-strip";
+import ReviewsList from "../../_components/reviews-list";
 import prisma from "../../../lib/prisma";
 import { getRouteMidpoint } from "../../../lib/ut-route";
 import { getForecast } from "../../../lib/weather";
@@ -157,6 +158,8 @@ export default async function TripPage({ params }: { params: Promise<{ id: strin
             </div>
           </section>
         )}
+
+        <ReviewsList tripId={id} />
 
         <div style={{ height: 80 }} />
       </main>

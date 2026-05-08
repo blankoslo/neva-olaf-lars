@@ -19,6 +19,7 @@ model User {
   comments Comment[]
   photos   Photo[]
   expenses Expense[]
+  reviews  Review[]
 }
 
 model Trip {
@@ -47,6 +48,7 @@ model Trip {
   /// Packing list: PackItem[] persisted per trip
   packingList        Json?
   expenses           Expense[]
+  reviews            Review[]
 }
 
 model UserTrip {
@@ -123,4 +125,21 @@ model Expense {
   createdAt     DateTime @default(now())
   trip          Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
   paidBy        User     @relation(fields: [paidByUserId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id          String   @id @default(cuid())
+  tripId      String
+  userId      String
+  rating      Int      // 1–5
+  tags        String[] // e.g. ["familievennlig","krevende"]
+  content     String?
+  season      String?  // snapshot of trip season when written
+  groupSize   Int?     // snapshot of participant count when written
+  tripDate    DateTime? // snapshot of trip start date
+  createdAt   DateTime @default(now())
+  trip        Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([tripId, userId])
 }
