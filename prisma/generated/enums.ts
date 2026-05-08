@@ -9,7 +9,20 @@
 * 🟢 You can import this file directly.
 */
 
+export const TripStatus = {
+  PLANNING: 'PLANNING',
+  ACTIVE: 'ACTIVE',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type TripStatus = (typeof TripStatus)[keyof typeof TripStatus]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const InviteStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED'
+} as const
+
+export type InviteStatus = (typeof InviteStatus)[keyof typeof InviteStatus]

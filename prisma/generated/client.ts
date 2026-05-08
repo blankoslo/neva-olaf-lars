@@ -44,3 +44,18 @@ export { Prisma }
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model Trip
+ * 
+ */
+export type Trip = Prisma.TripModel
+/**
+ * Model UserTrip
+ * 
+ */
+export type UserTrip = Prisma.UserTripModel
+/**
+ * Model Stage
+ * 
+ */
+export type Stage = Prisma.StageModel
