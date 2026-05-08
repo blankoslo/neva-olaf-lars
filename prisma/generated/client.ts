@@ -64,3 +64,8 @@ export type Comment = Prisma.CommentModel
  * 
  */
 export type Stage = Prisma.StageModel
+/**
+ * Model Expense
+ * 
+ */
+export type Expense = Prisma.ExpenseModel
