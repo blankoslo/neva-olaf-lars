@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Monogram } from "./wilhelm";
@@ -47,6 +47,7 @@ export default function HomeChat() {
   const { data: session } = useSession();
   const firstName = (session?.user?.name ?? "").split(" ")[0];
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -69,9 +70,14 @@ export default function HomeChat() {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages, loading, complete, suggestions]);
 
-  // Restore session on mount
+  // Restore session on mount only if ?chat=<tripId> is in the URL
   useEffect(() => {
-    fetch("/api/chat/session")
+    const chatId = searchParams.get("chat");
+    if (!chatId) {
+      setSessionLoaded(true);
+      return;
+    }
+    fetch(`/api/chat/session?tripId=${encodeURIComponent(chatId)}`)
       .then((r) => r.json())
       .then(
         (data: {
@@ -100,6 +106,7 @@ export default function HomeChat() {
       )
       .catch(() => {})
       .finally(() => setSessionLoaded(true));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Fire-and-forget session upsert
@@ -122,7 +129,11 @@ export default function HomeChat() {
     })
       .then((r) => r.json())
       .then((data: { tripId?: string }) => {
-        if (data.tripId && !tripIdRef.current) tripIdRef.current = data.tripId;
+        if (data.tripId && !tripIdRef.current) {
+          tripIdRef.current = data.tripId;
+          // Update URL so a reload restores this chat
+          router.replace(`/?chat=${data.tripId}`, { scroll: false });
+        }
       })
       .catch(() => {});
   }

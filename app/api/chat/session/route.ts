@@ -6,19 +6,20 @@ export const runtime = "nodejs";
 
 type SessionUser = { id?: string; name?: string | null };
 
-/** GET /api/chat/session — load current in-progress trip for the logged-in user */
-export async function GET() {
+/** GET /api/chat/session — load a specific trip by ?tripId=, or return null */
+export async function GET(req: Request) {
   const session = await getServerSession(authOptions);
   const userId = (session?.user as SessionUser | undefined)?.id;
   if (!userId) return Response.json({ trip: null });
 
-  // Find the most recent PLANNING trip with chatState for this user
+  const { searchParams } = new URL(req.url);
+  const tripId = searchParams.get("tripId");
+
+  if (!tripId) return Response.json({ trip: null });
+
+  // Verify the user has access to this trip
   const userTrip = await prisma.userTrip.findFirst({
-    where: {
-      userId,
-      trip: { status: "PLANNING", chatState: { not: null } },
-    },
-    orderBy: { createdAt: "desc" },
+    where: { userId, tripId },
     include: {
       trip: {
         select: {
