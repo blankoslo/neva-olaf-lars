@@ -7,34 +7,44 @@ export default function Header() {
   const { data: session } = useSession();
 
   return (
-    <header className="w-full bg-white shadow-md py-4 px-8">
-      <nav className="flex justify-between items-center">
-        <Link href="/" className="text-xl font-bold text-gray-800 hover:text-blue-600 transition-colors">
-          Superblog
-        </Link>
-        <div className="flex items-center space-x-4">
-          {session ? (
-            <>
-              <div className="flex items-center space-x-4">
-                <div className="text-sm text-gray-500">
-                  {session.user?.name && <div>{session.user.name}</div>}
-                  <div>{session.user?.email}</div>
-                </div>
-                <button
-                  onClick={() => signOut()}
-                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
-                >
-                  Sign Out
-                </button>
-              </div>
-            </>
-          ) : (
-            <Link href="/login" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
-              Sign In
+    <header className="topstrip">
+      <Link href="/" style={{ letterSpacing: ".22em" }}>
+        WILHELM · TURKAMERAT
+      </Link>
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        {session ? (
+          <>
+            <span style={{ opacity: 0.7, textTransform: "none", letterSpacing: ".05em" }}>
+              {session.user?.name || session.user?.email}
+            </span>
+            <Link href="/users" style={{ opacity: 0.7 }}>
+              FØLGE
             </Link>
-          )}
-        </div>
-      </nav>
+            <button
+              type="button"
+              onClick={() => signOut()}
+              style={{
+                background: "transparent",
+                border: "1px solid rgba(26,31,26,0.4)",
+                color: "inherit",
+                fontFamily: "inherit",
+                fontSize: 10,
+                letterSpacing: ".18em",
+                padding: "3px 8px",
+                borderRadius: 99,
+                cursor: "pointer",
+                textTransform: "uppercase",
+              }}
+            >
+              Logg ut
+            </button>
+          </>
+        ) : (
+          <Link href="/login" style={{ opacity: 0.85 }}>
+            LOGG INN
+          </Link>
+        )}
+      </div>
     </header>
   );
 }

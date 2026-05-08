@@ -1,0 +1,136 @@
+/* Wilhelm — Next.js global styles. Ported from the design's styles.css. */
+
+:root {
+  --forest: #1a1f1a;
+  --forest-2: #232a23;
+  --bone: #ede4d3;
+  --bone-2: #d9cfb8;
+  --kraft: #c9b896;
+  --ember: #d97757;
+  --ember-2: #b85a3c;
+  --sage: #7d8b73;
+  --sage-2: #5b6b5a;
+  --ink: #15181a;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: #d8d3c4;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Mobile-first viewport — the app sizes to the device. On desktop we
+   center a 420px column with a kraft backdrop so the field-journal
+   feel still reads. */
+.shell {
+  min-height: 100dvh;
+  background: #ede4d3;
+  background-image:
+    repeating-linear-gradient(13deg, rgba(60,40,20,0.025) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(-77deg, rgba(60,40,20,0.02) 0 1px, transparent 1px 4px),
+    radial-gradient(1200px 600px at 0% 0%, rgba(217,119,87,0.08), transparent 50%),
+    radial-gradient(800px 400px at 100% 100%, rgba(91,107,90,0.10), transparent 60%);
+  color: #2a2520;
+  font-family: 'Spectral', Georgia, serif;
+  display: flex; flex-direction: column;
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+  padding-bottom: 80px; /* tab bar */
+}
+
+@media (min-width: 481px) {
+  body {
+    background: #d8d3c4;
+  }
+  .shell {
+    box-shadow: 0 24px 80px rgba(20,24,20,0.15);
+    margin-top: 24px; margin-bottom: 24px;
+    border-radius: 12px;
+    overflow: hidden;
+    min-height: calc(100dvh - 48px);
+  }
+}
+
+/* ── Type helpers (bound to the Spectral / DM Sans / Mono / Caveat stack) ── */
+.ui   { font-family: 'DM Sans', sans-serif; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+.hand { font-family: 'Caveat', cursive; }
+.serif{ font-family: 'Spectral', Georgia, serif; }
+
+/* ── Field-journal primitives ── */
+.rule {
+  height: 1px;
+  background: repeating-linear-gradient(90deg, #2a2520 0 4px, transparent 4px 7px);
+  opacity: .35;
+}
+.pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: .1em; text-transform: uppercase;
+  border: 1px solid #2a2520; padding: 3px 7px; border-radius: 99px;
+  color: #2a2520; background: transparent;
+}
+
+.btn-ember {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--ember); color: #fff; border: none; border-radius: 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+  padding: 12px 16px; cursor: pointer; letter-spacing: -0.01em;
+}
+.btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: transparent; color: inherit; border: 1px solid currentColor;
+  border-radius: 12px; padding: 11px 16px; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+  opacity: .85;
+}
+
+.tilt-l { transform: rotate(-1.6deg); }
+.tilt-r { transform: rotate(1.4deg); }
+
+.flex { display: flex; }
+.col  { flex-direction: column; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.between { justify-content: space-between; }
+.center  { align-items: center; }
+
+/* ── Tab bar ── */
+.tabbar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  max-width: 480px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  background: rgba(255, 248, 234, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(26,31,26,0.18);
+  z-index: 20;
+}
+.tabbar a {
+  padding: 10px 0 14px;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  font-family: 'JetBrains Mono', monospace; font-size: 9px;
+  letter-spacing: .12em; text-transform: uppercase; opacity: .55;
+  color: inherit; text-decoration: none;
+}
+.tabbar a.active { opacity: 1; }
+
+/* Image placeholder used in journal collage */
+.img-slot {
+  background: repeating-linear-gradient(45deg, #c9b896 0 8px, #b9a886 8px 16px);
+  border: 1px solid rgba(26,31,26,.3);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(26,31,26,.55);
+  text-align: center; padding: 10px;
+}
+
+/* Subtle text cursor on Wilhelm cards */
+em { color: var(--ember-2); font-style: italic; }
