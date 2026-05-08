@@ -102,7 +102,7 @@ export function Splash({ onStart }: Props) {
         <ellipse cx="240" cy="451" rx="265" ry="10" fill="#b8ccd8" opacity="0.1" />
 
         {/* ===== WILHELM ===== */}
-        <g className="wilhelm-figure">
+        <g className="wilhelm-figure" transform="translate(0 -90)">
 
         {/* Stokk */}
         <rect x="272" y="270" width="6" height="200" rx="3" fill="#6a4a2a" />
