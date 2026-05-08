@@ -38,6 +38,11 @@ export type UserTrip = Prisma.UserTripModel
  */
 export type Comment = Prisma.CommentModel
 /**
+ * Model Photo
+ * 
+ */
+export type Photo = Prisma.PhotoModel
+/**
  * Model Stage
  * 
  */

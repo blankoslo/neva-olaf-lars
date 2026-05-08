@@ -388,6 +388,7 @@ export const ModelName = {
   Trip: 'Trip',
   UserTrip: 'UserTrip',
   Comment: 'Comment',
+  Photo: 'Photo',
   Stage: 'Stage',
   Expense: 'Expense'
 } as const
@@ -405,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "trip" | "userTrip" | "comment" | "stage" | "expense"
+    modelProps: "user" | "trip" | "userTrip" | "comment" | "photo" | "stage" | "expense"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -705,6 +706,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Photo: {
+      payload: Prisma.$PhotoPayload<ExtArgs>
+      fields: Prisma.PhotoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PhotoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PhotoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PhotoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PhotoPayload>
+        }
+        findFirst: {
+          args: Prisma.PhotoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PhotoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PhotoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PhotoPayload>
+        }
+        findMany: {
+          args: Prisma.PhotoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PhotoPayload>[]
+        }
+        create: {
+          args: Prisma.PhotoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PhotoPayload>
+        }
+        createMany: {
+          args: Prisma.PhotoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PhotoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PhotoPayload>[]
+        }
+        delete: {
+          args: Prisma.PhotoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PhotoPayload>
+        }
+        update: {
+          args: Prisma.PhotoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PhotoPayload>
+        }
+        deleteMany: {
+          args: Prisma.PhotoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PhotoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PhotoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PhotoPayload>[]
+        }
+        upsert: {
+          args: Prisma.PhotoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PhotoPayload>
+        }
+        aggregate: {
+          args: Prisma.PhotoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePhoto>
+        }
+        groupBy: {
+          args: Prisma.PhotoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PhotoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PhotoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PhotoCountAggregateOutputType> | number
+        }
+      }
+    }
     Stage: {
       payload: Prisma.$StagePayload<ExtArgs>
       fields: Prisma.StageFieldRefs
@@ -944,6 +1019,19 @@ export const CommentScalarFieldEnum = {
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
+export const PhotoScalarFieldEnum = {
+  id: 'id',
+  tripId: 'tripId',
+  userId: 'userId',
+  data: 'data',
+  mimeType: 'mimeType',
+  fileName: 'fileName',
+  createdAt: 'createdAt'
+} as const
+
+export type PhotoScalarFieldEnum = (typeof PhotoScalarFieldEnum)[keyof typeof PhotoScalarFieldEnum]
+
+
 export const StageScalarFieldEnum = {
   id: 'id',
   tripId: 'tripId',
@@ -1094,6 +1182,20 @@ export type ListEnumInviteStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
 
 
 /**
+ * Reference to a field of type 'Bytes'
+ */
+export type BytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes'>
+    
+
+
+/**
+ * Reference to a field of type 'Bytes[]'
+ */
+export type ListBytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes[]'>
+    
+
+
+/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -1203,6 +1305,7 @@ export type GlobalOmitConfig = {
   trip?: Prisma.TripOmit
   userTrip?: Prisma.UserTripOmit
   comment?: Prisma.CommentOmit
+  photo?: Prisma.PhotoOmit
   stage?: Prisma.StageOmit
   expense?: Prisma.ExpenseOmit
 }

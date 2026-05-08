@@ -245,6 +245,7 @@ export type TripWhereInput = {
   participants?: Prisma.UserTripListRelationFilter
   stages?: Prisma.StageListRelationFilter
   comments?: Prisma.CommentListRelationFilter
+  photos?: Prisma.PhotoListRelationFilter
   expenses?: Prisma.ExpenseListRelationFilter
 }
 
@@ -267,6 +268,7 @@ export type TripOrderByWithRelationInput = {
   participants?: Prisma.UserTripOrderByRelationAggregateInput
   stages?: Prisma.StageOrderByRelationAggregateInput
   comments?: Prisma.CommentOrderByRelationAggregateInput
+  photos?: Prisma.PhotoOrderByRelationAggregateInput
   expenses?: Prisma.ExpenseOrderByRelationAggregateInput
 }
 
@@ -292,6 +294,7 @@ export type TripWhereUniqueInput = Prisma.AtLeast<{
   participants?: Prisma.UserTripListRelationFilter
   stages?: Prisma.StageListRelationFilter
   comments?: Prisma.CommentListRelationFilter
+  photos?: Prisma.PhotoListRelationFilter
   expenses?: Prisma.ExpenseListRelationFilter
 }, "id" | "inviteCode">
 
@@ -356,6 +359,7 @@ export type TripCreateInput = {
   participants?: Prisma.UserTripCreateNestedManyWithoutTripInput
   stages?: Prisma.StageCreateNestedManyWithoutTripInput
   comments?: Prisma.CommentCreateNestedManyWithoutTripInput
+  photos?: Prisma.PhotoCreateNestedManyWithoutTripInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutTripInput
 }
 
@@ -378,6 +382,7 @@ export type TripUncheckedCreateInput = {
   participants?: Prisma.UserTripUncheckedCreateNestedManyWithoutTripInput
   stages?: Prisma.StageUncheckedCreateNestedManyWithoutTripInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutTripInput
+  photos?: Prisma.PhotoUncheckedCreateNestedManyWithoutTripInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutTripInput
 }
 
@@ -400,6 +405,7 @@ export type TripUpdateInput = {
   participants?: Prisma.UserTripUpdateManyWithoutTripNestedInput
   stages?: Prisma.StageUpdateManyWithoutTripNestedInput
   comments?: Prisma.CommentUpdateManyWithoutTripNestedInput
+  photos?: Prisma.PhotoUpdateManyWithoutTripNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutTripNestedInput
 }
 
@@ -422,6 +428,7 @@ export type TripUncheckedUpdateInput = {
   participants?: Prisma.UserTripUncheckedUpdateManyWithoutTripNestedInput
   stages?: Prisma.StageUncheckedUpdateManyWithoutTripNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutTripNestedInput
+  photos?: Prisma.PhotoUncheckedUpdateManyWithoutTripNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutTripNestedInput
 }
 
@@ -568,6 +575,20 @@ export type TripUpdateOneRequiredWithoutCommentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TripUpdateToOneWithWhereWithoutCommentsInput, Prisma.TripUpdateWithoutCommentsInput>, Prisma.TripUncheckedUpdateWithoutCommentsInput>
 }
 
+export type TripCreateNestedOneWithoutPhotosInput = {
+  create?: Prisma.XOR<Prisma.TripCreateWithoutPhotosInput, Prisma.TripUncheckedCreateWithoutPhotosInput>
+  connectOrCreate?: Prisma.TripCreateOrConnectWithoutPhotosInput
+  connect?: Prisma.TripWhereUniqueInput
+}
+
+export type TripUpdateOneRequiredWithoutPhotosNestedInput = {
+  create?: Prisma.XOR<Prisma.TripCreateWithoutPhotosInput, Prisma.TripUncheckedCreateWithoutPhotosInput>
+  connectOrCreate?: Prisma.TripCreateOrConnectWithoutPhotosInput
+  upsert?: Prisma.TripUpsertWithoutPhotosInput
+  connect?: Prisma.TripWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TripUpdateToOneWithWhereWithoutPhotosInput, Prisma.TripUpdateWithoutPhotosInput>, Prisma.TripUncheckedUpdateWithoutPhotosInput>
+}
+
 export type TripCreateNestedOneWithoutStagesInput = {
   create?: Prisma.XOR<Prisma.TripCreateWithoutStagesInput, Prisma.TripUncheckedCreateWithoutStagesInput>
   connectOrCreate?: Prisma.TripCreateOrConnectWithoutStagesInput
@@ -614,6 +635,7 @@ export type TripCreateWithoutParticipantsInput = {
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stages?: Prisma.StageCreateNestedManyWithoutTripInput
   comments?: Prisma.CommentCreateNestedManyWithoutTripInput
+  photos?: Prisma.PhotoCreateNestedManyWithoutTripInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutTripInput
 }
 
@@ -635,6 +657,7 @@ export type TripUncheckedCreateWithoutParticipantsInput = {
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stages?: Prisma.StageUncheckedCreateNestedManyWithoutTripInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutTripInput
+  photos?: Prisma.PhotoUncheckedCreateNestedManyWithoutTripInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutTripInput
 }
 
@@ -672,6 +695,7 @@ export type TripUpdateWithoutParticipantsInput = {
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stages?: Prisma.StageUpdateManyWithoutTripNestedInput
   comments?: Prisma.CommentUpdateManyWithoutTripNestedInput
+  photos?: Prisma.PhotoUpdateManyWithoutTripNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutTripNestedInput
 }
 
@@ -693,6 +717,7 @@ export type TripUncheckedUpdateWithoutParticipantsInput = {
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stages?: Prisma.StageUncheckedUpdateManyWithoutTripNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutTripNestedInput
+  photos?: Prisma.PhotoUncheckedUpdateManyWithoutTripNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutTripNestedInput
 }
 
@@ -714,6 +739,7 @@ export type TripCreateWithoutCommentsInput = {
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripCreateNestedManyWithoutTripInput
   stages?: Prisma.StageCreateNestedManyWithoutTripInput
+  photos?: Prisma.PhotoCreateNestedManyWithoutTripInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutTripInput
 }
 
@@ -735,6 +761,7 @@ export type TripUncheckedCreateWithoutCommentsInput = {
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUncheckedCreateNestedManyWithoutTripInput
   stages?: Prisma.StageUncheckedCreateNestedManyWithoutTripInput
+  photos?: Prisma.PhotoUncheckedCreateNestedManyWithoutTripInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutTripInput
 }
 
@@ -772,6 +799,7 @@ export type TripUpdateWithoutCommentsInput = {
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUpdateManyWithoutTripNestedInput
   stages?: Prisma.StageUpdateManyWithoutTripNestedInput
+  photos?: Prisma.PhotoUpdateManyWithoutTripNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutTripNestedInput
 }
 
@@ -793,6 +821,111 @@ export type TripUncheckedUpdateWithoutCommentsInput = {
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUncheckedUpdateManyWithoutTripNestedInput
   stages?: Prisma.StageUncheckedUpdateManyWithoutTripNestedInput
+  photos?: Prisma.PhotoUncheckedUpdateManyWithoutTripNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutTripNestedInput
+}
+
+export type TripCreateWithoutPhotosInput = {
+  id?: string
+  title: string
+  description?: string | null
+  area?: string | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  status?: $Enums.TripStatus
+  inviteCode?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  selectedSuggestion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  participants?: Prisma.UserTripCreateNestedManyWithoutTripInput
+  stages?: Prisma.StageCreateNestedManyWithoutTripInput
+  comments?: Prisma.CommentCreateNestedManyWithoutTripInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutTripInput
+}
+
+export type TripUncheckedCreateWithoutPhotosInput = {
+  id?: string
+  title: string
+  description?: string | null
+  area?: string | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  status?: $Enums.TripStatus
+  inviteCode?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  selectedSuggestion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  participants?: Prisma.UserTripUncheckedCreateNestedManyWithoutTripInput
+  stages?: Prisma.StageUncheckedCreateNestedManyWithoutTripInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutTripInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutTripInput
+}
+
+export type TripCreateOrConnectWithoutPhotosInput = {
+  where: Prisma.TripWhereUniqueInput
+  create: Prisma.XOR<Prisma.TripCreateWithoutPhotosInput, Prisma.TripUncheckedCreateWithoutPhotosInput>
+}
+
+export type TripUpsertWithoutPhotosInput = {
+  update: Prisma.XOR<Prisma.TripUpdateWithoutPhotosInput, Prisma.TripUncheckedUpdateWithoutPhotosInput>
+  create: Prisma.XOR<Prisma.TripCreateWithoutPhotosInput, Prisma.TripUncheckedCreateWithoutPhotosInput>
+  where?: Prisma.TripWhereInput
+}
+
+export type TripUpdateToOneWithWhereWithoutPhotosInput = {
+  where?: Prisma.TripWhereInput
+  data: Prisma.XOR<Prisma.TripUpdateWithoutPhotosInput, Prisma.TripUncheckedUpdateWithoutPhotosInput>
+}
+
+export type TripUpdateWithoutPhotosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+  inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  selectedSuggestion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  participants?: Prisma.UserTripUpdateManyWithoutTripNestedInput
+  stages?: Prisma.StageUpdateManyWithoutTripNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutTripNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutTripNestedInput
+}
+
+export type TripUncheckedUpdateWithoutPhotosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+  inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  selectedSuggestion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  participants?: Prisma.UserTripUncheckedUpdateManyWithoutTripNestedInput
+  stages?: Prisma.StageUncheckedUpdateManyWithoutTripNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutTripNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutTripNestedInput
 }
 
@@ -814,6 +947,7 @@ export type TripCreateWithoutStagesInput = {
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripCreateNestedManyWithoutTripInput
   comments?: Prisma.CommentCreateNestedManyWithoutTripInput
+  photos?: Prisma.PhotoCreateNestedManyWithoutTripInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutTripInput
 }
 
@@ -835,6 +969,7 @@ export type TripUncheckedCreateWithoutStagesInput = {
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUncheckedCreateNestedManyWithoutTripInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutTripInput
+  photos?: Prisma.PhotoUncheckedCreateNestedManyWithoutTripInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutTripInput
 }
 
@@ -872,6 +1007,7 @@ export type TripUpdateWithoutStagesInput = {
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUpdateManyWithoutTripNestedInput
   comments?: Prisma.CommentUpdateManyWithoutTripNestedInput
+  photos?: Prisma.PhotoUpdateManyWithoutTripNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutTripNestedInput
 }
 
@@ -893,6 +1029,7 @@ export type TripUncheckedUpdateWithoutStagesInput = {
   packingList?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUncheckedUpdateManyWithoutTripNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutTripNestedInput
+  photos?: Prisma.PhotoUncheckedUpdateManyWithoutTripNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutTripNestedInput
 }
 
@@ -915,6 +1052,7 @@ export type TripCreateWithoutExpensesInput = {
   participants?: Prisma.UserTripCreateNestedManyWithoutTripInput
   stages?: Prisma.StageCreateNestedManyWithoutTripInput
   comments?: Prisma.CommentCreateNestedManyWithoutTripInput
+  photos?: Prisma.PhotoCreateNestedManyWithoutTripInput
 }
 
 export type TripUncheckedCreateWithoutExpensesInput = {
@@ -936,6 +1074,7 @@ export type TripUncheckedCreateWithoutExpensesInput = {
   participants?: Prisma.UserTripUncheckedCreateNestedManyWithoutTripInput
   stages?: Prisma.StageUncheckedCreateNestedManyWithoutTripInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutTripInput
+  photos?: Prisma.PhotoUncheckedCreateNestedManyWithoutTripInput
 }
 
 export type TripCreateOrConnectWithoutExpensesInput = {
@@ -973,6 +1112,7 @@ export type TripUpdateWithoutExpensesInput = {
   participants?: Prisma.UserTripUpdateManyWithoutTripNestedInput
   stages?: Prisma.StageUpdateManyWithoutTripNestedInput
   comments?: Prisma.CommentUpdateManyWithoutTripNestedInput
+  photos?: Prisma.PhotoUpdateManyWithoutTripNestedInput
 }
 
 export type TripUncheckedUpdateWithoutExpensesInput = {
@@ -994,6 +1134,7 @@ export type TripUncheckedUpdateWithoutExpensesInput = {
   participants?: Prisma.UserTripUncheckedUpdateManyWithoutTripNestedInput
   stages?: Prisma.StageUncheckedUpdateManyWithoutTripNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutTripNestedInput
+  photos?: Prisma.PhotoUncheckedUpdateManyWithoutTripNestedInput
 }
 
 
@@ -1005,6 +1146,7 @@ export type TripCountOutputType = {
   participants: number
   stages: number
   comments: number
+  photos: number
   expenses: number
 }
 
@@ -1012,6 +1154,7 @@ export type TripCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   participants?: boolean | TripCountOutputTypeCountParticipantsArgs
   stages?: boolean | TripCountOutputTypeCountStagesArgs
   comments?: boolean | TripCountOutputTypeCountCommentsArgs
+  photos?: boolean | TripCountOutputTypeCountPhotosArgs
   expenses?: boolean | TripCountOutputTypeCountExpensesArgs
 }
 
@@ -1049,6 +1192,13 @@ export type TripCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.E
 /**
  * TripCountOutputType without action
  */
+export type TripCountOutputTypeCountPhotosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PhotoWhereInput
+}
+
+/**
+ * TripCountOutputType without action
+ */
 export type TripCountOutputTypeCountExpensesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ExpenseWhereInput
 }
@@ -1073,6 +1223,7 @@ export type TripSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   participants?: boolean | Prisma.Trip$participantsArgs<ExtArgs>
   stages?: boolean | Prisma.Trip$stagesArgs<ExtArgs>
   comments?: boolean | Prisma.Trip$commentsArgs<ExtArgs>
+  photos?: boolean | Prisma.Trip$photosArgs<ExtArgs>
   expenses?: boolean | Prisma.Trip$expensesArgs<ExtArgs>
   _count?: boolean | Prisma.TripCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trip"]>
@@ -1136,6 +1287,7 @@ export type TripInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   participants?: boolean | Prisma.Trip$participantsArgs<ExtArgs>
   stages?: boolean | Prisma.Trip$stagesArgs<ExtArgs>
   comments?: boolean | Prisma.Trip$commentsArgs<ExtArgs>
+  photos?: boolean | Prisma.Trip$photosArgs<ExtArgs>
   expenses?: boolean | Prisma.Trip$expensesArgs<ExtArgs>
   _count?: boolean | Prisma.TripCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1148,6 +1300,7 @@ export type $TripPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     participants: Prisma.$UserTripPayload<ExtArgs>[]
     stages: Prisma.$StagePayload<ExtArgs>[]
     comments: Prisma.$CommentPayload<ExtArgs>[]
+    photos: Prisma.$PhotoPayload<ExtArgs>[]
     expenses: Prisma.$ExpensePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1578,6 +1731,7 @@ export interface Prisma__TripClient<T, Null = never, ExtArgs extends runtime.Typ
   participants<T extends Prisma.Trip$participantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Trip$participantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserTripPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   stages<T extends Prisma.Trip$stagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Trip$stagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comments<T extends Prisma.Trip$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Trip$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  photos<T extends Prisma.Trip$photosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Trip$photosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PhotoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   expenses<T extends Prisma.Trip$expensesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Trip$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2080,6 +2234,30 @@ export type Trip$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.CommentScalarFieldEnum | Prisma.CommentScalarFieldEnum[]
+}
+
+/**
+ * Trip.photos
+ */
+export type Trip$photosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Photo
+   */
+  select?: Prisma.PhotoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Photo
+   */
+  omit?: Prisma.PhotoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PhotoInclude<ExtArgs> | null
+  where?: Prisma.PhotoWhereInput
+  orderBy?: Prisma.PhotoOrderByWithRelationInput | Prisma.PhotoOrderByWithRelationInput[]
+  cursor?: Prisma.PhotoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PhotoScalarFieldEnum | Prisma.PhotoScalarFieldEnum[]
 }
 
 /**
