@@ -37,6 +37,8 @@ model Trip {
   planningFields Json?
   /// Claude-curated route suggestions: RouteSuggestion[]
   suggestions    Json?
+  /// The single suggestion the user picked: RouteSuggestion
+  selectedSuggestion Json?
 }
 
 model UserTrip {

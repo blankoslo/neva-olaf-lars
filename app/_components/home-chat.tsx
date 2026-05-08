@@ -368,9 +368,18 @@ export default function HomeChat() {
             suggestions={suggestions}
             loading={suggestionsLoading}
             region={fields.region ?? null}
-            onSelect={() => {
+            onSelect={(index) => {
               const id = tripIdRef.current;
-              if (id) router.push(`/tur/${id}`);
+              const selected = suggestions?.[index];
+              if (id && selected) {
+                fetch("/api/chat/session", {
+                  method: "PATCH",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ tripId: id, selectedSuggestion: selected }),
+                }).finally(() => router.push(`/tur/${id}`));
+              } else if (id) {
+                router.push(`/tur/${id}`);
+              }
             }}
           />
         )}

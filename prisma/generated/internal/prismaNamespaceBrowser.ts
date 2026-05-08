@@ -96,7 +96,8 @@ export const TripScalarFieldEnum = {
   updatedAt: 'updatedAt',
   chatState: 'chatState',
   planningFields: 'planningFields',
-  suggestions: 'suggestions'
+  suggestions: 'suggestions',
+  selectedSuggestion: 'selectedSuggestion'
 } as const
 
 export type TripScalarFieldEnum = (typeof TripScalarFieldEnum)[keyof typeof TripScalarFieldEnum]

@@ -34,7 +34,7 @@ export default async function TripPage({ params }: { params: Promise<{ id: strin
   const trip = await prisma.trip.findUnique({ where: { id } });
   if (!trip) notFound();
 
-  const suggestions = (trip.suggestions ?? []) as RouteSuggestion[];
+  const selected = (trip.selectedSuggestion ?? null) as RouteSuggestion | null;
   const fields = (trip.planningFields ?? {}) as Record<string, string | number | null | undefined>;
 
   return (
@@ -65,56 +65,60 @@ export default async function TripPage({ params }: { params: Promise<{ id: strin
           )}
         </div>
 
-        {suggestions.length > 0 && (
+        {selected ? (
           <section className="mx-frame" style={{ marginTop: 24 }}>
             <div className="eyebrow muted" style={{ marginBottom: 12 }}>
-              TURFORSLAG · VALGT
+              VALGT TUR
             </div>
-            {suggestions.map((s, i) => (
-              <div
-                key={i}
-                style={{
-                  background: "rgba(233,227,211,.04)",
-                  border: "1px solid rgba(233,227,211,.10)",
-                  borderRadius: 6,
-                  marginBottom: 12,
-                  padding: "14px 16px",
-                }}
-              >
-                <div className="eyebrow muted" style={{ marginBottom: 6 }}>FORSLAG {i + 1}</div>
-                <div className="display" style={{ fontSize: 20, lineHeight: 1.2, color: "var(--bone)", marginBottom: 8 }}>
-                  {s.title}
-                </div>
-                <p style={{ fontSize: 13, color: "var(--bone-2)", lineHeight: 1.5, margin: "0 0 12px" }}>
-                  {s.pitch}
-                </p>
-                {s.routes.map((r, j) => (
-                  <div
-                    key={r.id}
-                    style={{
-                      borderTop: j > 0 ? "1px solid rgba(233,227,211,.08)" : undefined,
-                      paddingTop: j > 0 ? 10 : 0,
-                      marginTop: j > 0 ? 10 : 0,
-                    }}
-                  >
-                    {s.routes.length > 1 && (
-                      <div className="eyebrow muted" style={{ marginBottom: 4 }}>DAG {j + 1}</div>
-                    )}
-                    <div className="serif" style={{ fontSize: 17, color: "var(--bone)", marginBottom: 4 }}>{r.name}</div>
-                    {(r.placeA || r.placeB) && (
-                      <div className="mono" style={{ fontSize: 10, letterSpacing: ".1em", color: "var(--slate)", marginBottom: 6 }}>
-                        {[r.placeA, r.placeVia, r.placeB].filter(Boolean).join(" \u2192 ")}
-                      </div>
-                    )}
-                    {r.grading && (
-                      <span className="mono" style={{ fontSize: 9, letterSpacing: ".16em", color: "var(--slate)", background: "rgba(233,227,211,.07)", padding: "2px 8px", borderRadius: 999 }}>
-                        {GRADING_LABEL[r.grading] ?? r.grading}
-                      </span>
-                    )}
-                  </div>
-                ))}
+            <div
+              style={{
+                background: "rgba(233,227,211,.04)",
+                border: "1px solid rgba(244,162,89,.22)",
+                borderRadius: 6,
+                padding: "14px 16px",
+              }}
+            >
+              <div className="display" style={{ fontSize: 22, lineHeight: 1.2, color: "var(--bone)", marginBottom: 8 }}>
+                {selected.title}
               </div>
-            ))}
+              <p style={{ fontSize: 13, color: "var(--bone-2)", lineHeight: 1.5, margin: "0 0 14px" }}>
+                {selected.pitch}
+              </p>
+              {selected.routes.map((r, j) => (
+                <div
+                  key={r.id}
+                  style={{
+                    borderTop: j > 0 ? "1px solid rgba(233,227,211,.08)" : undefined,
+                    paddingTop: j > 0 ? 10 : 0,
+                    marginTop: j > 0 ? 10 : 0,
+                  }}
+                >
+                  {selected.routes.length > 1 && (
+                    <div className="eyebrow muted" style={{ marginBottom: 4 }}>DAG {j + 1}</div>
+                  )}
+                  <div className="serif" style={{ fontSize: 17, color: "var(--bone)", marginBottom: 4 }}>{r.name}</div>
+                  {(r.placeA || r.placeB) && (
+                    <div className="mono" style={{ fontSize: 10, letterSpacing: ".1em", color: "var(--slate)", marginBottom: 6 }}>
+                      {[r.placeA, r.placeVia, r.placeB].filter(Boolean).join(" \u2192 ")}
+                    </div>
+                  )}
+                  {r.grading && (
+                    <span className="mono" style={{ fontSize: 9, letterSpacing: ".16em", color: "var(--slate)", background: "rgba(233,227,211,.07)", padding: "2px 8px", borderRadius: 999 }}>
+                      {GRADING_LABEL[r.grading] ?? r.grading}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : (
+          <section className="mx-frame" style={{ marginTop: 24 }}>
+            <div
+              className="mono"
+              style={{ fontSize: 11, color: "var(--slate)", textAlign: "center", padding: "24px 0", letterSpacing: ".14em" }}
+            >
+              INGEN TUR VALGT ENNÅ
+            </div>
           </section>
         )}
 
