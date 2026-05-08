@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Monogram } from "./wilhelm";
 import { Mountains } from "./maps";
 import { Glyph } from "./glyph";
-import TabBar from "./tabbar";
 import { SuggestionList, type RouteSuggestion } from "./route-suggestions";
 
 type Role = "user" | "assistant";
@@ -46,6 +46,7 @@ const introWithName = (n: string) =>
 export default function HomeChat() {
   const { data: session } = useSession();
   const firstName = (session?.user?.name ?? "").split(" ")[0];
+  const router = useRouter();
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -356,6 +357,10 @@ export default function HomeChat() {
             suggestions={suggestions}
             loading={suggestionsLoading}
             region={fields.region ?? null}
+            onSelect={() => {
+              const id = tripIdRef.current;
+              if (id) router.push(`/tur/${id}`);
+            }}
           />
         )}
 
@@ -395,7 +400,6 @@ export default function HomeChat() {
           </>
         )}
       </main>
-      <TabBar />
     </>
   );
 }

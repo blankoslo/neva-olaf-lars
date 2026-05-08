@@ -278,10 +278,12 @@ export function SuggestionCard({
   suggestion,
   index,
   onPreview,
+  onSelect,
 }: {
   suggestion: RouteSuggestion;
   index: number;
   onPreview: () => void;
+  onSelect: () => void;
 }) {
   const totalHours = suggestion.routes.reduce((sum, r) => sum + (r.duration?.hours ?? 0), 0);
   const durationText = totalHours > 0 ? `${totalHours} t totalt` : "";
@@ -348,6 +350,20 @@ export function SuggestionCard({
           )}
         </div>
       </button>
+      <div style={{ borderTop: "1px solid rgba(233,227,211,.08)", padding: "0 16px 14px" }}>
+        <button
+          onClick={onSelect}
+          style={{
+            width: "100%", padding: "9px 12px",
+            background: "rgba(244,162,89,.12)", border: "1px solid rgba(244,162,89,.28)",
+            borderRadius: 5, cursor: "pointer",
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+          }}
+        >
+          <span className="mono" style={{ fontSize: 10, letterSpacing: ".16em", color: "var(--ember)" }}>VELG DENNE TUREN</span>
+          <Glyph name="arrow-r" size={12} color="var(--ember)" />
+        </button>
+      </div>
     </li>
   );
 }
@@ -357,10 +373,12 @@ export function SuggestionList({
   suggestions,
   loading,
   region,
+  onSelect,
 }: {
   suggestions: RouteSuggestion[] | null;
   loading: boolean;
   region: string | null;
+  onSelect: (index: number) => void;
 }) {
   const [open, setOpen] = useState<RouteSuggestion | null>(null);
 
@@ -391,6 +409,7 @@ export function SuggestionList({
                 suggestion={s}
                 index={i}
                 onPreview={() => setOpen(s)}
+                onSelect={() => onSelect(i)}
               />
             ))}
           </ul>
