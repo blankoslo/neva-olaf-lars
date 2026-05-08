@@ -9,7 +9,8 @@ export type GlyphName =
   | "journal"
   | "arrow-r"
   | "sos"
-  | "pin";
+  | "pin"
+  | "close";
 
 export function Glyph({
   name,
@@ -107,6 +108,14 @@ export function Glyph({
           <g {...s}>
             <path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z" />
             <circle cx="12" cy="9" r="2.2" />
+          </g>
+        </svg>
+      );
+    case "close":
+      return (
+        <svg width={W} height={H} viewBox="0 0 24 24">
+          <g {...s}>
+            <path d="M6 6l12 12M6 18L18 6" />
           </g>
         </svg>
       );

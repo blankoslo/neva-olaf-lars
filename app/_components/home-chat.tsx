@@ -5,7 +5,9 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Monogram } from "./wilhelm";
 import { Mountains } from "./maps";
+import { Glyph } from "./glyph";
 import TabBar from "./tabbar";
+import { SuggestionList, type RouteSuggestion } from "./route-suggestions";
 
 type Role = "user" | "assistant";
 
@@ -56,17 +58,106 @@ export default function HomeChat() {
   const [fields, setFields] = useState<Partial<Fields>>({});
   const [complete, setComplete] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [suggestions, setSuggestions] = useState<RouteSuggestion[] | null>(null);
+  const [suggestionsLoading, setSuggestionsLoading] = useState(false);
+  const [sessionLoaded, setSessionLoaded] = useState(false);
+  const tripIdRef = useRef<string | null>(null);
 
   const endRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [messages, loading, complete]);
+  }, [messages, loading, complete, suggestions]);
+
+  // Restore session on mount
+  useEffect(() => {
+    fetch("/api/chat/session")
+      .then((r) => r.json())
+      .then(
+        (data: {
+          trip: {
+            id: string;
+            chatState: unknown;
+            planningFields: unknown;
+            suggestions: unknown;
+          } | null;
+        }) => {
+          if (data.trip) {
+            tripIdRef.current = data.trip.id;
+            const cs = data.trip.chatState as Message[] | null;
+            if (cs && cs.length > 0) setMessages(cs);
+            const pf = data.trip.planningFields as Partial<Fields> | null;
+            if (pf) setFields(pf);
+            const sv = data.trip.suggestions as RouteSuggestion[] | null;
+            if (sv && sv.length > 0) {
+              setSuggestions(sv);
+              setComplete(true);
+            } else if (pf && Object.values(pf).filter(Boolean).length >= 6) {
+              setComplete(true);
+            }
+          }
+        },
+      )
+      .catch(() => {})
+      .finally(() => setSessionLoaded(true));
+  }, []);
+
+  // Fire-and-forget session upsert
+  function saveSession(update: {
+    chatState?: Message[];
+    planningFields?: Partial<Fields>;
+    suggestions?: RouteSuggestion[];
+  }) {
+    if (!sessionLoaded) return;
+    const body: Record<string, unknown> = {};
+    if (tripIdRef.current) body.tripId = tripIdRef.current;
+    if (update.chatState !== undefined) body.chatState = update.chatState;
+    if (update.planningFields !== undefined) body.planningFields = update.planningFields;
+    if (update.suggestions !== undefined) body.suggestions = update.suggestions;
+
+    fetch("/api/chat/session", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    })
+      .then((r) => r.json())
+      .then((data: { tripId?: string }) => {
+        if (data.tripId && !tripIdRef.current) tripIdRef.current = data.tripId;
+      })
+      .catch(() => {});
+  }
+
+  // Fetch route suggestions and persist them
+  function fetchSuggestions(currentFields: Partial<Fields>, currentMessages: Message[]) {
+    setSuggestionsLoading(true);
+    fetch("/api/suggest", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...currentFields, tripId: tripIdRef.current }),
+    })
+      .then((r) => r.json())
+      .then((data: { suggestions: RouteSuggestion[] }) => {
+        const s = data.suggestions ?? [];
+        setSuggestions(s);
+        saveSession({ chatState: currentMessages, planningFields: currentFields, suggestions: s });
+      })
+      .catch(() => setSuggestions([]))
+      .finally(() => setSuggestionsLoading(false));
+  }
+
+  // Ask Claude to pick routes when conversation first becomes complete
+  useEffect(() => {
+    if (!complete || !sessionLoaded) return;
+    if (suggestions !== null) return; // already loaded from session or prior fetch
+    fetchSuggestions(fields, messages);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [complete, sessionLoaded]);
 
   async function send(text: string) {
     const trimmed = text.trim();
-    if (!trimmed || loading || complete) return;
+    if (!trimmed || loading) return;
     setError(null);
 
+    const wasComplete = complete;
     const next: Message[] = [...messages, { role: "user", content: trimmed }];
     setMessages(next);
     setInput("");
@@ -81,13 +172,33 @@ export default function HomeChat() {
         }),
       });
       const data = (await res.json()) as ApiResponse;
-      setMessages([
+      const updatedMessages: Message[] = [
         ...next,
         { role: "assistant", content: data.message, pills: data.pills },
-      ]);
-      if (res.ok && data.fields) setFields(data.fields);
-      setComplete(!!data.complete);
-      if (!res.ok) setError("Wilhelm svara ikkje som venta.");
+      ];
+      setMessages(updatedMessages);
+      const updatedFields = res.ok && data.fields ? data.fields : fields;
+      if (res.ok && data.fields) setFields(updatedFields);
+      const nowComplete = !!data.complete;
+      if (!res.ok) setError("Wilhelm svarte ikke som forventet.");
+
+      // Persist after every turn
+      saveSession({ chatState: updatedMessages, planningFields: updatedFields });
+
+      if (wasComplete) {
+        if (nowComplete) {
+          // Refinement: re-fetch suggestions with possibly updated fields
+          setComplete(true);
+          fetchSuggestions(updatedFields, updatedMessages);
+        } else {
+          // User wants to change something — clear suggestions, keep chatting
+          setSuggestions(null);
+          setComplete(false);
+        }
+      } else {
+        setComplete(nowComplete);
+        // If newly complete, useEffect will trigger fetchSuggestions
+      }
     } catch {
       setError("Mista kontakta. Prøv igjen.");
     } finally {
@@ -102,6 +213,7 @@ export default function HomeChat() {
 
   const lastAssistant = [...messages].reverse().find((m) => m.role === "assistant");
   const pills = !complete && !loading ? lastAssistant?.pills ?? [] : [];
+  const showRefinementInput = complete && !loading;
 
   return (
     <>
@@ -239,6 +351,49 @@ export default function HomeChat() {
         )}
 
         {complete && <SummaryCard fields={fields} />}
+        {complete && (
+          <SuggestionList
+            suggestions={suggestions}
+            loading={suggestionsLoading}
+            region={fields.region ?? null}
+          />
+        )}
+
+        {showRefinementInput && (
+          <>
+            <div
+              className="mono mx-frame"
+              style={{
+                fontSize: 9,
+                letterSpacing: ".18em",
+                opacity: 0.5,
+                marginTop: 24,
+                marginBottom: 6,
+              }}
+            >
+              ENDRE ELLER STILL SPØRSMÅL
+            </div>
+            <form onSubmit={onSubmit} className="mx-frame chat-input-row" style={{ marginBottom: 80 }}>
+              <input
+                type="text"
+                className="field"
+                placeholder="Gi tilbakemelding på forslagene…"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                disabled={loading}
+                aria-label="Gi tilbakemelding til Wilhelm"
+              />
+              <button
+                type="submit"
+                className="btn-ember chat-send"
+                disabled={loading || !input.trim()}
+                aria-label="Send"
+              >
+                <Glyph name="arrow-r" size={16} color="#fff" />
+              </button>
+            </form>
+          </>
+        )}
       </main>
       <TabBar />
     </>

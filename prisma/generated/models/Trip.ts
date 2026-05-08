@@ -61,6 +61,9 @@ export type TripCountAggregateOutputType = {
   inviteCode: number
   createdAt: number
   updatedAt: number
+  chatState: number
+  planningFields: number
+  suggestions: number
   _all: number
 }
 
@@ -102,6 +105,9 @@ export type TripCountAggregateInputType = {
   inviteCode?: true
   createdAt?: true
   updatedAt?: true
+  chatState?: true
+  planningFields?: true
+  suggestions?: true
   _all?: true
 }
 
@@ -188,6 +194,9 @@ export type TripGroupByOutputType = {
   inviteCode: string
   createdAt: Date
   updatedAt: Date
+  chatState: runtime.JsonValue | null
+  planningFields: runtime.JsonValue | null
+  suggestions: runtime.JsonValue | null
   _count: TripCountAggregateOutputType | null
   _min: TripMinAggregateOutputType | null
   _max: TripMaxAggregateOutputType | null
@@ -222,6 +231,9 @@ export type TripWhereInput = {
   inviteCode?: Prisma.StringFilter<"Trip"> | string
   createdAt?: Prisma.DateTimeFilter<"Trip"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Trip"> | Date | string
+  chatState?: Prisma.JsonNullableFilter<"Trip">
+  planningFields?: Prisma.JsonNullableFilter<"Trip">
+  suggestions?: Prisma.JsonNullableFilter<"Trip">
   participants?: Prisma.UserTripListRelationFilter
   stages?: Prisma.StageListRelationFilter
 }
@@ -237,6 +249,9 @@ export type TripOrderByWithRelationInput = {
   inviteCode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  chatState?: Prisma.SortOrderInput | Prisma.SortOrder
+  planningFields?: Prisma.SortOrderInput | Prisma.SortOrder
+  suggestions?: Prisma.SortOrderInput | Prisma.SortOrder
   participants?: Prisma.UserTripOrderByRelationAggregateInput
   stages?: Prisma.StageOrderByRelationAggregateInput
 }
@@ -255,6 +270,9 @@ export type TripWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumTripStatusFilter<"Trip"> | $Enums.TripStatus
   createdAt?: Prisma.DateTimeFilter<"Trip"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Trip"> | Date | string
+  chatState?: Prisma.JsonNullableFilter<"Trip">
+  planningFields?: Prisma.JsonNullableFilter<"Trip">
+  suggestions?: Prisma.JsonNullableFilter<"Trip">
   participants?: Prisma.UserTripListRelationFilter
   stages?: Prisma.StageListRelationFilter
 }, "id" | "inviteCode">
@@ -270,6 +288,9 @@ export type TripOrderByWithAggregationInput = {
   inviteCode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  chatState?: Prisma.SortOrderInput | Prisma.SortOrder
+  planningFields?: Prisma.SortOrderInput | Prisma.SortOrder
+  suggestions?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TripCountOrderByAggregateInput
   _max?: Prisma.TripMaxOrderByAggregateInput
   _min?: Prisma.TripMinOrderByAggregateInput
@@ -289,6 +310,9 @@ export type TripScalarWhereWithAggregatesInput = {
   inviteCode?: Prisma.StringWithAggregatesFilter<"Trip"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Trip"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Trip"> | Date | string
+  chatState?: Prisma.JsonNullableWithAggregatesFilter<"Trip">
+  planningFields?: Prisma.JsonNullableWithAggregatesFilter<"Trip">
+  suggestions?: Prisma.JsonNullableWithAggregatesFilter<"Trip">
 }
 
 export type TripCreateInput = {
@@ -302,6 +326,9 @@ export type TripCreateInput = {
   inviteCode?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripCreateNestedManyWithoutTripInput
   stages?: Prisma.StageCreateNestedManyWithoutTripInput
 }
@@ -317,6 +344,9 @@ export type TripUncheckedCreateInput = {
   inviteCode?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUncheckedCreateNestedManyWithoutTripInput
   stages?: Prisma.StageUncheckedCreateNestedManyWithoutTripInput
 }
@@ -332,6 +362,9 @@ export type TripUpdateInput = {
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUpdateManyWithoutTripNestedInput
   stages?: Prisma.StageUpdateManyWithoutTripNestedInput
 }
@@ -347,6 +380,9 @@ export type TripUncheckedUpdateInput = {
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUncheckedUpdateManyWithoutTripNestedInput
   stages?: Prisma.StageUncheckedUpdateManyWithoutTripNestedInput
 }
@@ -362,6 +398,9 @@ export type TripCreateManyInput = {
   inviteCode?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type TripUpdateManyMutationInput = {
@@ -375,6 +414,9 @@ export type TripUpdateManyMutationInput = {
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type TripUncheckedUpdateManyInput = {
@@ -388,6 +430,9 @@ export type TripUncheckedUpdateManyInput = {
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type TripCountOrderByAggregateInput = {
@@ -401,6 +446,9 @@ export type TripCountOrderByAggregateInput = {
   inviteCode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  chatState?: Prisma.SortOrder
+  planningFields?: Prisma.SortOrder
+  suggestions?: Prisma.SortOrder
 }
 
 export type TripMaxOrderByAggregateInput = {
@@ -485,6 +533,9 @@ export type TripCreateWithoutParticipantsInput = {
   inviteCode?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stages?: Prisma.StageCreateNestedManyWithoutTripInput
 }
 
@@ -499,6 +550,9 @@ export type TripUncheckedCreateWithoutParticipantsInput = {
   inviteCode?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stages?: Prisma.StageUncheckedCreateNestedManyWithoutTripInput
 }
 
@@ -529,6 +583,9 @@ export type TripUpdateWithoutParticipantsInput = {
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stages?: Prisma.StageUpdateManyWithoutTripNestedInput
 }
 
@@ -543,6 +600,9 @@ export type TripUncheckedUpdateWithoutParticipantsInput = {
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stages?: Prisma.StageUncheckedUpdateManyWithoutTripNestedInput
 }
 
@@ -557,6 +617,9 @@ export type TripCreateWithoutStagesInput = {
   inviteCode?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripCreateNestedManyWithoutTripInput
 }
 
@@ -571,6 +634,9 @@ export type TripUncheckedCreateWithoutStagesInput = {
   inviteCode?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUncheckedCreateNestedManyWithoutTripInput
 }
 
@@ -601,6 +667,9 @@ export type TripUpdateWithoutStagesInput = {
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUpdateManyWithoutTripNestedInput
 }
 
@@ -615,6 +684,9 @@ export type TripUncheckedUpdateWithoutStagesInput = {
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatState?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  planningFields?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   participants?: Prisma.UserTripUncheckedUpdateManyWithoutTripNestedInput
 }
 
@@ -669,6 +741,9 @@ export type TripSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   inviteCode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  chatState?: boolean
+  planningFields?: boolean
+  suggestions?: boolean
   participants?: boolean | Prisma.Trip$participantsArgs<ExtArgs>
   stages?: boolean | Prisma.Trip$stagesArgs<ExtArgs>
   _count?: boolean | Prisma.TripCountOutputTypeDefaultArgs<ExtArgs>
@@ -685,6 +760,9 @@ export type TripSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   inviteCode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  chatState?: boolean
+  planningFields?: boolean
+  suggestions?: boolean
 }, ExtArgs["result"]["trip"]>
 
 export type TripSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -698,6 +776,9 @@ export type TripSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   inviteCode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  chatState?: boolean
+  planningFields?: boolean
+  suggestions?: boolean
 }, ExtArgs["result"]["trip"]>
 
 export type TripSelectScalar = {
@@ -711,9 +792,12 @@ export type TripSelectScalar = {
   inviteCode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  chatState?: boolean
+  planningFields?: boolean
+  suggestions?: boolean
 }
 
-export type TripOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "area" | "startDate" | "endDate" | "status" | "inviteCode" | "createdAt" | "updatedAt", ExtArgs["result"]["trip"]>
+export type TripOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "area" | "startDate" | "endDate" | "status" | "inviteCode" | "createdAt" | "updatedAt" | "chatState" | "planningFields" | "suggestions", ExtArgs["result"]["trip"]>
 export type TripInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   participants?: boolean | Prisma.Trip$participantsArgs<ExtArgs>
   stages?: boolean | Prisma.Trip$stagesArgs<ExtArgs>
@@ -739,6 +823,18 @@ export type $TripPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     inviteCode: string
     createdAt: Date
     updatedAt: Date
+    /**
+     * Serialised chat messages: { role, content, pills? }[]
+     */
+    chatState: runtime.JsonValue | null
+    /**
+     * Extracted trip fields from the planning conversation
+     */
+    planningFields: runtime.JsonValue | null
+    /**
+     * Claude-curated route suggestions: RouteSuggestion[]
+     */
+    suggestions: runtime.JsonValue | null
   }, ExtArgs["result"]["trip"]>
   composites: {}
 }
@@ -1174,6 +1270,9 @@ export interface TripFieldRefs {
   readonly inviteCode: Prisma.FieldRef<"Trip", 'String'>
   readonly createdAt: Prisma.FieldRef<"Trip", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Trip", 'DateTime'>
+  readonly chatState: Prisma.FieldRef<"Trip", 'Json'>
+  readonly planningFields: Prisma.FieldRef<"Trip", 'Json'>
+  readonly suggestions: Prisma.FieldRef<"Trip", 'Json'>
 }
     
 

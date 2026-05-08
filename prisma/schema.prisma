@@ -19,18 +19,24 @@ model User {
 }
 
 model Trip {
-  id           String       @id @default(cuid())
-  title        String
-  description  String?
-  area         String?
-  startDate    DateTime?
-  endDate      DateTime?
-  status       TripStatus   @default(PLANNING)
-  inviteCode   String       @unique @default(cuid())
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  participants UserTrip[]
-  stages       Stage[]
+  id             String       @id @default(cuid())
+  title          String
+  description    String?
+  area           String?
+  startDate      DateTime?
+  endDate        DateTime?
+  status         TripStatus   @default(PLANNING)
+  inviteCode     String       @unique @default(cuid())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  participants   UserTrip[]
+  stages         Stage[]
+  /// Serialised chat messages: { role, content, pills? }[]
+  chatState      Json?
+  /// Extracted trip fields from the planning conversation
+  planningFields Json?
+  /// Claude-curated route suggestions: RouteSuggestion[]
+  suggestions    Json?
 }
 
 model UserTrip {
