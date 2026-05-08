@@ -49,9 +49,10 @@ export async function PATCH(req: Request) {
     planningFields?: unknown;
     suggestions?: unknown;
     selectedSuggestion?: unknown;
+    packingList?: unknown;
   };
 
-  const { tripId, chatState, planningFields, suggestions, selectedSuggestion } = body;
+  const { tripId, chatState, planningFields, suggestions, selectedSuggestion, packingList } = body;
 
   // Derive a title from planning fields if available
   const pf = planningFields as Record<string, unknown> | null | undefined;
@@ -69,6 +70,7 @@ export async function PATCH(req: Request) {
         ...(planningFields !== undefined && { planningFields: planningFields as object, title }),
         ...(suggestions !== undefined && { suggestions: suggestions as object }),
         ...(selectedSuggestion !== undefined && { selectedSuggestion: selectedSuggestion as object }),
+        ...(packingList !== undefined && { packingList: packingList as object | null }),
       },
       select: { id: true },
     });

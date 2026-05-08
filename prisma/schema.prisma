@@ -41,6 +41,8 @@ model Trip {
   /// The single suggestion the user picked: RouteSuggestion
   selectedSuggestion Json?
   comments           Comment[]
+  /// Packing list: PackItem[] persisted per trip
+  packingList        Json?
 }
 
 model UserTrip {
