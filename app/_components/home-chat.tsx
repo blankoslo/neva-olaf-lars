@@ -375,7 +375,7 @@ export default function HomeChat() {
                 fetch("/api/chat/session", {
                   method: "PATCH",
                   headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ tripId: id, selectedSuggestion: selected }),
+                  body: JSON.stringify({ tripId: id, selectedSuggestion: selected, packingList: null }),
                 }).finally(() => router.push(`/tur/${id}`));
               } else if (id) {
                 router.push(`/tur/${id}`);

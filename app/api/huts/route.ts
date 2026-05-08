@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { FALLBACK_HUTS } from "@/lib/huts-fallback";
 
 const UT_API =
   "https://ut-backend-api-2-41145913385.europe-north1.run.app/internal/graphql";
@@ -79,8 +80,9 @@ export async function GET() {
       allEdges.push(...page2.edges);
     }
 
-    return NextResponse.json({ huts: normalizeEdges(allEdges) });
+    return NextResponse.json({ huts: normalizeEdges(allEdges), fallback: false });
   } catch (e) {
-    return NextResponse.json({ huts: [], error: String(e) });
+    console.warn("[huts] API unavailable, serving fallback snapshot:", String(e));
+    return NextResponse.json({ huts: FALLBACK_HUTS, fallback: true });
   }
 }

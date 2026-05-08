@@ -167,6 +167,7 @@ function HutMarkers({
 /* ── Main ── */
 export default function LeafletMap() {
   const [huts, setHuts] = useState<Hut[]>([]);
+  const [isFallback, setIsFallback] = useState(false);
   const [layer, setLayer] = useState<Layer>("topo");
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<PlaceResult[]>([]);
@@ -178,7 +179,10 @@ export default function LeafletMap() {
   useEffect(() => {
     fetch("/api/huts")
       .then((r) => r.json())
-      .then((d) => setHuts(d.huts ?? []))
+      .then((d) => {
+        setHuts(d.huts ?? []);
+        setIsFallback(!!d.fallback);
+      })
       .catch(() => {});
   }, []);
 
@@ -380,15 +384,41 @@ export default function LeafletMap() {
             textTransform: "uppercase",
             padding: "5px 12px",
             borderRadius: 999,
-            border: "1px solid rgba(163,196,160,0.45)",
+            border: `1px solid ${isFallback ? "rgba(244,162,89,0.55)" : "rgba(163,196,160,0.45)"}`,
             background: "rgba(10,15,28,0.78)",
             backdropFilter: "blur(8px)",
             WebkitBackdropFilter: "blur(8px)",
-            color: "var(--moss)",
+            color: isFallback ? "var(--ember)" : "var(--moss)",
             boxShadow: "0 4px 12px rgba(0,0,0,0.35)",
           }}
         >
-          {huts.length} hytter
+          {isFallback ? `${huts.length} hytter · SNAPSHOT` : `${huts.length} hytter`}
+        </div>
+      )}
+
+      {/* ── Fallback data notice ── */}
+      {isFallback && (
+        <div
+          style={{
+            position: "absolute",
+            top: 64,
+            left: 12,
+            right: 12,
+            zIndex: 800,
+            fontFamily: "'DM Mono', monospace",
+            fontSize: 10,
+            letterSpacing: ".14em",
+            padding: "8px 12px",
+            borderRadius: 6,
+            border: "1px solid rgba(244,162,89,0.35)",
+            background: "rgba(10,15,28,0.82)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            color: "var(--ember)",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.35)",
+          }}
+        >
+          HYTTEDATA KAN VÆRE UTDATERT — OFFLINE SNAPSHOT BRUKES (DNT-API UTILGJENGELIG)
         </div>
       )}
 
