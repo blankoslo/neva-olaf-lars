@@ -52,13 +52,9 @@ export async function POST(req: Request, { params }: Params) {
 
   const trip = await prisma.trip.findUnique({
     where: { id: tripId },
-    select: { id: true, startDate: true, planningFields: true, participants: { select: { userId: true } } },
+    select: { id: true, startDate: true, planningFields: true },
   });
   if (!trip) return NextResponse.json({ error: "Turen finnes ikke." }, { status: 404 });
-
-  // Only participants may review
-  const isParticipant = trip.participants.some((p) => p.userId === userId);
-  if (!isParticipant) return NextResponse.json({ error: "Bare deltakere kan anmelde turen." }, { status: 403 });
 
   const body = await req.json().catch(() => ({}));
 

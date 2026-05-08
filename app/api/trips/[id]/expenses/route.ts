@@ -13,11 +13,6 @@ export async function GET(_req: Request, { params }: Params) {
 
   const { id: tripId } = await params;
 
-  const userTrip = await prisma.userTrip.findFirst({
-    where: { userId, tripId },
-  });
-  if (!userTrip) return NextResponse.json({ error: "Fant ikke turen." }, { status: 404 });
-
   const [expenses, participants] = await Promise.all([
     prisma.expense.findMany({
       where: { tripId },
@@ -61,11 +56,6 @@ export async function POST(req: Request, { params }: Params) {
   if (!userId) return NextResponse.json({ error: "Ikke innlogget." }, { status: 401 });
 
   const { id: tripId } = await params;
-
-  const userTrip = await prisma.userTrip.findFirst({
-    where: { userId, tripId },
-  });
-  if (!userTrip) return NextResponse.json({ error: "Fant ikke turen." }, { status: 404 });
 
   const body = await req.json().catch(() => ({}));
   const description =
