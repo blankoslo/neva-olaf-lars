@@ -70,8 +70,8 @@ function formatDuration(d: UtRouteSummary["duration"]): string {
 
 function MapSkeleton() {
   return (
-    <div style={{ height: 240, background: "#d8d3c4", display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <span className="mono" style={{ fontSize: 10, opacity: 0.4, letterSpacing: ".18em" }}>LASTER KART…</span>
+    <div style={{ height: 240, background: "var(--night-3)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <span className="mono" style={{ fontSize: 10, color: "var(--slate)", letterSpacing: ".18em" }}>LASTER KART…</span>
     </div>
   );
 }
@@ -136,18 +136,18 @@ export function RoutePreviewSheet({
           width: "100%",
           maxWidth: 480,
           margin: "0 auto",
-          background: "#ede4d3",
+          background: "var(--night)",
           borderRadius: "12px 12px 0 0",
           overflow: "hidden",
           maxHeight: "92dvh",
           display: "flex",
           flexDirection: "column",
-          boxShadow: "0 -4px 32px rgba(21,24,26,0.18)",
+          boxShadow: "0 -4px 32px rgba(0,0,0,0.55), 0 0 0 1px rgba(233,227,211,0.08)",
         }}
       >
         {/* Drag handle */}
         <div style={{ display: "flex", justifyContent: "center", padding: "10px 0 0" }}>
-          <div style={{ width: 36, height: 4, borderRadius: 2, background: "rgba(26,31,26,.2)" }} />
+          <div style={{ width: 36, height: 4, borderRadius: 2, background: "rgba(233,227,211,.18)" }} />
         </div>
 
         {/* Map */}
@@ -162,22 +162,22 @@ export function RoutePreviewSheet({
             style={{
               position: "absolute", top: 10, right: 10, zIndex: 10,
               width: 32, height: 32, borderRadius: "50%",
-              background: "rgba(237,228,211,.92)", border: "1px solid rgba(26,31,26,.18)",
+              background: "rgba(10,15,28,.82)", border: "1px solid rgba(233,227,211,.18)",
               display: "flex", alignItems: "center", justifyContent: "center",
               cursor: "pointer",
             }}
             aria-label="Lukk"
           >
-            <Glyph name="close" size={14} color="#15181a" />
+            <Glyph name="close" size={14} color="var(--bone)" />
           </button>
         </div>
 
         {/* Content */}
         <div style={{ overflowY: "auto", flex: 1, padding: "16px 18px 32px" }}>
-          <h2 style={{ fontSize: 22, fontWeight: 400, letterSpacing: "-0.02em", margin: "0 0 6px" }}>
+          <h2 className="display" style={{ fontSize: 22, margin: "0 0 6px" }}>
             {suggestion.title}
           </h2>
-          <p style={{ fontSize: 14, color: "rgba(26,31,26,.72)", lineHeight: 1.5, margin: "0 0 18px" }}>
+          <p style={{ fontSize: 14, color: "var(--bone-2)", lineHeight: 1.5, margin: "0 0 18px" }}>
             {suggestion.pitch}
           </p>
 
@@ -213,25 +213,24 @@ function RouteDetailCard({
   return (
     <div
       style={{
-        border: "1px solid rgba(26,31,26,.14)",
-        borderRadius: 4,
+        border: "1px solid rgba(233,227,211,.10)",
+        borderRadius: 6,
         padding: "12px 14px",
         marginBottom: 10,
-        background: "#fff8ea",
-        boxShadow: "0 1px 0 rgba(26,31,26,.08)",
+        background: "rgba(233,227,211,.04)",
       }}
     >
       {dayLabel && (
-        <div className="mono" style={{ fontSize: 9, letterSpacing: ".2em", opacity: 0.5, marginBottom: 4 }}>
-          {dayLabel.toUpperCase()}
+        <div className="eyebrow muted" style={{ marginBottom: 4 }}>
+          {dayLabel}
         </div>
       )}
-      <div style={{ fontSize: 15, fontWeight: 500, lineHeight: 1.3, marginBottom: 4 }}>
+      <div className="serif" style={{ fontSize: 17, lineHeight: 1.3, marginBottom: 4, color: "var(--bone)" }}>
         {route.name}
       </div>
 
       {(route.placeA || route.placeB) && (
-        <div className="mono" style={{ fontSize: 10, letterSpacing: ".1em", opacity: 0.5, marginBottom: 8 }}>
+        <div className="mono" style={{ fontSize: 10, letterSpacing: ".1em", color: "var(--slate)", marginBottom: 8 }}>
           {[route.placeA, route.placeVia, route.placeB].filter(Boolean).join(" → ")}
         </div>
       )}
@@ -247,8 +246,8 @@ function RouteDetailCard({
         className="mono"
         style={{
           fontSize: 9, letterSpacing: ".18em",
-          color: GRADING_COLOR[grading] ?? "#666",
-          background: `${GRADING_COLOR[grading] ?? "#666"}18`,
+          color: GRADING_COLOR[grading] ?? "var(--slate)",
+          background: `${GRADING_COLOR[grading] ?? "#8a93a8"}22`,
           padding: "2px 6px", borderRadius: 2,
         }}
       >
@@ -256,7 +255,7 @@ function RouteDetailCard({
       </span>
 
       {(detail?.descriptionPlain ?? route.descriptionPlain) && (
-        <p style={{ fontSize: 13, color: "rgba(26,31,26,.65)", lineHeight: 1.45, margin: "10px 0 0" }}>
+        <p style={{ fontSize: 13, color: "var(--bone-2)", lineHeight: 1.45, margin: "10px 0 0" }}>
           {(detail?.descriptionPlain ?? route.descriptionPlain)!.slice(0, 300)}
           {((detail?.descriptionPlain ?? route.descriptionPlain)!.length > 300) ? "…" : ""}
         </p>
@@ -267,9 +266,9 @@ function RouteDetailCard({
 
 function StatPill({ label, value }: { label: string; value: string }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(26,31,26,.06)", borderRadius: 3, padding: "3px 8px", gap: 1 }}>
-      <span className="mono" style={{ fontSize: 8, letterSpacing: ".14em", opacity: 0.5 }}>{label.toUpperCase()}</span>
-      <span style={{ fontSize: 13, fontWeight: 500 }}>{value}</span>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(233,227,211,.07)", border: "1px solid rgba(233,227,211,.10)", borderRadius: 4, padding: "3px 8px", gap: 1 }}>
+      <span className="mono" style={{ fontSize: 8, letterSpacing: ".14em", color: "var(--slate)" }}>{label.toUpperCase()}</span>
+      <span style={{ fontSize: 13, fontWeight: 500, color: "var(--bone)" }}>{value}</span>
     </div>
   );
 }
@@ -296,42 +295,41 @@ export function SuggestionCard({
   return (
     <li
       style={{
-        background: "#fff8ea",
-        border: "1px solid rgba(26,31,26,.14)",
-        borderRadius: 4,
-        boxShadow: "0 1px 0 rgba(26,31,26,.08)",
+        background: "rgba(233,227,211,.04)",
+        border: "1px solid rgba(233,227,211,.10)",
+        borderRadius: 6,
         overflow: "hidden",
       }}
     >
       <button
         onClick={onPreview}
         style={{
-          width: "100%", textAlign: "left", padding: "14px 14px 12px",
+          width: "100%", textAlign: "left", padding: "14px 16px 14px",
           background: "none", border: "none", cursor: "pointer",
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
           <div>
-            <div className="mono" style={{ fontSize: 9, letterSpacing: ".2em", opacity: 0.45, marginBottom: 4 }}>
+            <div className="eyebrow muted" style={{ marginBottom: 6 }}>
               FORSLAG {index + 1}
             </div>
-            <div style={{ fontSize: 16, fontWeight: 500, lineHeight: 1.3 }}>{suggestion.title}</div>
+            <div className="display" style={{ fontSize: 20, lineHeight: 1.2, color: "var(--bone)" }}>{suggestion.title}</div>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0, marginTop: 2 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0, marginTop: 4 }}>
             {durationText && (
-              <span className="mono" style={{ fontSize: 10, opacity: 0.55 }}>{durationText}</span>
+              <span className="mono" style={{ fontSize: 10, color: "var(--slate)" }}>{durationText}</span>
             )}
-            <Glyph name="arrow-r" size={14} color="rgba(26,31,26,.4)" />
+            <Glyph name="arrow-r" size={14} color="var(--ember)" />
           </div>
         </div>
 
-        <p style={{ fontSize: 13, color: "rgba(26,31,26,.65)", lineHeight: 1.45, margin: "8px 0 10px" }}>
+        <p style={{ fontSize: 13, color: "var(--bone-2)", lineHeight: 1.5, margin: "8px 0 12px" }}>
           {suggestion.pitch}
         </p>
 
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
           {suggestion.routes.length > 1 && (
-            <span className="mono" style={{ fontSize: 9, letterSpacing: ".16em", background: "rgba(26,31,26,.07)", padding: "2px 6px", borderRadius: 2 }}>
+            <span className="mono" style={{ fontSize: 9, letterSpacing: ".16em", color: "var(--slate)", background: "rgba(233,227,211,.07)", padding: "2px 8px", borderRadius: 999 }}>
               {suggestion.routes.length} ETAPPER
             </span>
           )}
@@ -340,9 +338,9 @@ export function SuggestionCard({
               className="mono"
               style={{
                 fontSize: 9, letterSpacing: ".16em",
-                color: GRADING_COLOR[hardest] ?? "#666",
-                background: `${GRADING_COLOR[hardest] ?? "#666"}18`,
-                padding: "2px 6px", borderRadius: 2,
+                color: GRADING_COLOR[hardest] ?? "var(--slate)",
+                background: `${GRADING_COLOR[hardest] ?? "#8a93a8"}22`,
+                padding: "2px 8px", borderRadius: 999,
               }}
             >
               {GRADING_LABEL[hardest] ?? hardest}
@@ -369,21 +367,18 @@ export function SuggestionList({
   return (
     <>
       <section className="mx-frame" style={{ marginTop: 24, marginBottom: 40 }}>
-        <div
-          className="mono"
-          style={{ fontSize: 9, letterSpacing: ".22em", opacity: 0.6, marginBottom: 10 }}
-        >
+        <div className="eyebrow muted" style={{ marginBottom: 12 }}>
           TURFORSLAG · UT.NO{region ? ` · ${region.toUpperCase()}` : ""}
         </div>
 
         {loading && (
-          <div className="mono" style={{ fontSize: 11, opacity: 0.5, textAlign: "center", padding: "20px 0" }}>
+          <div className="mono" style={{ fontSize: 11, color: "var(--slate)", textAlign: "center", padding: "24px 0" }}>
             Wilhelm leter etter ruter…
           </div>
         )}
 
         {!loading && suggestions !== null && suggestions.length === 0 && (
-          <div className="mono" style={{ fontSize: 11, opacity: 0.5, textAlign: "center", padding: "20px 0" }}>
+          <div className="mono" style={{ fontSize: 11, color: "var(--slate)", textAlign: "center", padding: "24px 0" }}>
             Fant ingen ruter i dette området.
           </div>
         )}
