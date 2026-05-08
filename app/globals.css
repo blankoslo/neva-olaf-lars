@@ -138,12 +138,12 @@ body {
 .tabbar {
   position: fixed; bottom: 0; left: 0; right: 0;
   max-width: 480px; margin: 0 auto;
-  display: grid; grid-template-columns: repeat(4, 1fr);
+  display: grid; grid-template-columns: repeat(5, 1fr);
   background: rgba(255, 248, 234, 0.78);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-top: 1px solid rgba(26,31,26,0.18);
-  z-index: 20;
+  z-index: 1000;
 }
 .tabbar a {
   padding: 10px 0 14px;

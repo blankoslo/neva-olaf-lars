@@ -14,6 +14,7 @@ type Item = {
 const items: Item[] = [
   { href: "/", label: "Hjem", icon: "home", match: (p) => p === "/" },
   { href: "/tur", label: "Tur", icon: "map", match: (p) => p.startsWith("/tur") || p === "/live" },
+  { href: "/kart", label: "Kart", icon: "compass", match: (p) => p.startsWith("/kart") },
   { href: "/pakk", label: "Pakk", icon: "pack", match: (p) => p.startsWith("/pakk") },
   { href: "/dagbok", label: "Dagbok", icon: "journal", match: (p) => p.startsWith("/dagbok") },
 ];
