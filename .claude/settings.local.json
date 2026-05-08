@@ -5,7 +5,8 @@
       "Bash(npx tsc *)",
       "Bash(echo \"EXIT=$?\")",
       "Bash(npx next *)",
-      "Bash(pnpm lint *)"
+      "Bash(pnpm lint *)",
+      "Bash(pnpm add *)"
     ],
     "additionalDirectories": [
       "/Users/larsskjelbek/Source/neva-olaf-lars/app/tur"
