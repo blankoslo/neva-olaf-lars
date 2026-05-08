@@ -9,6 +9,15 @@ import { Mountains } from "./maps";
 import { Glyph } from "./glyph";
 import { SuggestionList, type RouteSuggestion } from "./route-suggestions";
 import { Splash } from "./splash";
+import { KEYS, readJSON, writeJSON } from "@/lib/storage";
+
+type CachedSession = {
+  tripId: string | null;
+  messages: Message[];
+  fields: Partial<Fields>;
+  suggestions: RouteSuggestion[] | null;
+  complete: boolean;
+};
 
 type Role = "user" | "assistant";
 
@@ -76,9 +85,30 @@ export default function HomeChat() {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages, loading, complete, suggestions]);
 
-  // Restore session on mount only if ?chat=<tripId> is in the URL
+  // Restore session on mount. We try localStorage first (works offline),
+  // then refresh from the server when ?chat=<tripId> is present and we're
+  // online — server wins as source of truth.
   useEffect(() => {
     const chatId = searchParams.get("chat");
+
+    const cached = readJSON<CachedSession>(KEYS.chatSession);
+    // Only apply cache when it matches the URL — or when there's no URL chat
+    // id, in which case the cached session IS the current one.
+    const cacheMatchesUrl = cached && (!chatId || cached.tripId === chatId);
+    if (cached && cacheMatchesUrl) {
+      tripIdRef.current = cached.tripId;
+      // Hydrating from localStorage on mount is the whole point — set-state
+      // in this effect is intentional, not a cascading-render bug.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (cached.messages?.length) setMessages(cached.messages);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (cached.fields) setFields(cached.fields);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (cached.suggestions?.length) setSuggestions(cached.suggestions);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (cached.complete) setComplete(true);
+    }
+
     if (!chatId) {
       setSessionLoaded(true);
       return;
@@ -101,27 +131,55 @@ export default function HomeChat() {
             const pf = data.trip.planningFields as Partial<Fields> | null;
             if (pf) setFields(pf);
             const sv = data.trip.suggestions as RouteSuggestion[] | null;
+            const isComplete =
+              (sv && sv.length > 0) ||
+              (pf != null && Object.values(pf).filter(Boolean).length >= 6);
             if (sv && sv.length > 0) {
               setSuggestions(sv);
               setComplete(true);
-            } else if (pf && Object.values(pf).filter(Boolean).length >= 6) {
+            } else if (isComplete) {
               setComplete(true);
             }
+            writeJSON<CachedSession>(KEYS.chatSession, {
+              tripId: data.trip.id,
+              messages: (cs ?? []) as Message[],
+              fields: (pf ?? {}) as Partial<Fields>,
+              suggestions: sv ?? null,
+              complete: !!isComplete,
+            });
           }
         },
       )
-      .catch(() => {})
+      .catch(() => {
+        // Offline or server error — keep the cached session we already
+        // applied above.
+      })
       .finally(() => setSessionLoaded(true));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Fire-and-forget session upsert
+  // Fire-and-forget session upsert. Writes to localStorage immediately so
+  // the offline-restore path always has the latest state, then PATCHes the
+  // server in the background.
   function saveSession(update: {
     chatState?: Message[];
     planningFields?: Partial<Fields>;
     suggestions?: RouteSuggestion[];
   }) {
     if (!sessionLoaded) return;
+
+    const cached = readJSON<CachedSession>(KEYS.chatSession);
+    writeJSON<CachedSession>(KEYS.chatSession, {
+      tripId: tripIdRef.current ?? cached?.tripId ?? null,
+      messages: update.chatState ?? cached?.messages ?? [],
+      fields: update.planningFields ?? cached?.fields ?? {},
+      suggestions: update.suggestions ?? cached?.suggestions ?? null,
+      complete:
+        update.suggestions !== undefined
+          ? update.suggestions.length > 0
+          : cached?.complete ?? false,
+    });
+
     const body: Record<string, unknown> = {};
     if (tripIdRef.current) body.tripId = tripIdRef.current;
     if (update.chatState !== undefined) body.chatState = update.chatState;
@@ -137,6 +195,10 @@ export default function HomeChat() {
       .then((data: { tripId?: string }) => {
         if (data.tripId && !tripIdRef.current) {
           tripIdRef.current = data.tripId;
+          // Mirror the new tripId into localStorage so the cache row is
+          // self-consistent on the next load.
+          const c = readJSON<CachedSession>(KEYS.chatSession);
+          if (c) writeJSON<CachedSession>(KEYS.chatSession, { ...c, tripId: data.tripId });
           // Update URL so a reload restores this chat
           router.replace(`/?chat=${data.tripId}`, { scroll: false });
         }

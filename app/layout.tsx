@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import Header from "./Header";
 import Providers from "./providers";
+import { SwRegister } from "./_components/sw-register";
 
 export const metadata: Metadata = {
   title: "Wilhelm Tyskeberge — Turkamerat",
@@ -42,6 +43,7 @@ export default function RootLayout({
             <Header />
             {children}
           </div>
+          <SwRegister />
         </Providers>
       </body>
     </html>
