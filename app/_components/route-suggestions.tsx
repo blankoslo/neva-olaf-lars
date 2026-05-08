@@ -174,12 +174,29 @@ export function RoutePreviewSheet({
 
         {/* Content */}
         <div style={{ overflowY: "auto", flex: 1, padding: "16px 18px 32px" }}>
-          <h2 className="display" style={{ fontSize: 22, margin: "0 0 6px" }}>
-            {suggestion.title}
-          </h2>
-          <p style={{ fontSize: 14, color: "var(--bone-2)", lineHeight: 1.5, margin: "0 0 18px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+            <h2 className="display" style={{ fontSize: 22, margin: 0 }}>
+              {suggestion.title}
+            </h2>
+            <span
+              className="mono"
+              style={{
+                fontSize: 8, letterSpacing: ".16em",
+                color: "#7c9ecc",
+                background: "rgba(100,148,210,0.12)",
+                border: "1px solid rgba(100,148,210,0.25)",
+                padding: "2px 6px", borderRadius: 2, flexShrink: 0,
+              }}
+            >
+              AI
+            </span>
+          </div>
+          <p style={{ fontSize: 14, color: "var(--bone-2)", lineHeight: 1.5, margin: "0 0 4px" }}>
             {suggestion.pitch}
           </p>
+          <div className="mono" style={{ fontSize: 8, letterSpacing: ".12em", color: "#7c9ecc", opacity: 0.7, marginBottom: 18 }}>
+            AI-VURDERING
+          </div>
 
           {suggestion.routes.map((route, i) => (
             <RouteDetailCard
@@ -312,8 +329,20 @@ export function SuggestionCard({
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
           <div>
-            <div className="eyebrow muted" style={{ marginBottom: 6 }}>
-              FORSLAG {index + 1}
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+              <span className="eyebrow muted">FORSLAG {index + 1}</span>
+              <span
+                className="mono"
+                style={{
+                  fontSize: 8, letterSpacing: ".16em",
+                  color: "#7c9ecc",
+                  background: "rgba(100,148,210,0.12)",
+                  border: "1px solid rgba(100,148,210,0.25)",
+                  padding: "1px 5px", borderRadius: 2,
+                }}
+              >
+                AI
+              </span>
             </div>
             <div className="display" style={{ fontSize: 20, lineHeight: 1.2, color: "var(--bone)" }}>{suggestion.title}</div>
           </div>
@@ -325,9 +354,12 @@ export function SuggestionCard({
           </div>
         </div>
 
-        <p style={{ fontSize: 13, color: "var(--bone-2)", lineHeight: 1.5, margin: "8px 0 12px" }}>
+        <p style={{ fontSize: 13, color: "var(--bone-2)", lineHeight: 1.5, margin: "8px 0 4px" }}>
           {suggestion.pitch}
         </p>
+        <div className="mono" style={{ fontSize: 8, letterSpacing: ".12em", color: "#7c9ecc", opacity: 0.7, marginBottom: 10 }}>
+          AI-VURDERING
+        </div>
 
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
           {suggestion.routes.length > 1 && (
@@ -385,8 +417,20 @@ export function SuggestionList({
   return (
     <>
       <section className="mx-frame" style={{ marginTop: 24, marginBottom: 40 }}>
-        <div className="eyebrow muted" style={{ marginBottom: 12 }}>
-          TURFORSLAG · UT.NO{region ? ` · ${region.toUpperCase()}` : ""}
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+          <span className="eyebrow muted">TURFORSLAG · UT.NO{region ? ` · ${region.toUpperCase()}` : ""}</span>
+          <span
+            className="mono"
+            style={{
+              fontSize: 8, letterSpacing: ".14em",
+              color: "#7c9ecc",
+              background: "rgba(100,148,210,0.10)",
+              border: "1px solid rgba(100,148,210,0.22)",
+              padding: "2px 6px", borderRadius: 2,
+            }}
+          >
+            AI-VALGT
+          </span>
         </div>
 
         {loading && (

@@ -67,6 +67,34 @@ export default async function TripPakkPage({ params }: { params: Promise<{ id: s
               {days ? ` · ${days} DAG${Number(days) > 1 ? "ER" : ""}` : ""}
             </div>
           )}
+          {selected && (
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 12 }}>
+              <span
+                style={{
+                  fontFamily: "'DM Mono', monospace",
+                  fontSize: 8,
+                  letterSpacing: ".16em",
+                  color: "#7c9ecc",
+                  background: "rgba(100,148,210,0.10)",
+                  border: "1px solid rgba(100,148,210,0.22)",
+                  padding: "2px 7px",
+                  borderRadius: 2,
+                }}
+              >
+                AI-GENERERT
+              </span>
+              <span
+                style={{
+                  fontFamily: "'DM Mono', monospace",
+                  fontSize: 9,
+                  color: "var(--slate)",
+                  opacity: 0.7,
+                }}
+              >
+                Tilpasset tur, varighet og årstid
+              </span>
+            </div>
+          )}
         </div>
 
         {selected ? (
