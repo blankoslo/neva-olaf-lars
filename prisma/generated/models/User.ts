@@ -177,6 +177,7 @@ export type UserWhereInput = {
   trips?: Prisma.UserTripListRelationFilter
   comments?: Prisma.CommentListRelationFilter
   photos?: Prisma.PhotoListRelationFilter
+  expenses?: Prisma.ExpenseListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -187,6 +188,7 @@ export type UserOrderByWithRelationInput = {
   trips?: Prisma.UserTripOrderByRelationAggregateInput
   comments?: Prisma.CommentOrderByRelationAggregateInput
   photos?: Prisma.PhotoOrderByRelationAggregateInput
+  expenses?: Prisma.ExpenseOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -200,6 +202,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   trips?: Prisma.UserTripListRelationFilter
   comments?: Prisma.CommentListRelationFilter
   photos?: Prisma.PhotoListRelationFilter
+  expenses?: Prisma.ExpenseListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -230,6 +233,7 @@ export type UserCreateInput = {
   trips?: Prisma.UserTripCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   photos?: Prisma.PhotoCreateNestedManyWithoutUserInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -240,6 +244,7 @@ export type UserUncheckedCreateInput = {
   trips?: Prisma.UserTripUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   photos?: Prisma.PhotoUncheckedCreateNestedManyWithoutUserInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
 }
 
 export type UserUpdateInput = {
@@ -250,6 +255,7 @@ export type UserUpdateInput = {
   trips?: Prisma.UserTripUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   photos?: Prisma.PhotoUpdateManyWithoutUserNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -260,6 +266,7 @@ export type UserUncheckedUpdateInput = {
   trips?: Prisma.UserTripUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   photos?: Prisma.PhotoUncheckedUpdateManyWithoutUserNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -359,6 +366,20 @@ export type UserUpdateOneRequiredWithoutPhotosNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPhotosInput, Prisma.UserUpdateWithoutPhotosInput>, Prisma.UserUncheckedUpdateWithoutPhotosInput>
 }
 
+export type UserCreateNestedOneWithoutExpensesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExpensesInput, Prisma.UserUncheckedCreateWithoutExpensesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExpensesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutExpensesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExpensesInput, Prisma.UserUncheckedCreateWithoutExpensesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExpensesInput
+  upsert?: Prisma.UserUpsertWithoutExpensesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExpensesInput, Prisma.UserUpdateWithoutExpensesInput>, Prisma.UserUncheckedUpdateWithoutExpensesInput>
+}
+
 export type UserCreateWithoutTripsInput = {
   id?: string
   name?: string | null
@@ -366,6 +387,7 @@ export type UserCreateWithoutTripsInput = {
   password: string
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   photos?: Prisma.PhotoCreateNestedManyWithoutUserInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
 }
 
 export type UserUncheckedCreateWithoutTripsInput = {
@@ -375,6 +397,7 @@ export type UserUncheckedCreateWithoutTripsInput = {
   password: string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   photos?: Prisma.PhotoUncheckedCreateNestedManyWithoutUserInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
 }
 
 export type UserCreateOrConnectWithoutTripsInput = {
@@ -400,6 +423,7 @@ export type UserUpdateWithoutTripsInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   photos?: Prisma.PhotoUpdateManyWithoutUserNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTripsInput = {
@@ -409,6 +433,7 @@ export type UserUncheckedUpdateWithoutTripsInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   photos?: Prisma.PhotoUncheckedUpdateManyWithoutUserNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -418,6 +443,7 @@ export type UserCreateWithoutCommentsInput = {
   password: string
   trips?: Prisma.UserTripCreateNestedManyWithoutUserInput
   photos?: Prisma.PhotoCreateNestedManyWithoutUserInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -427,6 +453,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   password: string
   trips?: Prisma.UserTripUncheckedCreateNestedManyWithoutUserInput
   photos?: Prisma.PhotoUncheckedCreateNestedManyWithoutUserInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -452,6 +479,7 @@ export type UserUpdateWithoutCommentsInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   trips?: Prisma.UserTripUpdateManyWithoutUserNestedInput
   photos?: Prisma.PhotoUpdateManyWithoutUserNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -461,6 +489,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   trips?: Prisma.UserTripUncheckedUpdateManyWithoutUserNestedInput
   photos?: Prisma.PhotoUncheckedUpdateManyWithoutUserNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
 }
 
 export type UserCreateWithoutPhotosInput = {
@@ -470,6 +499,7 @@ export type UserCreateWithoutPhotosInput = {
   password: string
   trips?: Prisma.UserTripCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
 }
 
 export type UserUncheckedCreateWithoutPhotosInput = {
@@ -479,6 +509,7 @@ export type UserUncheckedCreateWithoutPhotosInput = {
   password: string
   trips?: Prisma.UserTripUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
 }
 
 export type UserCreateOrConnectWithoutPhotosInput = {
@@ -504,6 +535,7 @@ export type UserUpdateWithoutPhotosInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   trips?: Prisma.UserTripUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPhotosInput = {
@@ -513,6 +545,63 @@ export type UserUncheckedUpdateWithoutPhotosInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   trips?: Prisma.UserTripUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
+}
+
+export type UserCreateWithoutExpensesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  password: string
+  trips?: Prisma.UserTripCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  photos?: Prisma.PhotoCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutExpensesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  password: string
+  trips?: Prisma.UserTripUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  photos?: Prisma.PhotoUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutExpensesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutExpensesInput, Prisma.UserUncheckedCreateWithoutExpensesInput>
+}
+
+export type UserUpsertWithoutExpensesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutExpensesInput, Prisma.UserUncheckedUpdateWithoutExpensesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutExpensesInput, Prisma.UserUncheckedCreateWithoutExpensesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutExpensesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutExpensesInput, Prisma.UserUncheckedUpdateWithoutExpensesInput>
+}
+
+export type UserUpdateWithoutExpensesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  trips?: Prisma.UserTripUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  photos?: Prisma.PhotoUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutExpensesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  trips?: Prisma.UserTripUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  photos?: Prisma.PhotoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -524,12 +613,14 @@ export type UserCountOutputType = {
   trips: number
   comments: number
   photos: number
+  expenses: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   trips?: boolean | UserCountOutputTypeCountTripsArgs
   comments?: boolean | UserCountOutputTypeCountCommentsArgs
   photos?: boolean | UserCountOutputTypeCountPhotosArgs
+  expenses?: boolean | UserCountOutputTypeCountExpensesArgs
 }
 
 /**
@@ -563,6 +654,13 @@ export type UserCountOutputTypeCountPhotosArgs<ExtArgs extends runtime.Types.Ext
   where?: Prisma.PhotoWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountExpensesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExpenseWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -572,6 +670,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   trips?: boolean | Prisma.User$tripsArgs<ExtArgs>
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
   photos?: boolean | Prisma.User$photosArgs<ExtArgs>
+  expenses?: boolean | Prisma.User$expensesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -601,6 +700,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   trips?: boolean | Prisma.User$tripsArgs<ExtArgs>
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
   photos?: boolean | Prisma.User$photosArgs<ExtArgs>
+  expenses?: boolean | Prisma.User$expensesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -612,6 +712,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     trips: Prisma.$UserTripPayload<ExtArgs>[]
     comments: Prisma.$CommentPayload<ExtArgs>[]
     photos: Prisma.$PhotoPayload<ExtArgs>[]
+    expenses: Prisma.$ExpensePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1015,6 +1116,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   trips<T extends Prisma.User$tripsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$tripsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserTripPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comments<T extends Prisma.User$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   photos<T extends Prisma.User$photosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$photosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PhotoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  expenses<T extends Prisma.User$expensesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1505,6 +1607,30 @@ export type User$photosArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   distinct?: Prisma.PhotoScalarFieldEnum | Prisma.PhotoScalarFieldEnum[]
+}
+
+/**
+ * User.expenses
+ */
+export type User$expensesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Expense
+   */
+  select?: Prisma.ExpenseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Expense
+   */
+  omit?: Prisma.ExpenseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExpenseInclude<ExtArgs> | null
+  where?: Prisma.ExpenseWhereInput
+  orderBy?: Prisma.ExpenseOrderByWithRelationInput | Prisma.ExpenseOrderByWithRelationInput[]
+  cursor?: Prisma.ExpenseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ExpenseScalarFieldEnum | Prisma.ExpenseScalarFieldEnum[]
 }
 
 /**
