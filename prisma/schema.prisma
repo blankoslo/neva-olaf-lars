@@ -17,6 +17,7 @@ model User {
   password String
   trips    UserTrip[]
   comments Comment[]
+  expenses Expense[]
 }
 
 model Trip {
@@ -43,6 +44,7 @@ model Trip {
   comments           Comment[]
   /// Packing list: PackItem[] persisted per trip
   packingList        Json?
+  expenses           Expense[]
 }
 
 model UserTrip {
@@ -94,4 +96,17 @@ enum InviteStatus {
   PENDING
   ACCEPTED
   DECLINED
+}
+
+model Expense {
+  id            String   @id @default(cuid())
+  tripId        String
+  paidByUserId  String
+  amount        Float
+  description   String
+  /// Optional list of participant userIds to split among; null = all accepted participants
+  splitAmong    Json?
+  createdAt     DateTime @default(now())
+  trip          Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  paidBy        User     @relation(fields: [paidByUserId], references: [id], onDelete: Cascade)
 }
