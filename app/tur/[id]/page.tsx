@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import TabBar from "../../_components/tabbar";
+import { WeatherStrip } from "../../_components/weather-strip";
 import prisma from "../../../lib/prisma";
+import { getRouteMidpoint } from "../../../lib/ut-route";
+import { getForecast } from "../../../lib/weather";
 
 type RouteSuggestion = {
   routeIds: number[];
@@ -37,6 +40,18 @@ export default async function TripPage({ params }: { params: Promise<{ id: strin
   const selected = (trip.selectedSuggestion ?? null) as RouteSuggestion | null;
   const fields = (trip.planningFields ?? {}) as Record<string, string | number | null | undefined>;
 
+  // Trip duration drives forecast length, capped to met.no's useful window.
+  const tripDays =
+    typeof fields.days === "number"
+      ? fields.days
+      : Number(fields.days) || selected?.routes.length || 7;
+  const forecastDays = Math.min(7, Math.max(3, tripDays));
+
+  // Use the first route's midpoint as the representative coordinate.
+  const firstRouteId = selected?.routes?.[0]?.id ?? null;
+  const coord = firstRouteId != null ? await getRouteMidpoint(firstRouteId) : null;
+  const forecast = coord ? await getForecast(coord.lat, coord.lon, forecastDays) : [];
+
   return (
     <>
       <main style={{ paddingTop: 24 }}>
@@ -64,6 +79,27 @@ export default async function TripPage({ params }: { params: Promise<{ id: strin
             </div>
           )}
         </div>
+
+        {forecast.length > 0 && (
+          <section className="mx-frame" style={{ marginTop: 24 }}>
+            <div className="flex-row between center" style={{ marginBottom: 10 }}>
+              <div className="eyebrow muted">VÊRET</div>
+              {coord && (
+                <div
+                  className="mono"
+                  style={{
+                    fontSize: 9,
+                    letterSpacing: ".18em",
+                    color: "var(--slate)",
+                  }}
+                >
+                  {coord.lat.toFixed(2)}° N · {coord.lon.toFixed(2)}° Ø
+                </div>
+              )}
+            </div>
+            <WeatherStrip days={forecast} />
+          </section>
+        )}
 
         {selected ? (
           <section className="mx-frame" style={{ marginTop: 24 }}>
