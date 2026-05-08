@@ -33,6 +33,13 @@ const tripCommentsItem: Item = {
   match: (p) => p.includes("/snakk"),
 };
 
+const tripExpensesItem: Item = {
+  href: "/utgifter",
+  label: "Utgifter",
+  icon: "receipt",
+  match: (p) => p.includes("/utgifter"),
+};
+
 function getTripId(path: string): string | null {
   const m = path.match(/^\/tur\/([^/]+)/);
   return m ? m[1] : null;
@@ -81,6 +88,11 @@ export default function TabBar() {
           ...tripCommentsItem,
           href: `/tur/${tripId}/snakk`,
           match: (p: string) => p.startsWith(`/tur/${tripId}/snakk`),
+        },
+        {
+          ...tripExpensesItem,
+          href: `/tur/${tripId}/utgifter`,
+          match: (p: string) => p.startsWith(`/tur/${tripId}/utgifter`),
         },
       ]
     : baseItems;

@@ -12,7 +12,12 @@ export default async function TripPakkPage({ params }: { params: Promise<{ id: s
   const { id } = await params;
   const trip = await prisma.trip.findUnique({
     where: { id },
-    select: { title: true, selectedSuggestion: true, planningFields: true },
+    select: {
+      title: true,
+      selectedSuggestion: true,
+      planningFields: true,
+      _count: { select: { participants: true } },
+    },
   });
   if (!trip) notFound();
 
@@ -34,6 +39,7 @@ export default async function TripPakkPage({ params }: { params: Promise<{ id: s
         tripTitle={selected?.title ?? null}
         region={fields.region ? String(fields.region) : null}
         days={days}
+        participantCount={trip._count.participants}
         hasSelectedSuggestion={!!selected}
       />
       <TabBar />

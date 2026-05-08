@@ -209,12 +209,14 @@ export default function PakkClient({
   tripTitle,
   region,
   days,
+  participantCount,
   hasSelectedSuggestion,
 }: {
   tripId: string;
   tripTitle: string | null;
   region: string | null;
   days: number;
+  participantCount: number;
   hasSelectedSuggestion: boolean;
 }) {
   const [items, setItems] = useState<PackItem[] | null>(null);
@@ -274,6 +276,15 @@ export default function PakkClient({
     });
   }
 
+  function removeItem(id: string) {
+    setItems((prev) => {
+      if (!prev) return prev;
+      const next = prev.filter((it) => it.id !== id);
+      save(next);
+      return next;
+    });
+  }
+
   // Group items by category (preserve category order)
   const grouped: { cat: string; items: PackItem[] }[] = [];
   if (items) {
@@ -328,6 +339,7 @@ export default function PakkClient({
             >
               {region.toUpperCase()}
               {days ? ` · ${days} DAG${days > 1 ? "ER" : ""}` : ""}
+              {participantCount > 0 ? ` · ${participantCount} DELTAKER${participantCount !== 1 ? "E" : ""}` : ""}
             </span>
           )}
           {!loading && totalCount > 0 && (
@@ -366,7 +378,7 @@ export default function PakkClient({
                   opacity: 0.7,
                 }}
               >
-                Tilpasset tur, varighet og årstid
+                Tilpasset vær, varighet og deltakere
               </span>
             </div>
           )}
@@ -439,6 +451,26 @@ export default function PakkClient({
                     {item.label}
                   </span>
                   {item.aiGenerated && <AiBadge />}
+                  <button
+                    onClick={() => removeItem(item.id)}
+                    aria-label={`Fjern ${item.label}`}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      color: "var(--slate)",
+                      opacity: 0.35,
+                      padding: "2px 4px",
+                      lineHeight: 1,
+                      fontSize: 14,
+                      flexShrink: 0,
+                      transition: "opacity .15s",
+                    }}
+                    onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.opacity = "1")}
+                    onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.opacity = "0.35")}
+                  >
+                    ✕
+                  </button>
                 </li>
               ))}
             </ul>
