@@ -167,7 +167,7 @@ em {
 .tabbar {
   position: fixed; bottom: 0; left: 0; right: 0;
   max-width: 480px; margin: 0 auto;
-  display: grid; grid-template-columns: repeat(5, 1fr);
+  display: grid; grid-template-columns: repeat(var(--tab-count, 5), 1fr);
   background: rgba(10, 15, 28, 0.85);
   backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(14px) saturate(140%);

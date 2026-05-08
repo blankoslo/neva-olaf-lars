@@ -25,7 +25,6 @@ export default function Header() {
             >
               {session.user?.name || session.user?.email}
             </span>
-            <Link href="/users">FØLGE</Link>
             <button
               type="button"
               onClick={() => signOut()}
