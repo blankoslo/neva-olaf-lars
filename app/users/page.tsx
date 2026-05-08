@@ -19,7 +19,7 @@ export default async function UsersPage() {
             <Link href="/" className="pill" style={{ textDecoration: "none" }}>
               ← TILBAKE
             </Link>
-            <Stamp color="#5b6b5a" rotate={-2}>· Turfølge ·</Stamp>
+            <Stamp color="var(--moss)" rotate={-2}>· Turfølge ·</Stamp>
           </div>
           <h1
             style={{
@@ -53,7 +53,7 @@ export default async function UsersPage() {
                   display: "flex",
                   flexDirection: "column",
                   padding: "12px 0",
-                  borderBottom: "1px dashed rgba(26,31,26,.22)",
+                  borderBottom: "1px dashed rgba(233,227,211,0.10)",
                 }}
               >
                 <span style={{ fontSize: 17, lineHeight: 1.15 }}>{u.name || "Uten navn"}</span>

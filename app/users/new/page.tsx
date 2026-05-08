@@ -30,7 +30,7 @@ export default function NewUser() {
             <Link href="/users" className="pill" style={{ textDecoration: "none" }}>
               ← FØLGET
             </Link>
-            <Stamp color="#5b6b5a" rotate={2}>· Nytt navn ·</Stamp>
+            <Stamp color="var(--moss)" rotate={2}>· Nytt navn ·</Stamp>
           </div>
           <h1
             style={{
@@ -50,10 +50,10 @@ export default function NewUser() {
           style={{
             margin: "20px 18px",
             padding: 16,
-            background: "#fff8ea",
-            border: "1px solid rgba(26,31,26,.18)",
+            background: "rgba(233,227,211,0.04)",
+            border: "1px solid rgba(233,227,211,0.10)",
             borderRadius: 4,
-            boxShadow: "0 2px 0 rgba(26,31,26,.10)",
+            boxShadow: "none",
           }}
         >
           <Form action={createUser}>

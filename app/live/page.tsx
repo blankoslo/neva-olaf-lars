@@ -9,7 +9,7 @@ export default function LivePage() {
       <main style={{ paddingTop: 24 }}>
         <div className="page-pad">
           <div className="flex-row between center">
-            <Stamp color="#b85a3c" rotate={-3}>· PÅ TUR ·</Stamp>
+            <Stamp color="var(--ember)" rotate={-3}>· PÅ TUR ·</Stamp>
             <div className="mono" style={{ fontSize: 10, letterSpacing: ".16em" }}>
               <span
                 style={{
@@ -71,8 +71,8 @@ export default function LivePage() {
             <div
               key={c.l}
               style={{
-                background: "#fff8ea",
-                border: "1px solid rgba(26,31,26,.18)",
+                background: "rgba(233,227,211,0.04)",
+                border: "1px solid rgba(233,227,211,0.10)",
                 borderRadius: 4,
                 padding: "10px 12px",
               }}
@@ -94,8 +94,8 @@ export default function LivePage() {
             marginTop: 14,
             padding: "12px 14px",
             borderRadius: 4,
-            border: "1px dashed rgba(184,90,60,.55)",
-            background: "rgba(217,119,87,0.06)",
+            border: "1px dashed rgba(244,162,89,0.40)",
+            background: "rgba(244,162,89,0.06)",
             display: "flex",
             gap: 10,
           }}
@@ -104,15 +104,15 @@ export default function LivePage() {
           <div>
             <div
               className="mono"
-              style={{ fontSize: 9, letterSpacing: ".2em", color: "var(--ember-2)" }}
+              style={{ fontSize: 9, letterSpacing: ".2em", color: "var(--ember)" }}
             >
               HVISKING · 11:24
             </div>
             <p
-              className="hand"
+              className="serif italic"
               style={{
                 fontSize: 18,
-                color: "#1a3a5a",
+                color: "var(--bone-2)",
                 marginTop: 2,
                 lineHeight: 1.15,
                 marginBottom: 0,
@@ -131,7 +131,7 @@ export default function LivePage() {
           <button
             type="button"
             className="btn-ember"
-            style={{ background: "#1a1f1a", flex: "0 0 auto" }}
+            style={{ background: "var(--night-2)", flex: "0 0 auto" }}
           >
             <Glyph name="sos" size={16} color="#fff" /> SOS
           </button>
