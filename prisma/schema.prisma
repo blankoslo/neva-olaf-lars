@@ -16,6 +16,7 @@ model User {
   email    String     @unique
   password String
   trips    UserTrip[]
+  comments Comment[]
 }
 
 model Trip {
@@ -39,6 +40,7 @@ model Trip {
   suggestions    Json?
   /// The single suggestion the user picked: RouteSuggestion
   selectedSuggestion Json?
+  comments           Comment[]
 }
 
 model UserTrip {
@@ -50,6 +52,16 @@ model UserTrip {
   trip      Trip         @relation(fields: [tripId], references: [id], onDelete: Cascade)
 
   @@id([userId, tripId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  tripId    String
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Stage {
