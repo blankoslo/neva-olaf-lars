@@ -10,7 +10,12 @@
       "Bash(awk 'NR<=200' \"/Users/larsskjelbek/Source/neva-olaf-lars/inspo/Wilhelm Tyskeberge - standalone.html\")",
       "Bash(node /tmp/extract-bundle.mjs \"/Users/larsskjelbek/Source/neva-olaf-lars/inspo/Wilhelm Tyskeberge - standalone.html\")",
       "Bash(node /tmp/extract2.mjs \"/Users/larsskjelbek/Source/neva-olaf-lars/inspo/Wilhelm Tyskeberge - standalone.html\")",
-      "Bash(node /tmp/repalette.mjs)"
+      "Bash(node /tmp/repalette.mjs)",
+      "Bash(/?chat\\\\|href=\\\\\"/?chat\" /Users/larsskjelbek/Source/neva-olaf-lars/app /Users/larsskjelbek/Source/neva-olaf-lars/lib 2>/dev/null | head -50)",
+      "Bash(grep -rn \"router.push\\\\|router.replace\\\\|href=\\\\\"/\\\\\"\\\\|href={`/?chat\\\\|href=\\\\\"/?chat\" /Users/larsskjelbek/Source/neva-olaf-lars/app /Users/larsskjelbek/Source/neva-olaf-lars/lib 2>/dev/null | head -50)",
+      "Bash(grep -rn 'href=\"/\"\\\\|href={\"/\"}\\\\|push\\(\"/\"\\)\\\\|replace\\(\"/\"\\)\\\\|push\\(`/?chat\\\\|replace\\(`/?chat\\\\|\"/chat\"' /Users/larsskjelbek/Source/neva-olaf-lars/app /Users/larsskjelbek/Source/neva-olaf-lars/lib)",
+      "Bash(pnpm tsc *)",
+      "Bash(pnpm eslint *)"
     ],
     "additionalDirectories": [
       "/Users/larsskjelbek/Source/neva-olaf-lars/app/tur"
