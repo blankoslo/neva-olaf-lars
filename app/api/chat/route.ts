@@ -79,9 +79,22 @@ export async function POST(req: Request) {
     );
   }
 
-  const { messages } = (await req.json()) as { messages: ClientMessage[] };
-
   try {
+    const body = (await req.json()) as { messages?: ClientMessage[] };
+
+    if (!body || typeof body !== "object" || !Array.isArray(body.messages)) {
+      return Response.json(
+        {
+          message: "Ugyldig forespørsel: 'messages' må være en array.",
+          fields: {},
+          complete: false,
+        },
+        { status: 400 },
+      );
+    }
+
+    const { messages } = body;
+
     const response = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
       max_tokens: 1024,
