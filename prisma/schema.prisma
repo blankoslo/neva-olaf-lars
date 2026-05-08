@@ -49,6 +49,12 @@ model Trip {
   packingList        Json?
   expenses           Expense[]
   reviews            Review[]
+  /// If this trip was created as a repeat of another trip
+  sourceTrip         Trip?    @relation("TripRepeats", fields: [sourceTripId], references: [id], onDelete: SetNull)
+  sourceTripId       String?
+  repeats            Trip[]   @relation("TripRepeats")
+  /// Timestamp when this trip was marked completed
+  completedAt        DateTime?
 }
 
 model UserTrip {

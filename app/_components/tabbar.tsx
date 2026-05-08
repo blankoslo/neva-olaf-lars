@@ -16,7 +16,7 @@ const baseItems: Item[] = [
   { href: "/tur", label: "Tur", icon: "map", match: (p) => p.startsWith("/tur") || p === "/live" },
   { href: "/kart", label: "Kart", icon: "compass", match: (p) => p.startsWith("/kart") },
   { href: "/pakk", label: "Pakk", icon: "pack", match: (p) => p.startsWith("/pakk") },
-  { href: "/dagbok", label: "Dagbok", icon: "journal", match: (p) => p.startsWith("/dagbok") },
+  { href: "/historikk", label: "Historikk", icon: "chart", match: (p) => p.startsWith("/historikk") || p.startsWith("/statistikk") },
 ];
 
 const tripExtraItem: Item = {
@@ -85,11 +85,11 @@ export default function TabBar() {
               href: `/tur/${tripId}/pakk`,
               match: (p: string) => p.startsWith(`/tur/${tripId}/pakk`),
             };
-          if (item.href === "/dagbok")
+          if (item.href === "/historikk")
             return {
               ...item,
-              href: `/tur/${tripId}/dagbok`,
-              match: (p: string) => p.startsWith(`/tur/${tripId}/dagbok`),
+              href: `/historikk`,
+              match: (p: string) => p.startsWith("/historikk") || p.startsWith("/statistikk"),
             };
           return item;
         }),
