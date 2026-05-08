@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Monogram } from "./wilhelm";
 import { Mountains } from "./maps";
@@ -83,7 +82,7 @@ export default function HomeChat() {
   const endRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [messages, loading, complete, suggestions]);
+  }, [messages, loading]);
 
   // Restore session on mount. We try localStorage first (works offline),
   // then refresh from the server when ?chat=<tripId> is present and we're
@@ -564,13 +563,6 @@ function SummaryCard({ fields }: { fields: Partial<Fields> }) {
           );
         })}
       </ul>
-      <Link
-        href="/tur"
-        className="btn-ember"
-        style={{ width: "100%", marginTop: 18 }}
-      >
-        Vis tre forslag <span aria-hidden>→</span>
-      </Link>
     </section>
   );
 }
