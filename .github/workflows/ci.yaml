@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    name: Build and test
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v6
+
+      - name: 📦 Install pnpm
+        uses: pnpm/action-setup@v4
+      - name: 📦 Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: package.json
+          cache: 'pnpm'
+
+      - name: 📥 Install deps
+        run: pnpm i --frozen-lockfile
+        shell: bash
+
+      - name: 🏗 Build
+        run: pnpm build
