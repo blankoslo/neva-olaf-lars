@@ -525,3 +525,76 @@ em {
   color: rgba(233,227,211,0.22);
   text-transform: uppercase;
 }
+
+/* Wilhelm fade-in */
+.wilhelm-figure {
+  opacity: 0;
+  animation: wilhelm-fade-in 1.6s ease-out 0.25s forwards;
+}
+@keyframes wilhelm-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Pipe ember — slow flicker glow */
+.splash-ember {
+  transform-box: fill-box;
+  transform-origin: center;
+  filter: drop-shadow(0 0 2px rgba(255, 150, 60, 0.8));
+  animation: ember-glow 2.4s ease-in-out 1.4s infinite;
+}
+@keyframes ember-glow {
+  0%, 100% {
+    opacity: 0.55;
+    filter: drop-shadow(0 0 1.5px rgba(255, 140, 50, 0.55));
+  }
+  45% {
+    opacity: 0.95;
+    filter: drop-shadow(0 0 5px rgba(255, 170, 70, 1));
+  }
+  70% {
+    opacity: 0.7;
+    filter: drop-shadow(0 0 3px rgba(255, 150, 60, 0.75));
+  }
+}
+
+/* Smoke — staggered rising puffs */
+.splash-smoke-puff {
+  opacity: 0;
+  stroke-dasharray: 70;
+  stroke-dashoffset: 70;
+  animation: smoke-puff 4.2s ease-out infinite;
+}
+.splash-smoke-puff--a { animation-delay: 1.6s; }
+.splash-smoke-puff--b { animation-delay: 2.8s; }
+.splash-smoke-puff--c { animation-delay: 4.0s; }
+@keyframes smoke-puff {
+  0%   { stroke-dashoffset: 70; opacity: 0; }
+  18%  { opacity: 0.32; }
+  70%  { opacity: 0.22; }
+  100% { stroke-dashoffset: 0;  opacity: 0; }
+}
+
+/* Text panel — appear after Wilhelm settles */
+.splash-card--enter {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: splash-card-enter 1.1s ease-out 1.7s forwards;
+}
+@keyframes splash-card-enter {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wilhelm-figure,
+  .splash-ember,
+  .splash-smoke-puff,
+  .splash-card--enter {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    stroke-dashoffset: 0;
+  }
+  .splash-smoke-puff { opacity: 0.17; }
+  .splash-ember { opacity: 0.6; filter: none; }
+}
