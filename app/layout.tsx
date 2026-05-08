@@ -1,6 +1,5 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import Header from "./Header";
 import Providers from "./providers";
 import { SwRegister } from "./_components/sw-register";
 
@@ -39,10 +38,7 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>
-          <div className="shell">
-            <Header />
-            {children}
-          </div>
+          <div className="shell">{children}</div>
           <SwRegister />
         </Providers>
       </body>

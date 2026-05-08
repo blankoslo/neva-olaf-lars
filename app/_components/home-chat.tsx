@@ -329,7 +329,7 @@ export default function HomeChat() {
         }}
       />
 
-      <main style={{ position: "relative", zIndex: 1, paddingTop: 8 }}>
+      <main style={{ position: "relative", zIndex: 1, paddingTop: 8, paddingBottom: 80 }}>
         <header className="body-pad">
           <div className="flex-row gap-3 center">
             <Monogram size={56} ember />

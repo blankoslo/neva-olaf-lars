@@ -11,115 +11,23 @@ type Item = {
   match: (p: string) => boolean;
 };
 
-const baseItems: Item[] = [
-  { href: "/", label: "Hjem", icon: "home", match: (p) => p === "/" },
-  { href: "/tur", label: "Tur", icon: "map", match: (p) => p.startsWith("/tur") || p === "/live" },
-  { href: "/kart", label: "Kart", icon: "compass", match: (p) => p.startsWith("/kart") },
-  { href: "/pakk", label: "Pakk", icon: "pack", match: (p) => p.startsWith("/pakk") },
-  { href: "/historikk", label: "Historikk", icon: "chart", match: (p) => p.startsWith("/historikk") || p.startsWith("/statistikk") },
+const items: Item[] = [
+  { href: "/", label: "Wilhelm", icon: "home", match: (p) => p === "/" },
+  {
+    href: "/turer",
+    label: "Turer",
+    icon: "map",
+    match: (p) =>
+      p.startsWith("/turer") ||
+      p.startsWith("/tur") ||
+      p.startsWith("/historikk") ||
+      p.startsWith("/statistikk"),
+  },
+  { href: "/profil", label: "Profil", icon: "people", match: (p) => p.startsWith("/profil") },
 ];
-
-const tripExtraItem: Item = {
-  href: "/deltakere",
-  label: "Følge",
-  icon: "people",
-  match: (p) => p.includes("/deltakere"),
-};
-
-const tripCommentsItem: Item = {
-  href: "/snakk",
-  label: "Snakk",
-  icon: "chat",
-  match: (p) => p.includes("/snakk"),
-};
-
-const tripExpensesItem: Item = {
-  href: "/utgifter",
-  label: "Utgifter",
-  icon: "receipt",
-  match: (p) => p.includes("/utgifter"),
-};
-
-const tripAlbumItem: Item = {
-  href: "/album",
-  label: "Album",
-  icon: "camera",
-  match: (p) => p.includes("/album"),
-};
-
-const tripReviewItem: Item = {
-  href: "/anmeldelse",
-  label: "Anmeld",
-  icon: "star",
-  match: (p) => p.includes("/anmeldelse"),
-};
-
-function getTripId(path: string): string | null {
-  const m = path.match(/^\/tur\/([^/]+)/);
-  return m ? m[1] : null;
-}
 
 export default function TabBar() {
   const path = usePathname() || "/";
-  const tripId = getTripId(path);
-
-  const items: Item[] = tripId
-    ? [
-        ...baseItems.map((item) => {
-          if (item.href === "/") return item;
-          if (item.href === "/tur")
-            return {
-              ...item,
-              href: `/tur/${tripId}`,
-              match: (p: string) => p === `/tur/${tripId}`,
-            };
-          if (item.href === "/kart")
-            return {
-              ...item,
-              href: `/tur/${tripId}/kart`,
-              match: (p: string) => p.startsWith(`/tur/${tripId}/kart`),
-            };
-          if (item.href === "/pakk")
-            return {
-              ...item,
-              href: `/tur/${tripId}/pakk`,
-              match: (p: string) => p.startsWith(`/tur/${tripId}/pakk`),
-            };
-          if (item.href === "/historikk")
-            return {
-              ...item,
-              href: `/historikk`,
-              match: (p: string) => p.startsWith("/historikk") || p.startsWith("/statistikk"),
-            };
-          return item;
-        }),
-        {
-          ...tripExtraItem,
-          href: `/tur/${tripId}/deltakere`,
-          match: (p: string) => p.startsWith(`/tur/${tripId}/deltakere`),
-        },
-        {
-          ...tripCommentsItem,
-          href: `/tur/${tripId}/snakk`,
-          match: (p: string) => p.startsWith(`/tur/${tripId}/snakk`),
-        },
-        {
-          ...tripExpensesItem,
-          href: `/tur/${tripId}/utgifter`,
-          match: (p: string) => p.startsWith(`/tur/${tripId}/utgifter`),
-        },
-        {
-          ...tripAlbumItem,
-          href: `/tur/${tripId}/album`,
-          match: (p: string) => p.startsWith(`/tur/${tripId}/album`),
-        },
-        {
-          ...tripReviewItem,
-          href: `/tur/${tripId}/anmeldelse`,
-          match: (p: string) => p.startsWith(`/tur/${tripId}/anmeldelse`),
-        },
-      ]
-    : baseItems;
 
   return (
     <nav className="tabbar" style={{ "--tab-count": items.length } as React.CSSProperties} aria-label="Hovednavigasjon">

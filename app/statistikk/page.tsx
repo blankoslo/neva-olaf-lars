@@ -102,8 +102,8 @@ export default async function StatistikkPage({
       <main style={{ paddingTop: 24 }}>
         <div className="page-pad">
           <div className="flex-row between center">
-            <Link href="/historikk" className="pill" style={{ textDecoration: "none" }}>
-              ← HISTORIKK
+            <Link href="/turer" className="pill" style={{ textDecoration: "none" }}>
+              ← TURER
             </Link>
           </div>
           <h1
