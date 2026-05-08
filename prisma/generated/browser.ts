@@ -52,3 +52,8 @@ export type Stage = Prisma.StageModel
  * 
  */
 export type Expense = Prisma.ExpenseModel
+/**
+ * Model Review
+ * 
+ */
+export type Review = Prisma.ReviewModel

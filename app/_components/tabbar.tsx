@@ -47,6 +47,13 @@ const tripAlbumItem: Item = {
   match: (p) => p.includes("/album"),
 };
 
+const tripReviewItem: Item = {
+  href: "/anmeldelse",
+  label: "Anmeld",
+  icon: "star",
+  match: (p) => p.includes("/anmeldelse"),
+};
+
 function getTripId(path: string): string | null {
   const m = path.match(/^\/tur\/([^/]+)/);
   return m ? m[1] : null;
@@ -105,6 +112,11 @@ export default function TabBar() {
           ...tripAlbumItem,
           href: `/tur/${tripId}/album`,
           match: (p: string) => p.startsWith(`/tur/${tripId}/album`),
+        },
+        {
+          ...tripReviewItem,
+          href: `/tur/${tripId}/anmeldelse`,
+          match: (p: string) => p.startsWith(`/tur/${tripId}/anmeldelse`),
         },
       ]
     : baseItems;
