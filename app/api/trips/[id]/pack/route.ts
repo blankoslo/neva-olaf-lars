@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
+import Anthropic from "@anthropic-ai/sdk";
 import { authOptions } from "@/auth";
 import prisma from "@/lib/prisma";
+import { getForecast } from "@/lib/weather";
+import { getRouteMidpoint } from "@/lib/ut-route";
 
 export const runtime = "nodejs";
 
@@ -15,9 +18,15 @@ export type PackItem = {
 
 type RouteSuggestion = {
   title: string;
-  routes: { duration: { hours: number | null; days: number | null; minutes: number | null } | null }[];
+  routes: {
+    id?: number;
+    duration: { hours: number | null; days: number | null; minutes: number | null } | null;
+  }[];
 };
 
+const CATEGORIES = ["På kroppen", "I sekken", "Mat & drikke", "Navigasjon", "Annet"] as const;
+
+/** Fallback list when AI is unavailable */
 const BASE_ITEMS: { cat: string; list: string[] }[] = [
   { cat: "På kroppen", list: ["Ullundertøy", "Skalljakke", "Skallbukse", "Lue", "Hansker", "Solbriller"] },
   { cat: "I sekken", list: ["Sovepose", "Liggeunderlag", "Skift av klær", "Førstehjelp", "Hodelykt + ekstra batteri", "Regnponcho"] },
@@ -25,18 +34,7 @@ const BASE_ITEMS: { cat: string; list: string[] }[] = [
   { cat: "Navigasjon", list: ["Kart 1:50 000", "Kompass", "Telefon + powerbank"] },
 ];
 
-function generateDefaultList(
-  selected: RouteSuggestion | null,
-  fields: Record<string, unknown>,
-): PackItem[] {
-  const days =
-    typeof fields.days === "number"
-      ? fields.days
-      : (selected?.routes.reduce(
-          (sum, r) => sum + (r.duration?.days ?? (r.duration?.hours ? 1 : 0)),
-          0,
-        ) ?? 0);
-
+function buildFallbackList(days: number): PackItem[] {
   const expanded = BASE_ITEMS.map((group) => {
     if (group.cat === "I sekken" && days > 1) {
       return { ...group, list: [...group.list, `${days - 1} ekstra skift`, "Vaskeklut"] };
@@ -56,16 +54,102 @@ function generateDefaultList(
   const items: PackItem[] = [];
   for (const group of expanded) {
     for (const label of group.list) {
-      items.push({
-        id: `ai-${counter++}`,
-        cat: group.cat,
-        label,
-        aiGenerated: true,
-        checked: false,
-      });
+      items.push({ id: `ai-${counter++}`, cat: group.cat, label, aiGenerated: true, checked: false });
     }
   }
   return items;
+}
+
+async function generateAiPackingList(
+  selected: RouteSuggestion | null,
+  fields: Record<string, unknown>,
+  participantCount: number,
+): Promise<PackItem[]> {
+  const days =
+    typeof fields.days === "number"
+      ? fields.days
+      : (selected?.routes.reduce(
+          (sum, r) => sum + (r.duration?.days ?? (r.duration?.hours ? 1 : 0)),
+          0,
+        ) ?? 1);
+
+  // Try to get weather forecast from route coordinates
+  let weatherSummary = "Ukjent vær";
+  if (selected?.routes && selected.routes.length > 0) {
+    const firstRoute = selected.routes[0];
+    if (firstRoute.id) {
+      try {
+        const coord = await getRouteMidpoint(firstRoute.id);
+        if (coord) {
+          const forecast = await getForecast(coord.lat, coord.lon, Math.max(days, 3));
+          if (forecast.length > 0) {
+            const summaries = forecast.slice(0, days || 3).map(
+              (d) =>
+                `${d.weekday}: ${d.emoji} ${d.temp !== null ? `${d.temp}°C` : ""}${d.precipitation ? `, ${d.precipitation}mm nedbør` : ""}`,
+            );
+            weatherSummary = summaries.join("; ");
+          }
+        }
+      } catch {
+        // weather fetch failed — continue without it
+      }
+    }
+  }
+
+  const region = fields.region ? String(fields.region) : null;
+  const tripTitle = selected?.title ?? null;
+
+  const prompt = `Du er en erfaren friluftslivekspert som lager pakkelister for norske turer.
+
+Tur-informasjon:
+- Turmål: ${tripTitle ?? region ?? "Norsk natur"}
+- Varighet: ${days} dag${days !== 1 ? "er" : ""}
+- Antall deltakere: ${participantCount}
+- Værmelding: ${weatherSummary}
+
+Lag en detaljert og praktisk pakkeliste tilpasset denne spesifikke turen. Ta hensyn til:
+1. Antall dager (mat, klær, batterier)
+2. Antall deltakere (evt. delt utstyr som telt, kart, primus)
+3. Værmeldingen (regnklær ved nedbør, solbeskyttelse ved sol, ekstra varme ved kulde, snøutstyr ved snø)
+4. Årstid og terreng basert på turnavnet
+
+Svar KUN med et gyldig JSON-array. Ingen forklaring, ingen markdown. Bruk disse kategoriene: ${CATEGORIES.join(", ")}.
+
+Format:
+[
+  {"cat": "kategori", "label": "utstyrsnavn"},
+  ...
+]
+
+Typiske gjenstander (tilpass listen basert på ovennevnte info):
+- På kroppen: ullundertøy, skalljakke/-bukse, lue, hansker, solbriller, solkrem
+- I sekken: sovepose (tilpass temperaturrating til vær), liggeunderlag, klær for antall dager, hodelykt, førstehjelp, regnponcho
+- Mat & drikke: tørrmat for antall dager og deltakere, snacks, termos, primus + brensel (mengde etter dager), vannflaske per deltaker
+- Navigasjon: kart, kompass, telefon + powerbank
+- Annet: relevant ekstrautstyr`;
+
+  const client = new Anthropic();
+  const message = await client.messages.create({
+    model: "claude-opus-4-5",
+    max_tokens: 1024,
+    messages: [{ role: "user", content: prompt }],
+  });
+
+  const text = message.content.find((b) => b.type === "text")?.text ?? "";
+
+  // Extract JSON array from response (strip any surrounding markdown fences)
+  const match = text.match(/\[[\s\S]*\]/);
+  if (!match) throw new Error("No JSON array in AI response");
+
+  const raw = JSON.parse(match[0]) as { cat: string; label: string }[];
+
+  return raw.map((item, i) => ({
+    id: `ai-${i}`,
+    cat: CATEGORIES.includes(item.cat as (typeof CATEGORIES)[number]) ? item.cat : "Annet",
+    label: item.label,
+    aiGenerated: true,
+    checked: false,
+  }));
 }
 
 async function getAuthorizedTrip(tripId: string, userId: string) {
@@ -78,6 +162,7 @@ async function getAuthorizedTrip(tripId: string, userId: string) {
           packingList: true,
           selectedSuggestion: true,
           planningFields: true,
+          _count: { select: { participants: true } },
         },
       },
     },
@@ -103,11 +188,25 @@ export async function GET(
     return NextResponse.json({ items: trip.packingList as PackItem[] });
   }
 
-  // Generate and persist the default list
-  const items = generateDefaultList(
-    (trip.selectedSuggestion as RouteSuggestion | null),
-    (trip.planningFields as Record<string, unknown> | null) ?? {},
-  );
+  const selected = (trip.selectedSuggestion as RouteSuggestion | null);
+  const fields = (trip.planningFields as Record<string, unknown> | null) ?? {};
+  const participantCount = trip._count.participants;
+
+  const days =
+    typeof fields.days === "number"
+      ? fields.days
+      : (selected?.routes.reduce(
+          (sum, r) => sum + (r.duration?.days ?? (r.duration?.hours ? 1 : 0)),
+          0,
+        ) ?? 1);
+
+  let items: PackItem[];
+  try {
+    items = await generateAiPackingList(selected, fields, participantCount);
+  } catch (err) {
+    console.error("[pack] AI generation failed, using fallback:", err);
+    items = buildFallbackList(days);
+  }
 
   await prisma.trip.update({
     where: { id },
